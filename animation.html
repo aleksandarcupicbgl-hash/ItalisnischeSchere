@@ -454,6 +454,8 @@ body.intro-done .btn-replay{display:inline-block}
 
   /* ---------- Ausgangszustand ---------- */
   function reset(){
+    body.classList.add('no-trans');          // Farbwechsel beim Neustart nicht nachziehen
+    requestAnimationFrame(function(){ body.classList.remove('no-trans'); });
     measure();
     placeScissors(M.start,0); traceTo(M.start); setBlades(0);
     paper.style.opacity = 1; paper.style.display = '';
