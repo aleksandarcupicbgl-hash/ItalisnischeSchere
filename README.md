@@ -7,13 +7,15 @@ Dateien auf den Webspace legen.
 ![Logo](preview/logo.png)
 
 ```
-index.html            Startseite (Hero, Preise, Galerie, Anfahrt, Footer)
-impressum.html        Impressum   – Platzhalter, müssen gefüllt werden
+index.html            Startseite (Hero, Preise, Haarschnitte, Massagesessel,
+                      Anfahrt, Footer)
+impressum.html        Impressum   – Inhaber und Straße fehlen noch
 datenschutz.html      Datenschutz – beschreibt den gebauten Stand
 daten/preise.json     alle Preise an einer Stelle
+daten/galerie.json    Bilder der Sektion „Haarschnitte"
 tools/preise-sync.js  schreibt die Preise aus der JSON ins HTML
-assets/css/style.css  gesamtes Aussehen
-assets/js/main.js     Intro, Slideshow, Live-Status, Karte, Einblendungen
+assets/css/style.css  gesamtes Aussehen (inkl. Bildausschnitte)
+assets/js/main.js     Intro, Slideshow, Live-Status, Galerie, Lightbox, Karte
 assets/fonts/         Cormorant Garamond & Inter, selbst ausgeliefert
 bilder/               Fotos als JPG (Original) und WebP (ausgeliefert)
 logo.svg              Logo, animationsfertig (Dokumentation unten)
@@ -27,15 +29,17 @@ markiert — man sieht im Browser sofort, was fehlt.
 
 | Was | Wo |
 | --- | --- |
-| **Telefonnummer** | `index.html` (Hero-Infoblock und Abschnitt „Anfahrt", je im `tel:`-Link), `impressum.html` |
-| **Instagram- und Facebook-Link** | `index.html`, Hero-Infoblock |
-| **Öffnungszeiten bestätigen** | `index.html` (Hero + „Anfahrt" + strukturierte Daten im `<head>`) und `assets/js/main.js` → `OEFFNUNGSZEITEN` |
-| **Adresse bestätigen** | dieselben Stellen, dazu `KARTEN_ADRESSE` in `main.js`. **Achtung:** Auf dem Preisplakat steht „83404 Bad Reichenhall" — zu Bad Reichenhall gehört aber 83435. Bitte prüfen. |
-| **Impressumsdaten** | `impressum.html` — Inhaber, Anschrift, E-Mail, USt-IdNr., Kammer, Bildnachweise |
+| **Straße bestätigen** | „Poststraße 12" stammt vom Preisplakat des Ladens. Steht im Hero-Infoblock, im Abschnitt „Anfahrt", im Impressum, in den strukturierten Daten (`index.html`, `<head>`) und in `assets/js/main.js` → `KARTEN_ADRESSE`. |
+| **Öffnungszeiten bestätigen** | dieselben Stellen; die Live-Anzeige rechnet mit `OEFFNUNGSZEITEN` in `assets/js/main.js` |
+| **Facebook-Link** | `index.html`, Hero-Infoblock **und** Footer |
+| **Inhaber fürs Impressum** | `impressum.html` — Name, E-Mail, USt-IdNr., Bildnachweise |
+| **Massagesessel** | `index.html`, Abschnitt „Nicht nur Haarschnitte": Beschreibung und eventueller Preis; Bild `bilder/massagesessel.jpg` |
+| **Fotos** | `bilder/intro-3-salon.jpg`, `bilder/intro-4-kunde.jpg`, `bilder/haarschnitt-1.jpg` bis `-3.jpg` (siehe unten) |
 | **Hostinganbieter** | `datenschutz.html`, Abschnitt 3 |
 | **Domain** | `index.html`, `canonical` und `og:url` |
-| **Galeriebilder** | `index.html`, Abschnitt „Galerie" — das Raster steht, nur die sechs Platzhalter ersetzen |
-| **Zwei Hero-Motive** | `bilder/schere.jpg` und `bilder/rasur.jpg` (siehe unten) |
+
+Telefonnummer (0176 41874365) und Postleitzahl (83435) sind eingetragen.
+Instagram gibt es nicht und ist deshalb nirgends verlinkt.
 
 ## Preise ändern
 
@@ -48,49 +52,61 @@ node tools/preise-sync.js
 Die Seite liest die JSON beim Aufruf, eine Änderung wirkt also sofort. Damit
 aber auch Suchmaschinen und Besucher ohne JavaScript den richtigen Stand sehen,
 steht dieselbe Liste zusätzlich im HTML. Der Befehl oben hält beide gleich.
-Nach dem Ändern also: JSON speichern, Befehl ausführen, hochladen.
 
 ## Bilder
 
-Im Hero laufen vier Bilder als Slideshow. Zwei sind echte Fotos, zwei sind
-noch **Platzhalter** (dunkle Kachel mit dem Hinweis, welche Datei fehlt):
+Im Hero laufen vier Bilder als Slideshow, in der Sektion „Haarschnitte" liegen
+drei Fotos in Farbe. Echt sind bisher nur die ersten beiden Hero-Bilder; der
+Rest sind **Platzhalter** (dunkle Kachel, auf der steht, welche Datei fehlt).
 
 | Datei | Stand |
 | --- | --- |
-| `bilder/fassade.jpg` | echtes Foto |
-| `bilder/innenraum.jpg` | echtes Foto |
-| `bilder/schere.jpg` | **Platzhalter** — Nahaufnahme Hände mit Schere und Kamm |
-| `bilder/rasur.jpg` | **Platzhalter** — Rasiermesser, Pinsel und Schere vor Barock-Spiegel |
+| `bilder/intro-1-fassade.jpg` | echtes Foto |
+| `bilder/intro-2-innenraum.jpg` | echtes Foto |
+| `bilder/intro-3-salon.jpg` | **Platzhalter** — Barberstuhl vor Barockspiegeln |
+| `bilder/intro-4-kunde.jpg` | **Platzhalter** — Barbier mit Kunde |
+| `bilder/haarschnitt-1…3.jpg` | **Platzhalter** — Haarschnitte in Farbe |
+| `bilder/massagesessel.jpg` | **Platzhalter** |
 
-Die beiden fehlenden Motive wurden bereits mit Higgsfield erzeugt, ließen sich
-aus dieser Arbeitsumgebung aber nicht herunterladen (die Bild-Domain ist dort
-gesperrt). Sie liegen im Higgsfield-Konto bereit.
-
-**Neues Bild einsetzen:**
+**Neues Foto einsetzen** — JPG nach `bilder/` legen (gleicher Dateiname), dann
+die ausgelieferten WebP-Fassungen erzeugen:
 
 ```bash
-# JPG nach bilder/ legen, dann die ausgelieferten WebP-Fassungen erzeugen:
-node -e "const s=require('sharp');['schere','rasur'].forEach(n=>[1600,960].forEach(w=>
-  s('bilder/'+n+'.jpg').resize({width:w}).webp({quality:80}).toFile('bilder/'+n+'-'+w+'.webp')))"
+node -e "const s=require('sharp');['intro-3-salon','haarschnitt-1'].forEach(n=>[1600,960].forEach(w=>
+  s('bilder/'+n+'.jpg').resize({width:w,withoutEnlargement:true}).webp({quality:80})
+   .toFile('bilder/'+n+'-'+w+'.webp')))"
 ```
 
-Ausgeliefert wird immer WebP in zwei Breiten (960 und 1600). Das erste Bild
-wird vorgeladen, die drei übrigen erst, wenn die Seite steht.
+Ausgeliefert wird immer WebP in zwei Breiten (960 und 1600). Das erste
+Hero-Bild wird vorgeladen, die drei übrigen erst, wenn die Seite steht.
+
+**Bildausschnitt:** Die Fotos sind überwiegend Hochformat, der Hero ist quer.
+Was im Bild bleibt, steuert `object-position` — pro Motiv eingestellt unter
+„Bildausschnitte" in `assets/css/style.css`, getrennt für Desktop und Telefon.
+Kommt ein echtes Foto anstelle eines Platzhalters, dort den Wert nachziehen.
+
+**Weitere Haarschnitt-Fotos:** Datei ablegen, WebP erzeugen, in
+`daten/galerie.json` einen Eintrag ergänzen. Mehr ist nicht nötig — Raster und
+Lightbox wachsen mit.
 
 ## Wie die Seite sich verhält
 
-- **Intro** — schwarzer Bildschirm mit dem Slogan, blendet von Grau zu Weiß.
-  Läuft nur beim ersten Aufruf pro Sitzung (`sessionStorage`), ist per Klick,
-  Esc oder Leertaste überspringbar und entfällt bei `prefers-reduced-motion`.
+- **Intro** — schwarzer Bildschirm, „Italienische Schere – ohne Termin" blendet
+  von Grau zu Weiß. Läuft nur beim ersten Aufruf pro Sitzung
+  (`sessionStorage`), ist per Klick, Esc oder Leertaste überspringbar und
+  entfällt bei `prefers-reduced-motion`.
 - **Logo-Auftritt** — die Schere fährt schnippend an ihren Platz, dann zeichnet
   sich der Rahmen und der Schriftzug blendet auf (~1,8 s).
 - **Live-Status** — „Jetzt geöffnet · bis 19:00" oder „Geschlossen · öffnet Mo
   09:00", gerechnet aus den Öffnungszeiten in deutscher Ortszeit, also auch für
   Besucher aus anderen Zeitzonen richtig.
+- **Lightbox** — Haarschnitt antippen öffnet das Bild groß; Pfeiltasten
+  blättern, Esc schließt, der Fokus kehrt zum angetippten Bild zurück.
 - **Karte** — lädt erst nach Klick auf „Karte laden". Vorher geht keine einzige
   Anfrage an Google.
 - **Ohne JavaScript** bleibt die Seite vollständig lesbar: kein Intro, keine
-  Slideshow-Wechsel, keine Karte — aber alle Inhalte stehen im HTML.
+  Slideshow-Wechsel, keine Lightbox, keine Karte — aber alle Inhalte stehen im
+  HTML.
 
 ## Datenschutz
 
@@ -109,6 +125,7 @@ Geprüft in Chromium auf 375 px, 768 px und 1440 px.
 ---
 
 # Logo & Intro-Animation
+
 
 Dieses Repository war leer – es gab kein vorab ausgewähltes Konzept. Deshalb ist hier
 **ein** Konzept angelegt und konsequent animationsfertig gebaut: eine feine Linien-Schere,

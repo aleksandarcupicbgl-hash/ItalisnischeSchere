@@ -1,0 +1,17 @@
+{
+  "_hinweis": "Bilder der Sektion „Haarschnitte“. Neues Foto: Datei nach bilder/ legen, WebP erzeugen (siehe README) und hier einen Eintrag ergänzen. Die Reihenfolge hier ist die Reihenfolge auf der Seite. TODO: alt-Texte konkret machen, sobald die echten Fotos da sind (z. B. „Fade mit Bart“).",
+  "bilder": [
+    {
+      "datei": "haarschnitt-1",
+      "alt": "Haarschnitt im Barber Italienische Schere"
+    },
+    {
+      "datei": "haarschnitt-2",
+      "alt": "Haarschnitt im Barber Italienische Schere"
+    },
+    {
+      "datei": "haarschnitt-3",
+      "alt": "Haarschnitt im Barber Italienische Schere"
+    }
+  ]
+}

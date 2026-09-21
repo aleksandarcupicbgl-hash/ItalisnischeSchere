@@ -6,20 +6,20 @@
 <title>Barber Italienische Schere – Herrenfriseur in Bad Reichenhall</title>
 <meta name="description" content="Herrenfriseur in Bad Reichenhall: Haarschnitt, Bartpflege und klassische Rasur – ohne Termin. Einfach vorbeikommen. Komplettpaket für 40 €.">
 <meta name="theme-color" content="#0d0d0f">
-<link rel="canonical" href="https://example.de/">
 <!-- TODO: Domain in canonical und og:url eintragen, sobald sie feststeht. -->
+<link rel="canonical" href="https://example.de/">
 
 <meta property="og:type" content="website">
 <meta property="og:locale" content="de_DE">
 <meta property="og:title" content="Barber Italienische Schere – Herrenfriseur in Bad Reichenhall">
 <meta property="og:description" content="Haarschnitt, Bartpflege und klassische Rasur – ohne Termin. Einfach vorbeikommen.">
-<meta property="og:image" content="bilder/fassade-1600.webp">
+<meta property="og:image" content="bilder/intro-1-fassade-1600.webp">
 <meta property="og:url" content="https://example.de/">
 <meta name="twitter:card" content="summary_large_image">
 
 <script>
-/* Laeuft vor dem ersten Bildaufbau: markiert, dass JavaScript da ist, und
-   entscheidet, ob das Intro laeuft. Ohne JavaScript gibt es kein Intro und
+/* Läuft vor dem ersten Bildaufbau: markiert, dass JavaScript da ist, und
+   entscheidet, ob das Intro läuft. Ohne JavaScript gibt es kein Intro und
    alle Inhalte stehen sofort sichtbar im HTML. */
 (function () {
   var d = document.documentElement;
@@ -37,20 +37,25 @@
 <link rel="icon" href="logo.svg" type="image/svg+xml">
 <link rel="stylesheet" href="assets/fonts/fonts.css">
 <link rel="stylesheet" href="assets/css/style.css">
-<link rel="preload" as="image" href="bilder/fassade-1600.webp" imagesrcset="bilder/fassade-960.webp 960w, bilder/fassade-1600.webp 1600w" fetchpriority="high">
+<link rel="preload" as="image" href="bilder/intro-1-fassade-1600.webp"
+      imagesrcset="bilder/intro-1-fassade-960.webp 960w, bilder/intro-1-fassade-1600.webp 1600w" fetchpriority="high">
 
+<!-- TODO: Straße und Öffnungszeiten bestätigen — dieselben Angaben stehen im
+     Infoblock des Heros, im Abschnitt „Anfahrt", im Impressum und in
+     assets/js/main.js (OEFFNUNGSZEITEN, KARTEN_ADRESSE). -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "HairSalon",
   "name": "Barber Italienische Schere",
   "description": "Herrenfriseur in Bad Reichenhall – Haarschnitt, Bartpflege und klassische Rasur ohne Termin.",
-  "image": "bilder/fassade-1600.webp",
-  "priceRange": "€",
+  "image": "bilder/intro-1-fassade-1600.webp",
+  "priceRange": "5 € – 40 €",
+  "telephone": "+4917641874365",
   "address": {
     "@type": "PostalAddress",
     "streetAddress": "Poststraße 12",
-    "postalCode": "83404",
+    "postalCode": "83435",
     "addressLocality": "Bad Reichenhall",
     "addressRegion": "Bayern",
     "addressCountry": "DE"
@@ -69,7 +74,7 @@
      INTRO — nur beim ersten Besuch pro Sitzung, per Klick überspringbar
      =================================================================== -->
 <div id="intro">
-  <p class="intro-slogan">Italienisches Handwerk. Ohne Termin.</p>
+  <p class="intro-slogan">Italienische Schere &ndash; ohne Termin</p>
   <button type="button" class="intro-skip" id="intro-skip">Überspringen</button>
 </div>
 
@@ -78,22 +83,27 @@
      =================================================================== -->
 <header class="hero" id="hero">
 
+  <!-- Bildausschnitte je Motiv: siehe „Bildausschnitte" in style.css.
+       Kommt ein echtes Foto dazu, dort den Ausschnitt nachziehen. -->
   <div class="hero-media" aria-hidden="true">
-    <!-- Erstes Bild wird priorisiert geladen, die übrigen lazy. -->
-    <figure class="slide is-active">
-      <img src="bilder/fassade-1600.webp" srcset="bilder/fassade-960.webp 960w, bilder/fassade-1600.webp 1600w"
+    <figure class="slide slide-fassade is-active">
+      <img src="bilder/intro-1-fassade-1600.webp"
+           srcset="bilder/intro-1-fassade-960.webp 960w, bilder/intro-1-fassade-1600.webp 1600w"
            sizes="100vw" width="1454" height="1504" alt="" fetchpriority="high" decoding="async">
     </figure>
-    <figure class="slide">
-      <img data-src="bilder/innenraum-1600.webp" data-srcset="bilder/innenraum-960.webp 960w, bilder/innenraum-1600.webp 1600w"
+    <figure class="slide slide-innenraum">
+      <img data-src="bilder/intro-2-innenraum-1600.webp"
+           data-srcset="bilder/intro-2-innenraum-960.webp 960w, bilder/intro-2-innenraum-1600.webp 1600w"
            sizes="100vw" width="1080" height="1918" alt="" decoding="async">
     </figure>
-    <figure class="slide">
-      <img data-src="bilder/schere-1600.webp" data-srcset="bilder/schere-960.webp 960w, bilder/schere-1600.webp 1600w"
+    <figure class="slide slide-salon">
+      <img data-src="bilder/intro-3-salon-1600.webp"
+           data-srcset="bilder/intro-3-salon-960.webp 960w, bilder/intro-3-salon-1600.webp 1600w"
            sizes="100vw" width="1600" height="900" alt="" decoding="async">
     </figure>
-    <figure class="slide">
-      <img data-src="bilder/rasur-1600.webp" data-srcset="bilder/rasur-960.webp 960w, bilder/rasur-1600.webp 1600w"
+    <figure class="slide slide-kunde">
+      <img data-src="bilder/intro-4-kunde-1600.webp"
+           data-srcset="bilder/intro-4-kunde-960.webp 960w, bilder/intro-4-kunde-1600.webp 1600w"
            sizes="100vw" width="1600" height="900" alt="" decoding="async">
     </figure>
   </div>
@@ -103,8 +113,8 @@
   <div class="hero-info">
     <dl class="info-block">
       <dt>Öffnungszeiten</dt>
-      <!-- TODO: Zeiten bestätigen. Übernommen vom Preisplakat des Ladens.
-           Die Live-Anzeige rechnet mit den Werten in assets/js/main.js (OEFFNUNGSZEITEN). -->
+      <!-- TODO: Zeiten bestätigen. Die Live-Anzeige rechnet mit den Werten
+           in assets/js/main.js (OEFFNUNGSZEITEN). -->
       <dd>Mo&ndash;Fr&nbsp;&nbsp;09:00&ndash;19:00</dd>
       <dd>Sa&nbsp;&nbsp;09:00&ndash;16:00</dd>
       <dd>So&nbsp;&nbsp;geschlossen</dd>
@@ -117,21 +127,17 @@
 
     <dl class="info-block">
       <dt>Adresse</dt>
-      <!-- TODO: Adresse bestätigen (vom Plakat). Achtung: 83404 gehört nicht zu
-           Bad Reichenhall (dort gilt 83435) — bitte prüfen. -->
-      <dd><a href="https://www.openstreetmap.org/search?query=Poststra%C3%9Fe%2012%2C%20Bad%20Reichenhall" target="_blank" rel="noopener">Poststraße 12<br>83404 Bad Reichenhall</a></dd>
+      <!-- TODO: Straße bestätigen — vom Preisplakat des Ladens übernommen. -->
+      <dd><a href="#anfahrt">Poststraße&nbsp;12<br>83435 Bad Reichenhall</a></dd>
     </dl>
 
     <dl class="info-block">
       <dt>Telefon</dt>
-      <!-- TODO: echte Rufnummer eintragen — auch im tel:-Link und im Footer. -->
-      <dd><a href="tel:+49000000000" class="todo">[TELEFONNUMMER]</a></dd>
+      <dd><a href="tel:+4917641874365">0176 41874365</a></dd>
     </dl>
 
     <p class="info-social">
-      <!-- TODO: echte Profil-Links eintragen. -->
-      <a href="#" class="todo" rel="noopener">Instagram</a>
-      <span aria-hidden="true">·</span>
+      <!-- TODO: echten Facebook-Link eintragen (auch im Footer). -->
       <a href="#" class="todo" rel="noopener">Facebook</a>
     </p>
   </div>
@@ -238,11 +244,11 @@
         </g>
       </svg>
     </div>
-    <a class="btn-outline" href="#preise" id="btn-preise">Preise</a>
+    <a class="btn-outline" href="#preise">Preise</a>
   </div>
 
   <!-- Fußzeile des Heros -->
-  <p class="hero-slogan">Italienisches Handwerk. Ohne Termin.</p>
+  <p class="hero-slogan">Ohne Termin</p>
   <a class="hero-scroll" href="#preise" aria-label="Weiter zu den Preisen">
     <span class="hero-scroll-line" aria-hidden="true"></span>
     <span class="hero-scroll-text">Scrollen</span>
@@ -359,26 +365,64 @@
 </section>
 
 <!-- ===================================================================
-     GALERIE — Raster steht, Bilder folgen
+     HAARSCHNITTE — Bilderliste in daten/galerie.json
      =================================================================== -->
-<section class="gallery" id="galerie">
+<section class="gallery" id="haarschnitte">
   <div class="wrap">
     <header class="section-head reveal">
-      <p class="eyebrow">Galerie</p>
-      <h2>Aus dem <em>Salon</em></h2>
+      <p class="eyebrow">Haarschnitte</p>
+      <h2>Aus unserem <em>Stuhl</em></h2>
     </header>
 
-    <!-- TODO: Platzhalter durch echte Fotos ersetzen —
-         <img src="bilder/galerie-1.webp" alt="..." loading="lazy" width="800" height="800">
-         Das Raster bleibt unverändert. -->
-    <ul class="gallery-grid reveal">
-      <li class="gallery-item"><span class="gallery-ph">Foto 1</span></li>
-      <li class="gallery-item"><span class="gallery-ph">Foto 2</span></li>
-      <li class="gallery-item"><span class="gallery-ph">Foto 3</span></li>
-      <li class="gallery-item"><span class="gallery-ph">Foto 4</span></li>
-      <li class="gallery-item"><span class="gallery-ph">Foto 5</span></li>
-      <li class="gallery-item"><span class="gallery-ph">Foto 6</span></li>
+    <!-- Wird beim Laden aus daten/galerie.json erzeugt. Die Fassung hier ist
+         der Stand für Suchmaschinen und Besucher ohne JavaScript. -->
+    <ul class="gallery-grid reveal" id="galerie">
+      <li class="gallery-item">
+        <img src="bilder/haarschnitt-1-960.webp" alt="Haarschnitt im Barber Italienische Schere"
+             width="1000" height="1250" loading="lazy" decoding="async">
+      </li>
+      <li class="gallery-item">
+        <img src="bilder/haarschnitt-2-960.webp" alt="Haarschnitt im Barber Italienische Schere"
+             width="1000" height="1250" loading="lazy" decoding="async">
+      </li>
+      <li class="gallery-item">
+        <img src="bilder/haarschnitt-3-960.webp" alt="Haarschnitt im Barber Italienische Schere"
+             width="1000" height="1250" loading="lazy" decoding="async">
+      </li>
     </ul>
+  </div>
+</section>
+
+<!-- ===================================================================
+     NICHT NUR HAARSCHNITTE — Massagesessel
+     =================================================================== -->
+<section class="extra" id="massage">
+  <div class="wrap extra-grid">
+    <div class="reveal">
+      <header class="section-head">
+        <p class="eyebrow">Im Salon</p>
+        <h2>Nicht nur <em>Haarschnitte</em></h2>
+      </header>
+      <p class="extra-text">
+        Bei uns steht ein Massagesessel &ndash; für die Wartezeit oder einfach
+        zwischendurch.
+      </p>
+      <!-- TODO: Beschreibung ergänzen (wie lange, für wen, ob im Preis
+           enthalten) und, falls es einen Preis gibt, hier nennen. -->
+      <p class="extra-todo">
+        <span class="todo">[BESCHREIBUNG UND EVENTUELLER PREIS]</span>
+      </p>
+    </div>
+
+    <!-- TODO: bilder/massagesessel.jpg ersetzen, dann die WebP-Fassungen
+         neu erzeugen (siehe README). -->
+    <figure class="extra-bild reveal">
+      <img src="bilder/massagesessel-960.webp"
+           srcset="bilder/massagesessel-960.webp 960w, bilder/massagesessel-1600.webp 1600w"
+           sizes="(max-width: 899px) 100vw, 50vw"
+           width="1600" height="1000" alt="Massagesessel im Salon"
+           loading="lazy" decoding="async">
+    </figure>
   </div>
 </section>
 
@@ -395,10 +439,11 @@
 
       <dl class="visit-block reveal">
         <dt>Adresse</dt>
-        <dd>Poststraße 12<br>83404 Bad Reichenhall</dd>
+        <!-- TODO: Straße bestätigen. -->
+        <dd>Poststraße 12<br>83435 Bad Reichenhall</dd>
 
         <dt>Telefon</dt>
-        <dd><a href="tel:+49000000000" class="todo">[TELEFONNUMMER]</a></dd>
+        <dd><a href="tel:+4917641874365">0176 41874365</a></dd>
 
         <dt>Öffnungszeiten</dt>
         <dd>
@@ -426,9 +471,8 @@
         </p>
         <button type="button" class="btn-outline btn-small" id="map-load">Karte laden</button>
         <p class="map-alt">
-          <a href="https://www.openstreetmap.org/search?query=Poststra%C3%9Fe%2012%2C%20Bad%20Reichenhall" target="_blank" rel="noopener">
-            Oder in OpenStreetMap öffnen
-          </a>
+          <a href="https://www.openstreetmap.org/search?query=Poststra%C3%9Fe%2012%2C%2083435%20Bad%20Reichenhall"
+             target="_blank" rel="noopener">Oder in OpenStreetMap öffnen</a>
         </p>
       </div>
     </figure>
@@ -445,14 +489,26 @@
     <p class="footer-name">Barber Italienische Schere<br><span>Herrenfriseur · Bad Reichenhall</span></p>
     <nav class="footer-nav" aria-label="Seiten">
       <a href="#preise">Preise</a>
-      <a href="#galerie">Galerie</a>
+      <a href="#haarschnitte">Haarschnitte</a>
       <a href="#anfahrt">Anfahrt</a>
+      <!-- TODO: echten Facebook-Link eintragen. -->
+      <a href="#" class="todo" rel="noopener">Facebook</a>
       <a href="impressum.html">Impressum</a>
       <a href="datenschutz.html">Datenschutz</a>
     </nav>
     <p class="footer-copy">© <span id="jahr">2026</span> Barber Italienische Schere</p>
   </div>
 </footer>
+
+<!-- Lightbox für die Haarschnitte -->
+<div class="lightbox" id="lightbox" hidden>
+  <button type="button" class="lightbox-close" id="lightbox-close" aria-label="Schließen">×</button>
+  <button type="button" class="lightbox-nav lightbox-prev" id="lightbox-prev" aria-label="Vorheriges Bild">‹</button>
+  <figure class="lightbox-figur">
+    <img id="lightbox-bild" src="" alt="">
+  </figure>
+  <button type="button" class="lightbox-nav lightbox-next" id="lightbox-next" aria-label="Nächstes Bild">›</button>
+</div>
 
 <script src="assets/js/main.js" defer></script>
 </body>

@@ -28,8 +28,8 @@
     6: [["09:00", "16:00"]]
   };
 
-  /** TODO: Adresse bestätigen — steuert nur die Karte. */
-  var KARTEN_ADRESSE = "Poststraße 12, 83404 Bad Reichenhall";
+  /** TODO: Straße bestätigen — steuert nur die Karte. */
+  var KARTEN_ADRESSE = "Poststraße 12, 83435 Bad Reichenhall";
 
   var TAGE_KURZ = ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"];
 
@@ -345,7 +345,122 @@
   }
 
   /* =========================================================================
-     6. Einblenden beim Scrollen
+     6. Haarschnitte — Bilderliste aus daten/galerie.json, Lightbox beim Tippen
+     ========================================================================= */
+  var lbBilder = [];
+  var lbIndex = 0;
+  var lbAusloeser = null;
+
+  function galerie() {
+    var liste = document.getElementById("galerie");
+    if (!liste) return;
+
+    /* Ausgangslage ist das, was schon im HTML steht — so ist die Galerie auch
+       dann bedienbar, wenn die JSON nicht geladen werden kann. */
+    function ausDemHtml() {
+      return Array.prototype.map.call(liste.querySelectorAll("img"), function (bild) {
+        var klein = bild.getAttribute("src") || "";
+        return { klein: klein, gross: klein.replace("-960.webp", "-1600.webp"), alt: bild.alt };
+      });
+    }
+
+    function zeichnen(eintraege) {
+      if (!eintraege.length) return;
+      lbBilder = eintraege;
+      liste.innerHTML = eintraege.map(function (e, i) {
+        return '<li class="gallery-item">' +
+          '<button type="button" class="gallery-knopf" data-i="' + i + '" aria-label="' +
+            text(e.alt) + ' groß ansehen">' +
+          '<img src="' + text(e.klein) + '" alt="' + text(e.alt) + '" ' +
+            'width="1000" height="1250" loading="lazy" decoding="async">' +
+          "</button></li>";
+      }).join("");
+    }
+
+    zeichnen(ausDemHtml());
+
+    if (window.fetch) {
+      fetch("daten/galerie.json", { cache: "no-cache" })
+        .then(function (a) { return a.ok ? a.json() : null; })
+        .then(function (daten) {
+          if (!daten || !daten.bilder) return;
+          zeichnen(daten.bilder.map(function (b) {
+            return {
+              klein: "bilder/" + b.datei + "-960.webp",
+              gross: "bilder/" + b.datei + "-1600.webp",
+              alt: b.alt || "Haarschnitt im Barber Italienische Schere"
+            };
+          }));
+        })
+        .catch(function () { /* HTML-Fassung bleibt stehen */ });
+    }
+
+    liste.addEventListener("click", function (e) {
+      var knopf = e.target.closest && e.target.closest(".gallery-knopf");
+      if (knopf) lbOeffnen(parseInt(knopf.getAttribute("data-i"), 10), knopf);
+    });
+  }
+
+  function lbOeffnen(i, ausloeser) {
+    var kasten = document.getElementById("lightbox");
+    if (!kasten || !lbBilder.length) return;
+    lbAusloeser = ausloeser || null;
+    lbIndex = i;
+    lbZeigen();
+    kasten.hidden = false;
+    document.body.style.overflow = "hidden";
+    var schliessen = document.getElementById("lightbox-close");
+    if (schliessen) schliessen.focus();
+  }
+
+  function lbZeigen() {
+    var bild = document.getElementById("lightbox-bild");
+    var e = lbBilder[lbIndex];
+    if (!bild || !e) return;
+    bild.src = e.gross;
+    bild.alt = e.alt;
+  }
+
+  function lbSchliessen() {
+    var kasten = document.getElementById("lightbox");
+    if (!kasten || kasten.hidden) return;
+    kasten.hidden = true;
+    document.body.style.overflow = "";
+    if (lbAusloeser) lbAusloeser.focus();
+  }
+
+  function lbBlaettern(richtung) {
+    if (!lbBilder.length) return;
+    lbIndex = (lbIndex + richtung + lbBilder.length) % lbBilder.length;
+    lbZeigen();
+  }
+
+  function lightbox() {
+    var kasten = document.getElementById("lightbox");
+    if (!kasten) return;
+    var schliessen = document.getElementById("lightbox-close");
+    var zurueck = document.getElementById("lightbox-prev");
+    var weiter = document.getElementById("lightbox-next");
+
+    if (schliessen) schliessen.addEventListener("click", lbSchliessen);
+    if (zurueck) zurueck.addEventListener("click", function () { lbBlaettern(-1); });
+    if (weiter) weiter.addEventListener("click", function () { lbBlaettern(1); });
+
+    /* Klick auf den dunklen Grund schließt. */
+    kasten.addEventListener("click", function (e) {
+      if (e.target === kasten) lbSchliessen();
+    });
+
+    document.addEventListener("keydown", function (e) {
+      if (kasten.hidden) return;
+      if (e.key === "Escape") lbSchliessen();
+      if (e.key === "ArrowLeft") lbBlaettern(-1);
+      if (e.key === "ArrowRight") lbBlaettern(1);
+    });
+  }
+
+  /* =========================================================================
+     7. Einblenden beim Scrollen
      ========================================================================= */
   function einblenden() {
     var teile = document.querySelectorAll(".reveal");
@@ -366,7 +481,7 @@
   }
 
   /* =========================================================================
-     7. Karte erst auf Klick laden (DSGVO)
+     8. Karte erst auf Klick laden (DSGVO)
      ========================================================================= */
   function karte() {
     var knopf = document.getElementById("map-load");
@@ -399,6 +514,8 @@
     intro();
     slideshow();
     preise();
+    galerie();
+    lightbox();
     einblenden();
     karte();
   }
