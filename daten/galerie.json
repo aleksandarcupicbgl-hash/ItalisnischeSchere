@@ -1,17 +1,20 @@
 {
-  "_hinweis": "Bilder der Sektion „Haarschnitte“. Neues Foto: Datei nach bilder/ legen, WebP erzeugen (siehe README) und hier einen Eintrag ergänzen. Die Reihenfolge hier ist die Reihenfolge auf der Seite. TODO: alt-Texte konkret machen, sobald die echten Fotos da sind (z. B. „Fade mit Bart“).",
+  "_hinweis": "Bilder der Sektion „Haarschnitte“. Neues Foto: Datei nach bilder/ legen, WebP erzeugen (siehe README) und hier einen Eintrag ergänzen. Die Reihenfolge hier ist die Reihenfolge auf der Seite. „pos“ ist der Bildausschnitt in der Kachel (object-position) — nur nötig, wenn die Mitte nicht passt.",
   "bilder": [
     {
       "datei": "haarschnitt-1",
-      "alt": "Haarschnitt im Barber Italienische Schere"
+      "alt": "Lockiger Deckhaarschnitt mit hohem Fade und geschwungener Nackenlinie, von hinten fotografiert",
+      "pos": "50% 38%"
     },
     {
       "datei": "haarschnitt-2",
-      "alt": "Haarschnitt im Barber Italienische Schere"
+      "alt": "Klassischer Seitenscheitel mit hohem Fade, im Handspiegel fotografiert",
+      "pos": "50% 45%"
     },
     {
       "datei": "haarschnitt-3",
-      "alt": "Haarschnitt im Barber Italienische Schere"
+      "alt": "Nach oben frisierter Pompadour mit hohem Fade und konturiertem Vollbart",
+      "pos": "50% 38%"
     }
   ]
 }

@@ -187,14 +187,14 @@ a { color: inherit; }
    --------------------------------------------------------------------------- */
 .slide-fassade img   { object-position: 50% 40%; }  /* Rundbogen im Bild halten */
 .slide-innenraum img { object-position: 50% 60%; }  /* Stühle statt Gewölbe */
-.slide-salon img     { object-position: 50% 50%; }
-.slide-kunde img     { object-position: 50% 45%; }
+.slide-salon img     { object-position: 50% 42%; }  /* Barockspiegel mit im Bild */
+.slide-kunde img     { object-position: 50% 36%; }  /* Barbier und Kunde im Bild */
 
 @media (max-width: 767px) {
   .slide-fassade img   { object-position: 50% 34%; }
   .slide-innenraum img { object-position: 50% 55%; }
-  .slide-salon img     { object-position: 50% 50%; }
-  .slide-kunde img     { object-position: 50% 45%; }
+  .slide-salon img     { object-position: 42% 50%; }
+  .slide-kunde img     { object-position: 50% 42%; }
 }
 
 .hero-scrim {
@@ -555,6 +555,7 @@ section { padding-block: clamp(4rem, 11vw, 8.5rem); }
   border: 0;
   background: none;
   cursor: zoom-in;
+  outline-offset: -3px;
 }
 .gallery-item img {
   width: 100%;

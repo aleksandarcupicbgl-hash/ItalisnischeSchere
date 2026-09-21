@@ -355,49 +355,68 @@
     var liste = document.getElementById("galerie");
     if (!liste) return;
 
-    /* Ausgangslage ist das, was schon im HTML steht — so ist die Galerie auch
-       dann bedienbar, wenn die JSON nicht geladen werden kann. */
-    function ausDemHtml() {
-      return Array.prototype.map.call(liste.querySelectorAll("img"), function (bild) {
-        var klein = bild.getAttribute("src") || "";
-        return { klein: klein, gross: klein.replace("-960.webp", "-1600.webp"), alt: bild.alt };
+    /* Die Kacheln stehen als Links im HTML: ohne JavaScript öffnet der
+       Browser das große Foto, mit JavaScript fängt die Lightbox den Klick ab.
+       Hier wird nur durchgezählt — am DOM ändert sich nichts, es lädt also
+       auch nichts nach. */
+    function aufwerten() {
+      lbBilder = [];
+      var knoepfe = liste.querySelectorAll(".gallery-knopf");
+      Array.prototype.forEach.call(knoepfe, function (knopf, i) {
+        var bild = knopf.querySelector("img");
+        if (!bild) return;
+        knopf.setAttribute("data-i", String(i));
+        lbBilder.push({ gross: knopf.getAttribute("href"), alt: bild.alt });
       });
     }
 
-    function zeichnen(eintraege) {
-      if (!eintraege.length) return;
-      lbBilder = eintraege;
-      liste.innerHTML = eintraege.map(function (e, i) {
+    function neuAufbauen(eintraege) {
+      liste.innerHTML = eintraege.map(function (e) {
+        var pos = e.pos ? ' style="object-position:' + text(e.pos) + '"' : "";
         return '<li class="gallery-item">' +
-          '<button type="button" class="gallery-knopf" data-i="' + i + '" aria-label="' +
-            text(e.alt) + ' groß ansehen">' +
-          '<img src="' + text(e.klein) + '" alt="' + text(e.alt) + '" ' +
-            'width="1000" height="1250" loading="lazy" decoding="async">' +
-          "</button></li>";
+          '<a class="gallery-knopf" href="bilder/' + text(e.datei) + '-1600.webp">' +
+          '<img src="bilder/' + text(e.datei) + '-960.webp"' + pos +
+          ' alt="' + text(e.alt) + '" width="1000" height="1250" ' +
+          'loading="lazy" decoding="async"></a></li>';
       }).join("");
+      aufwerten();
     }
 
-    zeichnen(ausDemHtml());
+    aufwerten();
 
     if (window.fetch) {
       fetch("daten/galerie.json", { cache: "no-cache" })
         .then(function (a) { return a.ok ? a.json() : null; })
         .then(function (daten) {
-          if (!daten || !daten.bilder) return;
-          zeichnen(daten.bilder.map(function (b) {
-            return {
-              klein: "bilder/" + b.datei + "-960.webp",
-              gross: "bilder/" + b.datei + "-1600.webp",
-              alt: b.alt || "Haarschnitt im Barber Italienische Schere"
-            };
-          }));
+          if (!daten || !daten.bilder || !daten.bilder.length) return;
+
+          var imHtml = lbBilder.map(function (b) { return b.gross; }).join("|");
+          var inJson = daten.bilder.map(function (b) {
+            return "bilder/" + b.datei + "-1600.webp";
+          }).join("|");
+
+          if (imHtml === inJson) {
+            /* Gleiche Bilder — nur Beschriftung und Ausschnitt nachziehen,
+               ohne die Bilder erneut zu laden. */
+            var bilder = liste.querySelectorAll("img");
+            daten.bilder.forEach(function (e, i) {
+              if (!bilder[i]) return;
+              if (e.alt) bilder[i].alt = e.alt;
+              if (e.pos) bilder[i].style.objectPosition = e.pos;
+              lbBilder[i].alt = bilder[i].alt;
+            });
+            return;
+          }
+          neuAufbauen(daten.bilder);
         })
         .catch(function () { /* HTML-Fassung bleibt stehen */ });
     }
 
     liste.addEventListener("click", function (e) {
       var knopf = e.target.closest && e.target.closest(".gallery-knopf");
-      if (knopf) lbOeffnen(parseInt(knopf.getAttribute("data-i"), 10), knopf);
+      if (!knopf) return;
+      e.preventDefault();          /* der Link bleibt der Weg ohne JavaScript */
+      lbOeffnen(parseInt(knopf.getAttribute("data-i"), 10), knopf);
     });
   }
 

@@ -34,7 +34,8 @@ markiert — man sieht im Browser sofort, was fehlt.
 | **Facebook-Link** | `index.html`, Hero-Infoblock **und** Footer |
 | **Inhaber fürs Impressum** | `impressum.html` — Name, E-Mail, USt-IdNr., Bildnachweise |
 | **Massagesessel** | `index.html`, Abschnitt „Nicht nur Haarschnitte": Beschreibung und eventueller Preis; Bild `bilder/massagesessel.jpg` |
-| **Fotos** | `bilder/intro-3-salon.jpg`, `bilder/intro-4-kunde.jpg`, `bilder/haarschnitt-1.jpg` bis `-3.jpg` (siehe unten) |
+| **Einverständnis für Fotos** | Auf `intro-4-kunde.jpg` sind zwei Personen klar erkennbar. Vor dem Livegang bitte bestätigen, dass beide mit der Veröffentlichung einverstanden sind. |
+| **Bildnachweise** | `impressum.html` — wer die Fotos gemacht hat |
 | **Hostinganbieter** | `datenschutz.html`, Abschnitt 3 |
 | **Domain** | `index.html`, `canonical` und `og:url` |
 
@@ -56,16 +57,17 @@ steht dieselbe Liste zusätzlich im HTML. Der Befehl oben hält beide gleich.
 ## Bilder
 
 Im Hero laufen vier Bilder als Slideshow, in der Sektion „Haarschnitte" liegen
-drei Fotos in Farbe. Echt sind bisher nur die ersten beiden Hero-Bilder; der
-Rest sind **Platzhalter** (dunkle Kachel, auf der steht, welche Datei fehlt).
+drei Fotos in Farbe. Alle sind echt. Offen ist nur noch der Massagesessel —
+dort steht ein **Platzhalter** (dunkle Kachel, auf der steht, welche Datei
+fehlt); beim Ersetzen der Datei verschwindet die Markierung von selbst.
 
 | Datei | Stand |
 | --- | --- |
 | `bilder/intro-1-fassade.jpg` | echtes Foto |
 | `bilder/intro-2-innenraum.jpg` | echtes Foto |
-| `bilder/intro-3-salon.jpg` | **Platzhalter** — Barberstuhl vor Barockspiegeln |
-| `bilder/intro-4-kunde.jpg` | **Platzhalter** — Barbier mit Kunde |
-| `bilder/haarschnitt-1…3.jpg` | **Platzhalter** — Haarschnitte in Farbe |
+| `bilder/intro-3-salon.jpg` | echtes Foto |
+| `bilder/intro-4-kunde.jpg` | echtes Foto — nur 900 px breit, auf großen Schirmen etwas weich. Falls es das Original größer gibt, lohnt der Austausch. |
+| `bilder/haarschnitt-1…3.jpg` | echte Fotos, in Farbe |
 | `bilder/massagesessel.jpg` | **Platzhalter** |
 
 **Neues Foto einsetzen** — JPG nach `bilder/` legen (gleicher Dateiname), dann
@@ -86,8 +88,11 @@ Was im Bild bleibt, steuert `object-position` — pro Motiv eingestellt unter
 Kommt ein echtes Foto anstelle eines Platzhalters, dort den Wert nachziehen.
 
 **Weitere Haarschnitt-Fotos:** Datei ablegen, WebP erzeugen, in
-`daten/galerie.json` einen Eintrag ergänzen. Mehr ist nicht nötig — Raster und
-Lightbox wachsen mit.
+`daten/galerie.json` einen Eintrag ergänzen (`datei`, `alt` und bei Bedarf
+`pos` für den Ausschnitt in der Kachel). Mehr ist nicht nötig — Raster und
+Lightbox wachsen mit. Damit auch Suchmaschinen und Besucher ohne JavaScript
+die Bilder sehen, stehen dieselben drei Kacheln zusätzlich im HTML; kommen
+Fotos dazu, dort einmal nachziehen.
 
 ## Wie die Seite sich verhält
 
@@ -101,7 +106,9 @@ Lightbox wachsen mit.
   09:00", gerechnet aus den Öffnungszeiten in deutscher Ortszeit, also auch für
   Besucher aus anderen Zeitzonen richtig.
 - **Lightbox** — Haarschnitt antippen öffnet das Bild groß; Pfeiltasten
-  blättern, Esc schließt, der Fokus kehrt zum angetippten Bild zurück.
+  blättern, Esc schließt, der Fokus kehrt zum angetippten Bild zurück. Jede
+  Kachel ist ein Link auf das große Foto: ohne JavaScript öffnet der Browser
+  einfach das Bild.
 - **Karte** — lädt erst nach Klick auf „Karte laden". Vorher geht keine einzige
   Anfrage an Google.
 - **Ohne JavaScript** bleibt die Seite vollständig lesbar: kein Intro, keine
@@ -120,7 +127,10 @@ nicht bei jedem Seitenwechsel neu läuft.
 
 Kein Framework, kein Build. Semantisches HTML, `prefers-reduced-motion` wird
 überall beachtet, Tastaturbedienung und sichtbarer Fokus sind durchgängig da.
-Geprüft in Chromium auf 375 px, 768 px und 1440 px.
+Geprüft in Chromium auf 375 px, 768 px und 1440 px: keine JS-Fehler, keine
+Anfrage an eine fremde Domain, im Hero überlappt nichts. Das erste Hero-Bild
+ist vorgeladen, alles andere hängt an `loading="lazy"` beziehungsweise wird
+erst nach dem ersten Bildaufbau geholt.
 
 ---
 
@@ -213,7 +223,7 @@ entsprechen.
 
 Der Schriftzug ist `<text>` in einem Serifen-Stack (Cormorant Garamond → Didot →
 Georgia). **Für die Produktion in Pfade konvertieren**, damit die Marke unabhängig von
-installierten Schriften ist. `COIFFEUR` ist ein Platzhalter und frei ersetzbar.
+installierten Schriften ist. Die Zeile über dem Schriftzug lautet `BARBER`.
 
 ---
 
