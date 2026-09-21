@@ -1,0 +1,535 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Italienische Schere – Hero-Intro</title>
+<meta name="description" content="Intro-Animation für den Hero-Bereich: Die Schere schneidet ein Papier-Overlay auf und gibt das Logo frei.">
+
+<!-- Optional: bessere Schrift, wenn online. Fallback-Serifen greifen sonst. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+/* ============================================================
+   FARBEN / BASIS
+   Die Logo-Variablen sind dieselben wie in logo.svg:
+   --ink = Strichfarbe, --paper = Flaeche hinter dem Logo,
+   --accent = Messing. Hier in der Invers-Variante auf dunklem Grund.
+   ============================================================ */
+:root{
+  --bg:#141110;
+  --ink:#F2E8D8;
+  --paper:#141110;
+  --accent:#C09A5E;
+  --sheet:#F1E7D6;      /* Papier-Overlay */
+  --sheet-ink:#2A231C;
+  --ease-out-quint:cubic-bezier(.22,1,.36,1);
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:"Cormorant Garamond",Didot,"Bodoni MT",Garamond,"Times New Roman",serif;
+  -webkit-font-smoothing:antialiased;
+  overflow:hidden;              /* waehrend des Intros; wird am Ende freigegeben */
+}
+body.intro-done{overflow:auto}
+
+/* dezenter Lichtschein hinter dem Logo */
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:radial-gradient(60% 55% at 50% 42%,rgba(192,154,94,.13),transparent 70%);
+}
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+.site-header{
+  position:fixed;top:0;left:0;right:0;z-index:50;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:24px;padding:18px clamp(18px,4vw,44px);
+  opacity:0;transform:translateY(-8px);
+  transition:opacity .7s ease,transform .7s var(--ease-out-quint);
+}
+body.intro-done .site-header{opacity:1;transform:none}
+.header-logo{
+  display:inline-flex;align-items:center;gap:14px;
+  text-decoration:none;color:inherit;padding:6px 4px;border-radius:4px;
+}
+.header-logo svg{height:30px;width:auto;display:block;overflow:visible}
+.header-logo .wordmark{
+  font-size:15px;letter-spacing:.34em;text-transform:uppercase;
+  white-space:nowrap;opacity:.92;
+}
+.hint{
+  font-family:ui-sans-serif,system-ui,sans-serif;
+  font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+  color:rgba(242,232,216,.42);
+}
+@media (max-width:640px){.hint{display:none}}
+@media (max-width:480px){
+  .header-logo svg{height:24px}
+  .header-logo .wordmark{font-size:13px;letter-spacing:.22em}
+}
+
+/* ============================================================
+   HERO / LOGO-BUEHNE
+   ============================================================ */
+.hero{
+  position:relative;                 /* bewusst ohne z-index: sonst koennte
+                                        die Schere nicht ueber dem Papier liegen */
+  min-height:100vh;min-height:100svh;
+  display:grid;place-items:center;padding:96px 4vw 72px;
+}
+.stage{
+  position:relative;                 /* erzeugt KEINEN Stacking-Context */
+  width:min(88vw,900px);aspect-ratio:640/400;
+}
+.stage svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+.logo-art{z-index:1}
+
+/* Die Schere liegt ueber dem Papier-Overlay und wird als
+   HTML-Element bewegt -> der SVG-Drehpunkt der Klingen bleibt unberuehrt. */
+.scissors-art{
+  z-index:40;overflow:visible;will-change:transform;
+  transform-origin:67.2% 40.25%;     /* Schraube 430/161 */
+  filter:drop-shadow(0 8px 14px rgba(10,8,6,.45));
+  transition:filter .6s ease;
+}
+body.intro-done .scissors-art{filter:drop-shadow(0 0 0 rgba(10,8,6,0))}
+/* bis das Intro startet (Schriften laden) bleibt die Schere verdeckt */
+body.intro-armed .scissors-art{opacity:0}
+
+/* Logo-Stile – identisch zu logo.svg */
+.draw{fill:none;stroke:var(--ink);stroke-linecap:round;stroke-linejoin:round}
+.blade{fill:var(--ink);fill-opacity:.08;stroke:var(--ink);stroke-width:3.2;
+       stroke-linejoin:miter;stroke-miterlimit:12}
+.limb{fill:none;stroke:var(--ink);stroke-width:3.2;stroke-linecap:round;stroke-linejoin:round}
+.accent{stroke:var(--accent)}
+.stage text{
+  fill:var(--ink);text-anchor:middle;font-weight:500;
+  font-family:"Cormorant Garamond",Didot,"Bodoni MT",Garamond,"Times New Roman",serif;
+}
+/* Solange die Schere ueber dem cremefarbenen Papier liegt, zeichnet sie in
+   Papier-Tinte; mit dem Freigeben des Logos wechselt sie auf die Logo-Farbe. */
+.scissors-art .blade,
+.scissors-art .limb:not(.accent){stroke:var(--sheet-ink);transition:stroke .5s ease}
+.scissors-art .blade{fill:var(--sheet-ink);transition:stroke .5s ease,fill .5s ease}
+body.intro-lit .scissors-art .blade,
+body.intro-lit .scissors-art .limb:not(.accent){stroke:var(--ink)}
+body.intro-lit .scissors-art .blade{fill:var(--ink)}
+.no-trans *{transition:none!important}
+
+/* Drehpunkt der Scherenhaelften = Schraube (430/161 im viewBox) */
+.scissors-art #blade-top,
+.scissors-art #blade-bottom{transform-box:view-box;transform-origin:430px 161px}
+
+/* Startzustand des Intros (wird von JS bzw. noscript aufgehoben) */
+#frame-outer,#frame-inner,#frame-rule{stroke-dasharray:100;stroke-dashoffset:100}
+#wordmark-eyebrow,#wordmark-line-1,#wordmark-line-2{opacity:0}
+
+/* ============================================================
+   PAPIER-OVERLAY
+   ============================================================ */
+.paper{position:fixed;inset:0;z-index:30;overflow:hidden}
+.paper-half{
+  position:absolute;left:0;right:0;
+  background:var(--sheet);
+  will-change:transform;
+  background-image:
+    radial-gradient(120% 100% at 50% 50%,rgba(255,255,255,.55),rgba(0,0,0,.05)),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.38'/%3E%3C/svg%3E");
+  background-blend-mode:normal,multiply;
+  background-size:100vw 100vh,160px 160px;   /* Textur laeuft ueber die Kante durch */
+}
+.paper-top{top:0;height:var(--cut,50%);background-position:0 0,0 0}
+.paper-bottom{top:var(--cut,50%);bottom:0;
+  background-position:0 calc(-1 * var(--cut,50%)),0 calc(-1 * var(--cut,50%))}
+/* Schnittkanten: feine Kante + weicher Schlagschatten */
+.paper-top::after,.paper-bottom::before{
+  content:"";position:absolute;left:0;right:0;height:26px;pointer-events:none;
+  opacity:var(--edge,0);transition:opacity .28s ease;
+}
+.paper-top::after{
+  bottom:0;
+  background:linear-gradient(to bottom,transparent,rgba(42,35,28,.14));
+  border-bottom:1px solid rgba(42,35,28,.30);
+}
+.paper-bottom::before{
+  top:0;
+  background:linear-gradient(to top,transparent,rgba(255,255,255,.65));
+  border-top:1px solid rgba(42,35,28,.14);
+}
+.cut-trace{
+  position:absolute;left:0;top:var(--cut,50%);width:100%;height:2px;z-index:2;
+  margin-top:-1px;transform:scaleX(0);transform-origin:0 50%;
+  background:linear-gradient(90deg,rgba(42,35,28,.18),rgba(42,35,28,.42));
+}
+
+/* ============================================================
+   BEDIENELEMENTE
+   ============================================================ */
+.controls{position:fixed;right:clamp(16px,4vw,40px);bottom:clamp(16px,4vw,32px);z-index:60}
+.btn{
+  font-family:ui-sans-serif,system-ui,sans-serif;
+  font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+  padding:10px 16px;border-radius:999px;cursor:pointer;
+  background:transparent;transition:opacity .4s ease,border-color .3s ease,color .3s ease;
+}
+.btn-skip{color:var(--sheet-ink);border:1px solid rgba(42,35,28,.28)}
+.btn-skip:hover{border-color:rgba(42,35,28,.6)}
+.btn-replay{color:rgba(242,232,216,.55);border:1px solid rgba(242,232,216,.22)}
+.btn-replay:hover{color:var(--ink);border-color:rgba(242,232,216,.5)}
+.btn-replay{display:none}
+body.intro-done .btn-skip{display:none}
+body.intro-done .btn-replay{display:inline-block}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+
+/* ============================================================
+   HOVER-VARIANTE IM HEADER: einmal kurz schnippen
+   ============================================================ */
+.header-logo svg #h-blade-top,
+.header-logo svg #h-blade-bottom{
+  transform-box:view-box;transform-origin:94px 44px;   /* Schraube im eigenen viewBox */
+}
+.header-logo:hover #h-blade-top,
+.header-logo:focus-visible #h-blade-top{animation:snip-top .52s both}
+.header-logo:hover #h-blade-bottom,
+.header-logo:focus-visible #h-blade-bottom{animation:snip-bottom .52s both}
+@keyframes snip-top{
+  0%{transform:rotate(0deg);animation-timing-function:cubic-bezier(.16,.84,.44,1)}
+  48%{transform:rotate(-12deg);animation-timing-function:cubic-bezier(.55,0,.85,.35)}
+  100%{transform:rotate(0deg)}
+}
+@keyframes snip-bottom{
+  0%{transform:rotate(0deg);animation-timing-function:cubic-bezier(.16,.84,.44,1)}
+  48%{transform:rotate(12deg);animation-timing-function:cubic-bezier(.55,0,.85,.35)}
+  100%{transform:rotate(0deg)}
+}
+
+/* ============================================================
+   REDUZIERTE BEWEGUNG: Logo sofort statisch, kein Schnippen
+   ============================================================ */
+@media (prefers-reduced-motion:reduce){
+  .paper{display:none!important}
+  .scissors-art{filter:none;transition:none}
+  .site-header{transition:none}
+  .header-logo:hover #h-blade-top,.header-logo:hover #h-blade-bottom,
+  .header-logo:focus-visible #h-blade-top,.header-logo:focus-visible #h-blade-bottom{animation:none}
+  .btn-replay{display:none!important}
+}
+</style>
+
+<noscript><style>
+  .paper{display:none}
+  #frame-outer,#frame-inner,#frame-rule{stroke-dashoffset:0}
+  #wordmark-eyebrow,#wordmark-line-1,#wordmark-line-2{opacity:1}
+  .site-header{opacity:1;transform:none}
+  .scissors-art{opacity:1}
+  .controls{display:none}
+  body{overflow:auto}
+</style></noscript>
+</head>
+
+<body class="intro-pending intro-armed">
+
+<!-- ============================ HEADER ============================ -->
+<header class="site-header">
+  <a class="header-logo" href="#" aria-label="Italienische Schere – Startseite">
+    <!-- Ausschnitt aus dem Logo: nur die Schere, in ein eigenes 0-basiertes
+         Koordinatensystem versetzt (Original minus 336/117). Dadurch gilt hier
+         wie im Hero: transform-origin = Drehpunkt in den eigenen Nutzerkoordinaten. -->
+    <svg viewBox="0 0 240 88" aria-hidden="true">
+      <g id="h-blade-bottom">
+        <path class="blade" d="M 92,47.5 L 236,47.5 C 210,53 182,56.5 148,58.5 C 132,59.4 116,59.6 106,59 C 99,58.4 92,54.5 92,47.5 Z"/>
+        <path class="limb" d="M 95,41.5 C 86,35 76,31 64,28 C 52,25 39,23 30,21"/>
+        <circle class="limb" cx="18" cy="18" r="14"/>
+      </g>
+      <g id="h-blade-top">
+        <path class="blade" d="M 92,40.5 L 236,40.5 C 210,35 182,31.5 148,29.5 C 132,28.6 116,28.4 106,29 C 99,29.6 92,33.5 92,40.5 Z"/>
+        <path class="limb" d="M 95,46.5 C 86,53 76,57 64,60 C 52,63 39,65 30,67"/>
+        <circle class="limb" cx="18" cy="70" r="14"/>
+      </g>
+      <circle class="limb accent" cx="94" cy="44" r="5" stroke-width="2.2" fill="var(--paper)"/>
+      <circle cx="94" cy="44" r="1.6" fill="var(--accent)"/>
+    </svg>
+    <span class="wordmark">Italienische Schere</span>
+  </a>
+  <span class="hint">Hover über das Logo&nbsp;→&nbsp;Schnipp</span>
+</header>
+
+<!-- ============================ HERO ============================ -->
+<section class="hero">
+  <div class="stage" role="img" aria-label="Logo: Italienische Schere, Coiffeur">
+
+    <!-- Rahmen + Schriftzug -->
+    <svg class="logo-art" viewBox="0 0 640 400" aria-hidden="true">
+      <g id="logo-frame">
+        <path id="frame-outer" class="draw" pathLength="100" stroke-width="2.4"
+              d="M 30,30 H 610 V 370 H 30 Z"/>
+        <path id="frame-inner" class="draw accent" pathLength="100" stroke-width="1.1" opacity=".6"
+              d="M 42,42 H 598 V 358 H 42 Z"/>
+        <path id="frame-rule" class="draw accent" pathLength="100" stroke-width="1.8"
+              d="M 78,161 H 328"/>
+      </g>
+      <g id="logo-wordmark">
+        <text id="wordmark-eyebrow" x="325.5" y="76" font-size="17" letter-spacing="11"
+              fill="var(--accent)">COIFFEUR</text>
+        <text id="wordmark-line-1" x="326.5" y="258" font-size="25" letter-spacing="13">ITALIENISCHE</text>
+        <text id="wordmark-line-2" x="327" y="330" font-size="74" letter-spacing="14">SCHERE</text>
+      </g>
+    </svg>
+
+    <!-- Schere (eigene Ebene, liegt ueber dem Papier) -->
+    <svg class="scissors-art" viewBox="0 0 640 400" aria-hidden="true">
+      <g id="logo-scissors">
+        <g id="blade-bottom">
+          <path class="blade" d="M 428,164.5 L 572,164.5 C 546,170 518,173.5 484,175.5 C 468,176.4 452,176.6 442,176 C 435,175.4 428,171.5 428,164.5 Z"/>
+          <path class="limb" d="M 431,158.5 C 422,152 412,148 400,145 C 388,142 375,140 366,138"/>
+          <circle class="limb" cx="354" cy="135" r="14"/>
+        </g>
+        <g id="blade-top">
+          <path class="blade" d="M 428,157.5 L 572,157.5 C 546,152 518,148.5 484,146.5 C 468,145.6 452,145.4 442,146 C 435,146.6 428,150.5 428,157.5 Z"/>
+          <path class="limb" d="M 431,163.5 C 422,170 412,174 400,177 C 388,180 375,182 366,184"/>
+          <circle class="limb" cx="354" cy="187" r="14"/>
+        </g>
+        <g id="scissors-screw">
+          <circle class="limb accent" cx="430" cy="161" r="5" stroke-width="2.2" fill="var(--paper)"/>
+          <circle cx="430" cy="161" r="1.6" fill="var(--accent)"/>
+        </g>
+      </g>
+    </svg>
+
+  </div>
+</section>
+
+<!-- ============================ PAPIER ============================ -->
+<div class="paper" id="paper" aria-hidden="true">
+  <div class="paper-half paper-top" id="paper-top"></div>
+  <div class="paper-half paper-bottom" id="paper-bottom"></div>
+  <div class="cut-trace" id="cut-trace"></div>
+</div>
+
+<!-- ============================ CONTROLS ============================ -->
+<div class="controls">
+  <button class="btn btn-skip" id="skip" type="button">Überspringen</button>
+  <button class="btn btn-replay" id="replay" type="button">Animation erneut abspielen</button>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ---------- Elemente ---------- */
+  const $ = function(id){ return document.getElementById(id); };
+  const body      = document.body,
+        stage     = document.querySelector('.stage'),
+        scissors  = document.querySelector('.scissors-art'),
+        bladeTop  = $('blade-top'),
+        bladeBot  = $('blade-bottom'),
+        paper     = $('paper'),
+        halfTop   = $('paper-top'),
+        halfBot   = $('paper-bottom'),
+        trace     = $('cut-trace'),
+        frameOut  = $('frame-outer'),
+        frameIn   = $('frame-inner'),
+        frameRule = $('frame-rule'),
+        eyebrow   = $('wordmark-eyebrow'),
+        line1     = $('wordmark-line-1'),
+        line2     = $('wordmark-line-2'),
+        btnSkip   = $('skip'),
+        btnReplay = $('replay');
+
+  /* ---------- Taktung (Sekunden), gesamt < 3 s ---------- */
+  const T = {
+    travel:[0.06,1.34],   // Schere faehrt schneidend durchs Bild
+    traceOut:[1.30,0.28],
+    split:[1.30,0.95],    // Papierhaelften gleiten auseinander
+    fade:[1.60,0.62],
+    ret:[1.50,1.08],      // Schere nimmt ihren Platz im Logo ein
+    snap:[2.34,0.44],     // letztes, leises Schnippen
+    fOut:[1.42,0.88],
+    fIn:[1.74,0.62],
+    rule:[1.66,0.74],
+    w0:[1.84,0.50],
+    w1:[1.94,0.55],
+    w2:[2.04,0.62]
+  };
+  const TOTAL = 2.80;
+  const SNIPS = 4, SNIP_ANGLE = 11, SNAP_ANGLE = 6.5;
+
+  /* ---------- Easing ---------- */
+  const easeOutCubic = function(t){ return 1-Math.pow(1-t,3); },
+        easeInQuad   = function(t){ return t*t; },
+        easeOutQuint = function(t){ return 1-Math.pow(1-t,5); },
+        easeInOutSine= function(t){ return -(Math.cos(Math.PI*t)-1)/2; };
+  const lerp = function(a,b,t){ return a+(b-a)*t; };
+  const clamp01 = function(v){ return v<0?0:v>1?1:v; };
+
+  /* Fortschritt einer Spur: null = noch nicht gestartet */
+  function seg(t,spec,ease){
+    if(t<=spec[0]) return null;
+    return (ease||easeOutCubic)(Math.min(1,(t-spec[0])/spec[1]));
+  }
+  /* ein Schnipp: ruhig oeffnen, schnell schliessen */
+  const OPEN = .58;
+  function snipWave(p,n){
+    const ph = (p*n)%1;
+    return ph<OPEN ? easeOutCubic(ph/OPEN) : 1-easeInQuad((ph-OPEN)/(1-OPEN));
+  }
+
+  /* ---------- Masse ---------- */
+  const M = {};
+  function measure(){
+    const r = stage.getBoundingClientRect(), vw = window.innerWidth, vh = window.innerHeight;
+    const px = function(x){ return r.left + (x/640)*r.width; };   // viewBox-x -> Bildschirm
+    M.vw = vw;
+    M.cut   = r.top + (161/400)*r.height;    // Schnittlinie = Klingenebene
+    M.screw = px(430);
+    M.start = -60 - px(572);                 // Klingenspitze knapp links ausserhalb
+    M.end   =  vw + 60 - px(340);            // Ringe knapp rechts ausserhalb
+    M.split = Math.max(130, vh*0.26);
+    paper.style.setProperty('--cut', M.cut+'px');
+  }
+
+  /* ---------- Setter ---------- */
+  function placeScissors(x,r){
+    scissors.style.transform = 'translate3d('+x.toFixed(2)+'px,0,0) rotate('+r.toFixed(3)+'deg)';
+  }
+  function traceTo(x){
+    trace.style.transform = 'scaleX('+clamp01((M.screw+x)/M.vw).toFixed(4)+')';
+  }
+  function setBlades(a){
+    bladeTop.style.transform = 'rotate('+(-a).toFixed(3)+'deg)';
+    bladeBot.style.transform = 'rotate('+a.toFixed(3)+'deg)';
+  }
+  function dash(el,p){ el.style.strokeDashoffset = (100*(1-p)).toFixed(2); }
+  function rise(el,p,dy){
+    el.style.opacity = p.toFixed(3);
+    el.style.transform = 'translateY('+((1-p)*dy).toFixed(2)+'px)';
+  }
+
+  /* ---------- Frame-Rendering ---------- */
+  function render(t){
+    let p,u;
+    /* 1. Schere faehrt schneidend von links durchs Bild */
+    if((p=seg(t,T.travel,easeInOutSine))!==null){
+      const x = lerp(M.start,M.end,p);
+      placeScissors(x,0);
+      traceTo(x);                                  // Schnittspur waechst mit
+    }
+    /* 3. Schere nimmt ihren Platz im Logo ein */
+    if((p=seg(t,T.ret,easeOutQuint))!==null) placeScissors(lerp(M.end,0,p),lerp(-3.2,0,p));
+
+    /* Klingen: mehrfaches Schnippen waehrend der Fahrt, einmal leise beim Absetzen */
+    if(t>T.travel[0]){
+      u = Math.min(1,(t-T.travel[0])/T.travel[1]);
+      setBlades(SNIP_ANGLE*snipWave(u,SNIPS));
+    }
+    if(t>T.snap[0]){
+      u = Math.min(1,(t-T.snap[0])/T.snap[1]);
+      setBlades(SNAP_ANGLE*snipWave(u,1));
+    }
+
+    if((p=seg(t,T.traceOut,easeOutCubic))!==null) trace.style.opacity = (1-p).toFixed(3);
+    if((p=seg(t,T.split,easeOutCubic))!==null){
+      halfTop.style.transform = 'translate3d(0,'+(-p*M.split).toFixed(2)+'px,0)';
+      halfBot.style.transform = 'translate3d(0,'+( p*M.split).toFixed(2)+'px,0)';
+    }
+    if((p=seg(t,T.fade,easeOutCubic))!==null) paper.style.opacity = (1-p).toFixed(3);
+    paper.style.setProperty('--edge', t>=T.split[0] ? '1' : '0');
+    body.classList.toggle('intro-lit', t>=T.fade[0]);
+
+    if((p=seg(t,T.fOut,easeOutCubic))!==null) dash(frameOut,p);
+    if((p=seg(t,T.fIn,easeOutCubic))!==null)  dash(frameIn,p);
+    if((p=seg(t,T.rule,easeOutCubic))!==null) dash(frameRule,p);
+    if((p=seg(t,T.w0,easeOutCubic))!==null)   rise(eyebrow,p,-8);
+    if((p=seg(t,T.w1,easeOutCubic))!==null)   rise(line1,p,10);
+    if((p=seg(t,T.w2,easeOutCubic))!==null)   rise(line2,p,14);
+  }
+
+  /* ---------- Ausgangszustand ---------- */
+  function reset(){
+    measure();
+    placeScissors(M.start,0); traceTo(M.start); setBlades(0);
+    paper.style.opacity = 1; paper.style.display = '';
+    trace.style.opacity = 1; trace.style.transform = 'scaleX(0)';
+    halfTop.style.transform = halfBot.style.transform = 'translate3d(0,0,0)';
+    [frameOut,frameIn,frameRule].forEach(function(el){ el.style.strokeDashoffset = 100; });
+    [eyebrow,line1,line2].forEach(function(el){ el.style.opacity = 0; el.style.transform = ''; });
+    body.classList.remove('intro-done','intro-lit');
+    body.classList.add('intro-pending');
+    paper.style.setProperty('--edge','0');
+  }
+
+  function finish(){
+    body.classList.add('no-trans');          // kein Nachziehen beim Direktsprung
+    render(TOTAL);
+    requestAnimationFrame(function(){ body.classList.remove('no-trans'); });
+    paper.style.display = 'none';
+    body.classList.remove('intro-pending');
+    body.classList.add('intro-done');
+  }
+
+  /* ---------- Abspielen ---------- */
+  let raf = 0, t0 = 0, ff = null, playing = false;
+  function tick(ts){
+    if(!t0) t0 = ts;
+    let t = (ts-t0)/1000;
+    if(ff){ t = lerp(ff.from,TOTAL,easeOutCubic(Math.min(1,(ts-ff.at)/ff.dur))); }
+    if(t>=TOTAL){ playing = false; ff = null; finish(); return; }
+    render(t);
+    raf = requestAnimationFrame(tick);
+  }
+  function play(){
+    cancelAnimationFrame(raf);
+    reset(); playing = true; t0 = 0; ff = null;
+    raf = requestAnimationFrame(tick);
+  }
+  function skip(){
+    if(!playing || ff) return;
+    ff = { at:performance.now(), from:(performance.now()-t0)/1000, dur:360 };
+  }
+
+  /* ---------- Start ---------- */
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+  function seen(){ try{ return sessionStorage.getItem('is-intro')==='1'; }catch(e){ return false; } }
+  function markSeen(){ try{ sessionStorage.setItem('is-intro','1'); }catch(e){} }
+
+  function boot(){
+    measure();
+    body.classList.remove('intro-armed');
+    if(reduced.matches || seen()){ finish(); return; }   // sofort statisch
+    markSeen();                                          // nur einmal pro Besuch
+    play();
+  }
+
+  window.addEventListener('resize', function(){
+    measure();
+    if(!playing) placeScissors(0,0);      // ruhender Zustand: Schere im Logo
+  });
+  btnSkip.addEventListener('click', skip);
+  paper.addEventListener('click', skip);
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape') skip(); });
+  btnReplay.addEventListener('click', function(){
+    if(reduced.matches) return;
+    play();
+  });
+
+  /* Schriftlaufzeit kurz abwarten, damit der Schriftzug nicht umspringt */
+  const ready = document.fonts && document.fonts.ready
+    ? Promise.race([document.fonts.ready, new Promise(function(r){ setTimeout(r,500); })])
+    : Promise.resolve();
+  ready.then(boot);
+
+  /* Fuer Integration & QA: window.HeroIntro.play() / .finish() / .render(t) */
+  window.HeroIntro = { play:play, finish:finish, reset:reset, render:render,
+                       measure:measure, skip:skip, duration:TOTAL };
+})();
+</script>
+</body>
+</html>

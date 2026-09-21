@@ -1,0 +1,129 @@
+<svg xmlns="http://www.w3.org/2000/svg" id="logo-italienische-schere"
+     viewBox="0 0 640 400" width="640" height="400"
+     role="img" aria-labelledby="logo-title logo-desc">
+
+  <title id="logo-title">Italienische Schere</title>
+  <desc id="logo-desc">Wortmarke „Italienische Schere“: rechteckiger Rahmen, waagerechte Schnittlinie und eine Schere, deren Klingen auf der Schnittlinie schliessen.</desc>
+
+  <!--
+    ============================================================
+    AUFBAU / ANIMATIONS-HINWEISE
+    ============================================================
+    #logo-frame      Rahmen + Schnittlinie   (reine Stroke-Pfade, pathLength="100"
+                     -> Nachzeichnen ueber stroke-dashoffset 100 -> 0)
+    #logo-wordmark   Schriftzug              (eigene Gruppe, Zeilen einzeln adressierbar)
+    #logo-scissors   Schere
+      #blade-top     obere Klinge + unterer Griffring (eine starre Haelfte)
+      #blade-bottom  untere Klinge + oberer Griffring (eine starre Haelfte)
+      #scissors-screw Schraube = Drehpunkt
+
+    DREHPUNKT: 430 / 161 (Schraubenmitte, absolute viewBox-Koordinaten).
+    Beide Klingengruppen liegen bewusst OHNE transformierte Elterngruppe direkt
+    im viewBox-Koordinatensystem, damit
+        transform-box: view-box; transform-origin: 430px 161px;
+    exakt auf der Schraube sitzt. Oeffnen/Schliessen:
+        #blade-top    { transform: rotate(-a); }
+        #blade-bottom { transform: rotate( a); }
+    mit a = 0deg (geschlossen) bis ca. 12deg (offen).
+    Wer die Schere als Ganzes bewegen will, transformiert das <svg>-Element
+    selbst oder eine Huellgruppe -- der Drehpunkt der Klingen bleibt gueltig.
+
+    FARBEN ueber Custom Properties (--ink / --paper / --accent) ueberschreibbar,
+    z. B. fuer die Invers-Variante auf dunklem Grund.
+    Der Schriftzug sollte fuer die Produktion in Pfade konvertiert werden.
+    ============================================================
+  -->
+
+  <style>
+    #logo-italienische-schere{
+      --ink:#1D1814;
+      --paper:#F6EFE3;
+      --accent:#A97E4B;
+    }
+    #logo-italienische-schere .draw{
+      fill:none;
+      stroke:var(--ink);
+      stroke-linecap:round;
+      stroke-linejoin:round;
+    }
+    #logo-italienische-schere .blade{
+      fill:var(--ink);
+      fill-opacity:.07;
+      stroke:var(--ink);
+      stroke-width:3.2;
+      stroke-linejoin:miter;
+      stroke-miterlimit:12;
+    }
+    #logo-italienische-schere .limb{
+      fill:none;
+      stroke:var(--ink);
+      stroke-width:3.2;
+      stroke-linecap:round;
+      stroke-linejoin:round;
+    }
+    #logo-italienische-schere .accent{stroke:var(--accent)}
+    #logo-italienische-schere text{
+      fill:var(--ink);
+      font-family:"Cormorant Garamond","Cormorant",Didot,"Bodoni MT",Garamond,"Times New Roman",serif;
+      font-weight:500;
+      text-anchor:middle;
+    }
+    /* Drehpunkt der beiden Scherenhaelften */
+    #logo-italienische-schere #blade-top,
+    #logo-italienische-schere #blade-bottom{
+      transform-box:view-box;
+      transform-origin:430px 161px;
+    }
+  </style>
+
+  <rect id="logo-background" x="0" y="0" width="640" height="400" fill="var(--paper)"/>
+
+  <!-- ===================== RAHMEN ===================== -->
+  <g id="logo-frame">
+    <path id="frame-outer" class="draw" pathLength="100" stroke-width="2.4"
+          d="M 30,30 H 610 V 370 H 30 Z"/>
+    <path id="frame-inner" class="draw accent" pathLength="100" stroke-width="1.1" opacity=".6"
+          d="M 42,42 H 598 V 358 H 42 Z"/>
+    <path id="frame-rule" class="draw accent" pathLength="100" stroke-width="1.8"
+          d="M 78,161 H 328"/>
+  </g>
+
+  <!-- ===================== SCHRIFTZUG ===================== -->
+  <g id="logo-wordmark">
+    <text id="wordmark-eyebrow" x="325.5" y="76"
+          font-size="17" letter-spacing="11" fill="var(--accent)">COIFFEUR</text>
+    <text id="wordmark-line-1" x="326.5" y="258"
+          font-size="25" letter-spacing="13">ITALIENISCHE</text>
+    <text id="wordmark-line-2" x="327" y="330"
+          font-size="74" letter-spacing="14">SCHERE</text>
+  </g>
+
+  <!-- ===================== SCHERE ===================== -->
+  <g id="logo-scissors">
+
+    <!-- untere Haelfte: Klinge unten, Griffring oben -->
+    <g id="blade-bottom">
+      <path id="blade-bottom-body" class="blade"
+            d="M 428,164.5 L 572,164.5 C 546,170 518,173.5 484,175.5 C 468,176.4 452,176.6 442,176 C 435,175.4 428,171.5 428,164.5 Z"/>
+      <path id="blade-bottom-limb" class="limb"
+            d="M 431,158.5 C 422,152 412,148 400,145 C 388,142 375,140 366,138"/>
+      <circle id="blade-bottom-ring" class="limb" cx="354" cy="135" r="14"/>
+    </g>
+
+    <!-- obere Haelfte: Klinge oben, Griffring unten -->
+    <g id="blade-top">
+      <path id="blade-top-body" class="blade"
+            d="M 428,157.5 L 572,157.5 C 546,152 518,148.5 484,146.5 C 468,145.6 452,145.4 442,146 C 435,146.6 428,150.5 428,157.5 Z"/>
+      <path id="blade-top-limb" class="limb"
+            d="M 431,163.5 C 422,170 412,174 400,177 C 388,180 375,182 366,184"/>
+      <circle id="blade-top-ring" class="limb" cx="354" cy="187" r="14"/>
+    </g>
+
+    <!-- Schraube = Drehpunkt -->
+    <g id="scissors-screw">
+      <circle class="limb accent" cx="430" cy="161" r="5" stroke-width="2.2" fill="var(--paper)"/>
+      <circle cx="430" cy="161" r="1.6" fill="var(--accent)"/>
+    </g>
+
+  </g>
+</svg>
