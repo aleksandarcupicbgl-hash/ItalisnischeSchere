@@ -479,7 +479,117 @@
   }
 
   /* =========================================================================
-     7. Einblenden beim Scrollen
+     7. Bewertungen — Zahlen und Texte aus daten/bewertungen.json
+     ========================================================================= */
+  var STERN_PFAD = "M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z";
+
+  /** Fünf Sterne à 24 Einheiten; der gefüllte Satz wird anteilig geklippt. */
+  function sterneSvg(wert, klasse, kennung, beschriftung) {
+    var reihe = "";
+    for (var i = 0; i < 5; i++) {
+      reihe += '<path transform="translate(' + (i * 24) + ',0)" d="' + STERN_PFAD + '"/>';
+    }
+    var breite = (Math.max(0, Math.min(5, wert)) / 5 * 120).toFixed(1);
+    return '<svg class="' + klasse + '" viewBox="0 0 120 24" role="img" aria-label="' +
+      text(beschriftung) + '">' +
+      '<defs><clipPath id="' + kennung + '">' +
+      '<rect x="0" y="0" width="' + breite + '" height="24"/></clipPath></defs>' +
+      '<g class="sterne-leer">' + reihe + '</g>' +
+      '<g class="sterne-voll" clip-path="url(#' + kennung + ')">' + reihe + '</g></svg>';
+  }
+
+  function note(wert) {
+    try { return wert.toLocaleString("de-DE", { minimumFractionDigits: 1, maximumFractionDigits: 1 }); }
+    catch (e) { return String(wert).replace(".", ","); }
+  }
+
+  function bewertungen() {
+    var liste = document.getElementById("bewertungen-liste");
+    var kopf = document.getElementById("bewertung-kopf");
+    var punkte = document.getElementById("bewertungen-punkte");
+    if (!liste) return;
+
+    function punkteAufbauen() {
+      if (!punkte) return;
+      var karten = liste.querySelectorAll(".review");
+      punkte.innerHTML = "";
+      if (karten.length < 2) return;
+      Array.prototype.forEach.call(karten, function (karte, i) {
+        var knopf = document.createElement("button");
+        knopf.type = "button";
+        knopf.className = "reviews-punkt";
+        knopf.setAttribute("aria-label", "Bewertung " + (i + 1) + " von " + karten.length);
+        if (i === 0) knopf.setAttribute("aria-current", "true");
+        knopf.addEventListener("click", function () {
+          karte.scrollIntoView({
+            inline: "start",
+            block: "nearest",
+            behavior: wenigerBewegung ? "auto" : "smooth"
+          });
+        });
+        punkte.appendChild(knopf);
+      });
+    }
+
+    /* Beim Wischen den passenden Punkt hervorheben. */
+    var wartet = false;
+    liste.addEventListener("scroll", function () {
+      if (wartet || !punkte) return;
+      wartet = true;
+      window.requestAnimationFrame(function () {
+        wartet = false;
+        var karten = liste.querySelectorAll(".review");
+        var marken = punkte.querySelectorAll(".reviews-punkt");
+        if (!marken.length) return;
+        var mitte = liste.scrollLeft + liste.clientWidth / 2;
+        var beste = 0;
+        var abstand = Infinity;
+        Array.prototype.forEach.call(karten, function (karte, i) {
+          var x = karte.offsetLeft - liste.offsetLeft + karte.offsetWidth / 2;
+          var d = Math.abs(x - mitte);
+          if (d < abstand) { abstand = d; beste = i; }
+        });
+        Array.prototype.forEach.call(marken, function (marke, i) {
+          if (i === beste) marke.setAttribute("aria-current", "true");
+          else marke.removeAttribute("aria-current");
+        });
+      });
+    }, { passive: true });
+
+    punkteAufbauen();
+
+    if (!window.fetch) return;
+    fetch("daten/bewertungen.json", { cache: "no-cache" })
+      .then(function (a) { return a.ok ? a.json() : null; })
+      .then(function (daten) {
+        if (!daten || !daten.stimmen || !daten.stimmen.length) return;
+
+        if (kopf) {
+          var wert = note(daten.schnitt);
+          kopf.innerHTML =
+            '<p class="rating-wert">' + text(wert) +
+              ' <span class="rating-max">von 5</span></p>' +
+            sterneSvg(daten.schnitt, "sterne", "sterne-gesamt", wert + " von 5 Sternen") +
+            '<p class="rating-quelle">' + text(daten.anzahl) +
+              " Bewertungen auf " + text(daten.quelle || "Google") + "</p>";
+        }
+
+        liste.innerHTML = daten.stimmen.map(function (stimme, i) {
+          var sterne = Number(stimme.sterne) || 5;
+          return '<li class="review">' +
+            sterneSvg(sterne, "review-sterne", "sterne-" + i, note(sterne) + " von 5 Sternen") +
+            '<blockquote class="review-text">&bdquo;' + text(stimme.text) + "&ldquo;</blockquote>" +
+            '<p class="review-name">' + text(stimme.name) + "</p>" +
+            "</li>";
+        }).join("");
+
+        punkteAufbauen();
+      })
+      .catch(function () { /* HTML-Fassung bleibt stehen */ });
+  }
+
+  /* =========================================================================
+     8. Einblenden beim Scrollen
      ========================================================================= */
   function einblenden() {
     var teile = document.querySelectorAll(".reveal");
@@ -500,7 +610,7 @@
   }
 
   /* =========================================================================
-     8. Karte erst auf Klick laden (DSGVO)
+     9. Karte erst auf Klick laden (DSGVO)
      ========================================================================= */
   function karte() {
     var knopf = document.getElementById("map-load");
@@ -535,6 +645,7 @@
     preise();
     galerie();
     lightbox();
+    bewertungen();
     einblenden();
     karte();
   }

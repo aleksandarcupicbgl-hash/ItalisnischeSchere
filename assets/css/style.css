@@ -104,6 +104,19 @@ a { color: inherit; }
   line-height: 1.5;
 }
 
+/* Steht im Vorlesefluss, ist aber nicht zu sehen. */
+.nur-vorlesen {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
 /* Platzhalter, die noch gefüllt werden müssen. */
 .todo {
   border-bottom: 1px dashed var(--gold-leise);
@@ -118,6 +131,7 @@ a { color: inherit; }
 .prices,
 .gallery,
 .extra,
+.reviews,
 .visit,
 .site-footer,
 .legal-page,
@@ -709,6 +723,139 @@ section { padding-block: clamp(4rem, 11vw, 8.5rem); }
 }
 .extra-bild { margin: 0; overflow: hidden; border: 1px solid var(--linie); }
 .extra-bild img { width: 100%; height: auto; display: block; }
+
+/* ===========================================================================
+   BEWERTUNGEN
+   =========================================================================== */
+.reviews { background: var(--schwarz); }
+
+.rating { margin-bottom: clamp(2.5rem, 6vw, 3.5rem); }
+
+.rating-wert {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: clamp(3.25rem, 11vw, 5rem);
+  line-height: 1;
+  font-variant-numeric: lining-nums;
+  font-feature-settings: "lnum" 1;
+}
+.rating-max {
+  font-size: 0.32em;
+  letter-spacing: 0.02em;
+  color: var(--creme-still);
+}
+
+/* Sternenband: fünf Sterne à 24 Einheiten. Der gefüllte Satz liegt über dem
+   leeren und wird anteilig geklippt — so lässt sich jede Note darstellen. */
+.sterne {
+  display: block;
+  width: auto;
+  height: clamp(1.15rem, 4vw, 1.4rem);
+  margin: 0.9rem 0 0.8rem;
+}
+.sterne-leer { fill: var(--creme); opacity: 0.18; }
+.sterne-voll { fill: var(--gold); }
+
+.rating-quelle {
+  margin: 0;
+  font-family: var(--grotesk);
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  font-size: 0.625rem;
+  font-weight: 500;
+  color: var(--creme-still);
+}
+
+.reviews-grid {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: clamp(1rem, 2.5vw, 1.5rem);
+}
+@media (min-width: 768px) {
+  .reviews-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+.review {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  padding: clamp(1.5rem, 3.5vw, 2rem);
+  border: 1px solid var(--linie);
+  background: var(--anthrazit);
+}
+.review-sterne {
+  display: block;
+  width: auto;
+  height: 0.95rem;
+  flex: none;
+  align-self: flex-start;   /* bündig mit dem Zitat darunter */
+}
+.review-text {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: clamp(1.05rem, 2.4vw, 1.15rem);
+  line-height: 1.7;
+  color: var(--creme);
+  flex: 1 1 auto;
+}
+.review-name {
+  margin: 0;
+  padding-top: 0.9rem;
+  border-top: 1px solid var(--linie);
+  font-family: var(--grotesk);
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  font-size: 0.625rem;
+  font-weight: 500;
+  color: var(--gold);
+}
+
+/* Telefon: wischbarer Streifen statt Raster, dazu Punkte zur Orientierung. */
+.reviews-punkte { display: none; }
+
+@media (max-width: 767px) {
+  .reviews-grid {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    /* bis an den Bildschirmrand scrollen, Inhalt bleibt im Satzspiegel */
+    margin-inline: calc(var(--rand) * -1);
+    padding-inline: var(--rand);
+    scroll-padding-inline: var(--rand);
+  }
+  .reviews-grid::-webkit-scrollbar { display: none; }
+  .review {
+    flex: 0 0 min(82%, 20rem);
+    scroll-snap-align: start;
+  }
+  .reviews-punkte {
+    display: flex;
+    gap: 0.55rem;
+    justify-content: center;
+    margin-top: 1.5rem;
+  }
+}
+
+.reviews-punkt {
+  width: 7px;
+  height: 7px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--creme);
+  opacity: 0.22;
+  cursor: pointer;
+  transition: opacity 0.3s ease, background-color 0.3s ease;
+}
+.reviews-punkt[aria-current="true"] { background: var(--gold); opacity: 1; }
+
+.reviews-cta {
+  margin: clamp(2.25rem, 5vw, 3rem) 0 0;
+  text-align: center;
+}
 
 /* ===========================================================================
    ANFAHRT

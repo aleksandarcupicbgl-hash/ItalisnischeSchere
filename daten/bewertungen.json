@@ -1,0 +1,24 @@
+{
+  "_hinweis": "Bewertungen und Gesamtnote. Ändert sich die Note oder kommt eine Stimme dazu: hier eintragen. Die Seite liest diese Datei beim Aufruf; die gleiche Fassung steht zusätzlich im HTML (für Suchmaschinen und Besucher ohne JavaScript) — dort bitte mit ändern. Bewusst ohne Datumsangaben, damit nichts veraltet.",
+  "quelle": "Google",
+  "schnitt": 4.3,
+  "anzahl": 84,
+  "profil": "https://www.google.com/maps/search/?api=1&query=Barber+Italienische+Schere+Bad+Reichenhall",
+  "stimmen": [
+    {
+      "name": "Philip",
+      "sterne": 5,
+      "text": "Ohne Termin sofort drangekommen und sehr sauberer Haarschnitt inkl. Entfernen der Nackenhaare etc. in Perfektion. Es war mein erstes Mal, aber nun werde ich regelmäßig herkommen 👌 Weiter so und danke!"
+    },
+    {
+      "name": "Ken B.",
+      "sterne": 5,
+      "text": "Der Mann, der mir geholfen hat, war wirklich sehr detailverliebt in seiner Arbeit. […] Es ist einfach schön, wenn jemand eine Leidenschaft für seinen Job hat, und man merkt es ganz deutlich, wenn diese Person an den eigenen Haaren arbeitet."
+    },
+    {
+      "name": "Alexander M.",
+      "sterne": 5,
+      "text": "Ein sehr schöner Laden, bekommt ohne Termin einen Haarschnitt und der Friseur ist total freundlich ❤️"
+    }
+  ]
+}

@@ -13,6 +13,7 @@ impressum.html        Impressum   – Inhaber und Straße fehlen noch
 datenschutz.html      Datenschutz – beschreibt den gebauten Stand
 daten/preise.json     alle Preise an einer Stelle
 daten/galerie.json    Bilder der Sektion „Haarschnitte"
+daten/bewertungen.json Note, Anzahl und Zitate der Google-Bewertungen
 tools/preise-sync.js  schreibt die Preise aus der JSON ins HTML
 assets/css/style.css  gesamtes Aussehen (inkl. Bildausschnitte)
 assets/js/main.js     Intro, Slideshow, Live-Status, Galerie, Lightbox, Karte
@@ -93,6 +94,26 @@ Lightbox wachsen mit. Damit auch Suchmaschinen und Besucher ohne JavaScript
 die Bilder sehen, stehen dieselben drei Kacheln zusätzlich im HTML; kommen
 Fotos dazu, dort einmal nachziehen.
 
+## Bewertungen
+
+Note, Anzahl und Zitate stehen in **`daten/bewertungen.json`**. Ändert sich die
+Gesamtnote oder kommt eine Stimme dazu, reicht diese Datei — das Sternenband
+rechnet sich daraus (der letzte Stern wird anteilig gefüllt). Dieselbe Fassung
+steht zusätzlich im HTML, damit Suchmaschinen und Besucher ohne JavaScript sie
+sehen; dort bitte mit ändern.
+
+Drei Dinge sind bewusst so gebaut:
+
+- **Kein `AggregateRating` und kein `Review`** in den strukturierten Daten.
+  Bewertungen, die auf einer fremden Plattform liegen, dürfen laut Googles
+  Richtlinien nicht als eigenes Markup ausgezeichnet werden.
+- **Keine Datumsangaben.** „vor einer Woche" veraltet still vor sich hin.
+- **Kein Google-Logo.** Die Quelle wird nur als Text genannt.
+
+Auf dem Telefon werden die Karten zu einem wischbaren Streifen mit Punkten
+darunter; ohne JavaScript bleibt der Streifen normal scrollbar, nur die Punkte
+entfallen.
+
 ## Farben
 
 Die Seite hat zwei Register. **Intro und Hero** stehen dunkel auf den Fotos,
@@ -121,6 +142,8 @@ Rahmen bleibt das helle Gold.
 - **Live-Status** — „Jetzt geöffnet · bis 19:00" oder „Geschlossen · öffnet Mo
   09:00", gerechnet aus den Öffnungszeiten in deutscher Ortszeit, also auch für
   Besucher aus anderen Zeitzonen richtig.
+- **Bewertungen** — Sternenband aus der Note gerechnet, auf dem Telefon ein
+  wischbarer Streifen; der aktive Punkt wandert beim Wischen mit.
 - **Lightbox** — Haarschnitt antippen öffnet das Bild groß; Pfeiltasten
   blättern, Esc schließt, der Fokus kehrt zum angetippten Bild zurück. Jede
   Kachel ist ein Link auf das große Foto: ohne JavaScript öffnet der Browser
