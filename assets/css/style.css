@@ -1,9 +1,17 @@
 /* ===========================================================================
    Barber Italienische Schere
-   Schwarz/Anthrazit, Creme, Gold als Akzent. Mobile first.
+   Zwei Register: Intro und Hero stehen dunkel auf den Fotos, alles darunter
+   hell — weißer Grund, schwarze Schrift, Gold nur als Linie und Akzent.
+
+   Umgesetzt über Token-Überschreibung: Die hellen Abschnitte setzen dieselben
+   Variablen auf ihre hellen Werte um (siehe „Heller Teil" weiter unten).
+   Jede Regel im Dokument liest also einfach --creme, --linie, --gold … und
+   bekommt je nach Umgebung den passenden Wert.
+   Mobile first.
    =========================================================================== */
 
 :root {
+  /* Dunkles Register — Intro und Hero */
   --schwarz: #0d0d0f;
   --anthrazit: #141417;
   --anthrazit-hell: #1c1c21;
@@ -12,9 +20,24 @@
   --creme-still: rgba(242, 235, 221, 0.42);
   --gold: #b8945a;
   --gold-leise: rgba(184, 148, 90, 0.38);
+  --linie: rgba(242, 235, 221, 0.14);
+  --flagge-mitte: var(--creme);
+  --schleier: rgba(8, 8, 10, 0.97);
+
+  /* Helles Register — alles unter dem Hero */
+  --weiss: #ffffff;
+  --weiss-warm: #faf7f2;
+  --tinte: #14120f;
+  --tinte-leise: rgba(20, 18, 15, 0.74);
+  --tinte-still: rgba(20, 18, 15, 0.54);
+  --linie-hell: rgba(20, 18, 15, 0.13);
+  /* Gold als Text auf Weiß: dunkler gesetzt, sonst reicht der Kontrast nicht
+     (5,0:1 statt 2,8:1 beim hellen Gold). */
+  --gold-text: #8a6a2f;
+  --gold-rand: rgba(138, 106, 47, 0.32);
+
   --rot: #b3121b;
   --gruen: #1a7a3c;
-  --linie: rgba(242, 235, 221, 0.14);
 
   --serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
   --grotesk: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
@@ -28,15 +51,15 @@
 *::after { box-sizing: border-box; }
 
 html {
-  background: var(--schwarz);
+  background: var(--weiss);
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
 }
 
 body {
   margin: 0;
-  background: var(--schwarz);
-  color: var(--creme);
+  background: var(--weiss);
+  color: var(--tinte);
   font-family: var(--grotesk);
   font-size: 16px;
   line-height: 1.6;
@@ -85,6 +108,32 @@ a { color: inherit; }
 .todo {
   border-bottom: 1px dashed var(--gold-leise);
   color: var(--gold);
+}
+
+/* ===========================================================================
+   Heller Teil
+   Alles unterhalb des Heros. Dieselben Variablennamen, helle Werte — dadurch
+   kippen Karten, Linien, Knöpfe und Hover-Zustände geschlossen mit.
+   =========================================================================== */
+.prices,
+.gallery,
+.extra,
+.visit,
+.site-footer,
+.legal-page,
+.lightbox {
+  --schwarz: var(--weiss);
+  --anthrazit: var(--weiss-warm);
+  --anthrazit-hell: var(--weiss);
+  --creme: var(--tinte);
+  --creme-leise: var(--tinte-leise);
+  --creme-still: var(--tinte-still);
+  --linie: var(--linie-hell);
+  --gold: var(--gold-text);
+  --gold-leise: var(--gold-rand);
+  /* Die mittlere Bahn der Trikolore ist Weiß — auf weißem Grund also Papier. */
+  --flagge-mitte: #ffffff;
+  --schleier: rgba(255, 255, 255, 0.97);
 }
 
 /* ===========================================================================
@@ -144,6 +193,7 @@ a { color: inherit; }
    =========================================================================== */
 .hero {
   position: relative;
+  background: var(--schwarz);   /* trägt, solange das erste Foto lädt */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -261,8 +311,10 @@ a { color: inherit; }
   100% { box-shadow: 0 0 0 0 rgba(62, 160, 106, 0); }
 }
 
-.info-social { margin: 0; color: var(--creme-still); }
-.info-social a { text-decoration: none; }
+/* Facebook steht als einziger Eintrag ohne Beschriftung da — deshalb in
+   Gold wie die Beschriftungen darüber, damit man den Link auch sieht. */
+.info-social { margin: 0; }
+.info-social a { color: var(--gold); text-decoration: none; transition: color 0.3s ease; }
 .info-social a:hover { color: var(--creme); }
 .info-social span { margin-inline: 0.4rem; }
 
@@ -384,7 +436,7 @@ section { padding-block: clamp(4rem, 11vw, 8.5rem); }
   width: 3rem;
   height: 2px;
   background: linear-gradient(to right,
-    var(--gruen) 0 33.33%, var(--creme) 33.33% 66.66%, var(--rot) 66.66% 100%);
+    var(--gruen) 0 33.33%, var(--flagge-mitte) 33.33% 66.66%, var(--rot) 66.66% 100%);
 }
 
 .section-head h2 {
@@ -398,6 +450,15 @@ section { padding-block: clamp(4rem, 11vw, 8.5rem); }
 .section-head h2 em {
   font-style: italic;
   color: var(--gold);
+}
+
+.section-sub {
+  margin: 1.1rem 0 0;
+  max-width: 46ch;
+  font-family: var(--serif);
+  font-size: clamp(1.1rem, 2.6vw, 1.3rem);
+  line-height: 1.6;
+  color: var(--creme-leise);
 }
 
 /* Einblenden beim Scrollen */
@@ -428,7 +489,7 @@ section { padding-block: clamp(4rem, 11vw, 8.5rem); }
   align-items: baseline;
   gap: 0.5rem;
   padding-block: 0.7rem;
-  border-bottom: 1px solid rgba(242, 235, 221, 0.07);
+  border-bottom: 1px solid var(--linie);
 }
 .price-row:last-child { border-bottom: 0; }
 
@@ -442,7 +503,7 @@ section { padding-block: clamp(4rem, 11vw, 8.5rem); }
   flex: 1 1 auto;
   min-width: 1.5rem;
   height: 0;
-  border-bottom: 1px dotted rgba(242, 235, 221, 0.28);
+  border-bottom: 1px dotted var(--tinte-still);
   transform: translateY(-0.3em);
 }
 .price-value {
@@ -465,7 +526,7 @@ section { padding-block: clamp(4rem, 11vw, 8.5rem); }
   content: "";
   position: absolute;
   inset: 0.5rem;
-  border: 1px solid rgba(184, 148, 90, 0.16);
+  border: 1px solid var(--gold-leise);
   pointer-events: none;
 }
 .package-title {
@@ -577,7 +638,7 @@ section { padding-block: clamp(4rem, 11vw, 8.5rem); }
   align-items: center;
   gap: clamp(0.5rem, 2vw, 1.5rem);
   padding: clamp(1rem, 4vw, 3rem);
-  background: rgba(8, 8, 10, 0.97);
+  background: var(--schleier);
 }
 .lightbox[hidden] { display: none; }
 
@@ -597,7 +658,8 @@ section { padding-block: clamp(4rem, 11vw, 8.5rem); }
 
 .lightbox-nav,
 .lightbox-close {
-  border: 1px solid var(--linie);
+  /* Auf dem hellen Schleier trägt die feine Linie nicht — hier etwas kräftiger. */
+  border: 1px solid var(--tinte-still);
   background: none;
   color: var(--creme);
   cursor: pointer;
@@ -630,7 +692,7 @@ section { padding-block: clamp(4rem, 11vw, 8.5rem); }
 }
 
 /* ---------------------------------------------------------------------------
-   Nicht nur Haarschnitte
+   Massagesessel
    --------------------------------------------------------------------------- */
 .extra { background: var(--schwarz); }
 .extra-grid { display: grid; gap: clamp(2rem, 5vw, 4rem); align-items: center; }
@@ -645,7 +707,6 @@ section { padding-block: clamp(4rem, 11vw, 8.5rem); }
   color: var(--creme-leise);
   max-width: 40ch;
 }
-.extra-todo { margin: 1.25rem 0 0; font-size: 0.85rem; }
 .extra-bild { margin: 0; overflow: hidden; border: 1px solid var(--linie); }
 .extra-bild img { width: 100%; height: auto; display: block; }
 

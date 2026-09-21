@@ -31,16 +31,15 @@ markiert — man sieht im Browser sofort, was fehlt.
 | --- | --- |
 | **Straße bestätigen** | „Poststraße 12" stammt vom Preisplakat des Ladens. Steht im Hero-Infoblock, im Abschnitt „Anfahrt", im Impressum, in den strukturierten Daten (`index.html`, `<head>`) und in `assets/js/main.js` → `KARTEN_ADRESSE`. |
 | **Öffnungszeiten bestätigen** | dieselben Stellen; die Live-Anzeige rechnet mit `OEFFNUNGSZEITEN` in `assets/js/main.js` |
-| **Facebook-Link** | `index.html`, Hero-Infoblock **und** Footer |
 | **Inhaber fürs Impressum** | `impressum.html` — Name, E-Mail, USt-IdNr., Bildnachweise |
-| **Massagesessel** | `index.html`, Abschnitt „Nicht nur Haarschnitte": Beschreibung und eventueller Preis; Bild `bilder/massagesessel.jpg` |
+| **Massagesessel-Foto** | `bilder/massagesessel.jpg` — bis dahin steht dort ein markierter Platzhalter |
 | **Einverständnis für Fotos** | Auf `intro-4-kunde.jpg` sind zwei Personen klar erkennbar. Vor dem Livegang bitte bestätigen, dass beide mit der Veröffentlichung einverstanden sind. |
 | **Bildnachweise** | `impressum.html` — wer die Fotos gemacht hat |
 | **Hostinganbieter** | `datenschutz.html`, Abschnitt 3 |
 | **Domain** | `index.html`, `canonical` und `og:url` |
 
-Telefonnummer (0176 41874365) und Postleitzahl (83435) sind eingetragen.
-Instagram gibt es nicht und ist deshalb nirgends verlinkt.
+Telefonnummer (0176 41874365), Postleitzahl (83435) und der Facebook-Link
+sind eingetragen. Instagram gibt es nicht und ist deshalb nirgends verlinkt.
 
 ## Preise ändern
 
@@ -63,8 +62,8 @@ fehlt); beim Ersetzen der Datei verschwindet die Markierung von selbst.
 
 | Datei | Stand |
 | --- | --- |
-| `bilder/intro-1-fassade.jpg` | echtes Foto |
-| `bilder/intro-2-innenraum.jpg` | echtes Foto |
+| `bilder/intro-1-innenraum.jpg` | echtes Foto — erstes Bild der Slideshow |
+| `bilder/intro-2-fassade.jpg` | echtes Foto |
 | `bilder/intro-3-salon.jpg` | echtes Foto |
 | `bilder/intro-4-kunde.jpg` | echtes Foto — nur 900 px breit, auf großen Schirmen etwas weich. Falls es das Original größer gibt, lohnt der Austausch. |
 | `bilder/haarschnitt-1…3.jpg` | echte Fotos, in Farbe |
@@ -93,6 +92,23 @@ Kommt ein echtes Foto anstelle eines Platzhalters, dort den Wert nachziehen.
 Lightbox wachsen mit. Damit auch Suchmaschinen und Besucher ohne JavaScript
 die Bilder sehen, stehen dieselben drei Kacheln zusätzlich im HTML; kommen
 Fotos dazu, dort einmal nachziehen.
+
+## Farben
+
+Die Seite hat zwei Register. **Intro und Hero** stehen dunkel auf den Fotos,
+damit das weiße Logo trägt. **Alles darunter** ist hell: weißer Grund,
+schwarze Schrift, Gold nur als feine Linie und als Akzent.
+
+Technisch hängt das an einer Stelle: Die hellen Abschnitte (`.prices`,
+`.gallery`, `.extra`, `.visit`, `.site-footer`, `.legal-page`, `.lightbox`)
+setzen dieselben Variablen auf ihre hellen Werte um — siehe „Heller Teil" in
+`assets/css/style.css`. Jede Regel liest einfach `--creme`, `--linie`,
+`--gold` und bekommt je nach Umgebung den passenden Wert. Ein neuer heller
+Abschnitt braucht also nur seinen Namen in dieser Liste.
+
+Gold als **Text** auf Weiß ist eine dunklere Variante (`--gold-text`,
+Kontrast 5,0:1) — das helle Gold käme auf Weiß nur auf 2,8:1. Für Linien und
+Rahmen bleibt das helle Gold.
 
 ## Wie die Seite sich verhält
 

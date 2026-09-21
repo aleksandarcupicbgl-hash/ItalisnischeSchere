@@ -13,7 +13,7 @@
 <meta property="og:locale" content="de_DE">
 <meta property="og:title" content="Barber Italienische Schere – Herrenfriseur in Bad Reichenhall">
 <meta property="og:description" content="Haarschnitt, Bartpflege und klassische Rasur – ohne Termin. Einfach vorbeikommen.">
-<meta property="og:image" content="bilder/intro-1-fassade-1600.webp">
+<meta property="og:image" content="bilder/intro-1-innenraum-1600.webp">
 <meta property="og:url" content="https://example.de/">
 <meta name="twitter:card" content="summary_large_image">
 
@@ -37,8 +37,8 @@
 <link rel="icon" href="logo.svg" type="image/svg+xml">
 <link rel="stylesheet" href="assets/fonts/fonts.css">
 <link rel="stylesheet" href="assets/css/style.css">
-<link rel="preload" as="image" href="bilder/intro-1-fassade-1600.webp"
-      imagesrcset="bilder/intro-1-fassade-960.webp 960w, bilder/intro-1-fassade-1600.webp 1600w" fetchpriority="high">
+<link rel="preload" as="image" href="bilder/intro-1-innenraum-1600.webp"
+      imagesrcset="bilder/intro-1-innenraum-960.webp 960w, bilder/intro-1-innenraum-1600.webp 1600w" fetchpriority="high">
 
 <!-- TODO: Straße und Öffnungszeiten bestätigen — dieselben Angaben stehen im
      Infoblock des Heros, im Abschnitt „Anfahrt", im Impressum und in
@@ -49,9 +49,10 @@
   "@type": "HairSalon",
   "name": "Barber Italienische Schere",
   "description": "Herrenfriseur in Bad Reichenhall – Haarschnitt, Bartpflege und klassische Rasur ohne Termin.",
-  "image": "bilder/intro-1-fassade-1600.webp",
+  "image": "bilder/intro-1-innenraum-1600.webp",
   "priceRange": "5 € – 40 €",
   "telephone": "+4917641874365",
+  "sameAs": ["https://www.facebook.com/profile.php?id=100063785122869"],
   "address": {
     "@type": "PostalAddress",
     "streetAddress": "Poststraße 12",
@@ -86,15 +87,15 @@
   <!-- Bildausschnitte je Motiv: siehe „Bildausschnitte" in style.css.
        Kommt ein echtes Foto dazu, dort den Ausschnitt nachziehen. -->
   <div class="hero-media" aria-hidden="true">
-    <figure class="slide slide-fassade is-active">
-      <img src="bilder/intro-1-fassade-1600.webp"
-           srcset="bilder/intro-1-fassade-960.webp 960w, bilder/intro-1-fassade-1600.webp 1600w"
-           sizes="100vw" width="1454" height="1504" alt="" fetchpriority="high" decoding="async">
+    <figure class="slide slide-innenraum is-active">
+      <img src="bilder/intro-1-innenraum-1600.webp"
+           srcset="bilder/intro-1-innenraum-960.webp 960w, bilder/intro-1-innenraum-1600.webp 1600w"
+           sizes="100vw" width="1080" height="1918" alt="" fetchpriority="high" decoding="async">
     </figure>
-    <figure class="slide slide-innenraum">
-      <img data-src="bilder/intro-2-innenraum-1600.webp"
-           data-srcset="bilder/intro-2-innenraum-960.webp 960w, bilder/intro-2-innenraum-1600.webp 1600w"
-           sizes="100vw" width="1080" height="1918" alt="" decoding="async">
+    <figure class="slide slide-fassade">
+      <img data-src="bilder/intro-2-fassade-1600.webp"
+           data-srcset="bilder/intro-2-fassade-960.webp 960w, bilder/intro-2-fassade-1600.webp 1600w"
+           sizes="100vw" width="1454" height="1504" alt="" decoding="async">
     </figure>
     <figure class="slide slide-salon">
       <img data-src="bilder/intro-3-salon-1600.webp"
@@ -137,8 +138,7 @@
     </dl>
 
     <p class="info-social">
-      <!-- TODO: echten Facebook-Link eintragen (auch im Footer). -->
-      <a href="#" class="todo" rel="noopener">Facebook</a>
+      <a href="https://www.facebook.com/profile.php?id=100063785122869" target="_blank" rel="noopener noreferrer">Facebook</a>
     </p>
   </div>
 
@@ -371,7 +371,11 @@
   <div class="wrap">
     <header class="section-head reveal">
       <p class="eyebrow">Haarschnitte</p>
-      <h2>Aus unserem <em>Stuhl</em></h2>
+      <h2>Echte Schnitte. <em>Echte Kunden.</em></h2>
+      <p class="section-sub">
+        Ein kleiner Einblick in unsere Arbeit &ndash; mit Schere, Maschine und
+        viel Liebe zum Detail.
+      </p>
     </header>
 
     <!-- Wird beim Laden aus daten/galerie.json erzeugt. Die Fassung hier ist
@@ -410,16 +414,11 @@
     <div class="reveal">
       <header class="section-head">
         <p class="eyebrow">Im Salon</p>
-        <h2>Nicht nur <em>Haarschnitte</em></h2>
+        <h2>Warten war noch nie so <em>entspannt.</em></h2>
       </header>
       <p class="extra-text">
-        Bei uns steht ein Massagesessel &ndash; für die Wartezeit oder einfach
-        zwischendurch.
-      </p>
-      <!-- TODO: Beschreibung ergänzen (wie lange, für wen, ob im Preis
-           enthalten) und, falls es einen Preis gibt, hier nennen. -->
-      <p class="extra-todo">
-        <span class="todo">[BESCHREIBUNG UND EVENTUELLER PREIS]</span>
+        Während du auf deinen Schnitt wartest, lehn dich in unserem
+        Massagesessel zurück &ndash; natürlich kostenlos.
       </p>
     </div>
 
@@ -453,6 +452,9 @@
 
         <dt>Telefon</dt>
         <dd><a href="tel:+4917641874365">0176 41874365</a></dd>
+
+        <dt>Facebook</dt>
+        <dd><a href="https://www.facebook.com/profile.php?id=100063785122869" target="_blank" rel="noopener noreferrer">Italienische Schere</a></dd>
 
         <dt>Öffnungszeiten</dt>
         <dd>
@@ -500,8 +502,7 @@
       <a href="#preise">Preise</a>
       <a href="#haarschnitte">Haarschnitte</a>
       <a href="#anfahrt">Anfahrt</a>
-      <!-- TODO: echten Facebook-Link eintragen. -->
-      <a href="#" class="todo" rel="noopener">Facebook</a>
+      <a href="https://www.facebook.com/profile.php?id=100063785122869" target="_blank" rel="noopener noreferrer">Facebook</a>
       <a href="impressum.html">Impressum</a>
       <a href="datenschutz.html">Datenschutz</a>
     </nav>
