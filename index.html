@@ -1,0 +1,459 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Barber Italienische Schere – Herrenfriseur in Bad Reichenhall</title>
+<meta name="description" content="Herrenfriseur in Bad Reichenhall: Haarschnitt, Bartpflege und klassische Rasur – ohne Termin. Einfach vorbeikommen. Komplettpaket für 40 €.">
+<meta name="theme-color" content="#0d0d0f">
+<link rel="canonical" href="https://example.de/">
+<!-- TODO: Domain in canonical und og:url eintragen, sobald sie feststeht. -->
+
+<meta property="og:type" content="website">
+<meta property="og:locale" content="de_DE">
+<meta property="og:title" content="Barber Italienische Schere – Herrenfriseur in Bad Reichenhall">
+<meta property="og:description" content="Haarschnitt, Bartpflege und klassische Rasur – ohne Termin. Einfach vorbeikommen.">
+<meta property="og:image" content="bilder/fassade-1600.webp">
+<meta property="og:url" content="https://example.de/">
+<meta name="twitter:card" content="summary_large_image">
+
+<script>
+/* Laeuft vor dem ersten Bildaufbau: markiert, dass JavaScript da ist, und
+   entscheidet, ob das Intro laeuft. Ohne JavaScript gibt es kein Intro und
+   alle Inhalte stehen sofort sichtbar im HTML. */
+(function () {
+  var d = document.documentElement;
+  d.classList.add("js");
+  try {
+    var leise = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!leise && !sessionStorage.getItem("intro-gesehen")) {
+      d.classList.add("intro-an");
+      sessionStorage.setItem("intro-gesehen", "1");
+    }
+  } catch (e) { /* privater Modus: dann eben ohne Intro */ }
+})();
+</script>
+
+<link rel="icon" href="logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/fonts/fonts.css">
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="preload" as="image" href="bilder/fassade-1600.webp" imagesrcset="bilder/fassade-960.webp 960w, bilder/fassade-1600.webp 1600w" fetchpriority="high">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HairSalon",
+  "name": "Barber Italienische Schere",
+  "description": "Herrenfriseur in Bad Reichenhall – Haarschnitt, Bartpflege und klassische Rasur ohne Termin.",
+  "image": "bilder/fassade-1600.webp",
+  "priceRange": "€",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Poststraße 12",
+    "postalCode": "83404",
+    "addressLocality": "Bad Reichenhall",
+    "addressRegion": "Bayern",
+    "addressCountry": "DE"
+  },
+  "openingHoursSpecification": [
+    { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"], "opens": "09:00", "closes": "19:00" },
+    { "@type": "OpeningHoursSpecification", "dayOfWeek": "Saturday", "opens": "09:00", "closes": "16:00" }
+  ]
+}
+</script>
+</head>
+
+<body>
+
+<!-- ===================================================================
+     INTRO — nur beim ersten Besuch pro Sitzung, per Klick überspringbar
+     =================================================================== -->
+<div id="intro">
+  <p class="intro-slogan">Italienisches Handwerk. Ohne Termin.</p>
+  <button type="button" class="intro-skip" id="intro-skip">Überspringen</button>
+</div>
+
+<!-- ===================================================================
+     HERO
+     =================================================================== -->
+<header class="hero" id="hero">
+
+  <div class="hero-media" aria-hidden="true">
+    <!-- Erstes Bild wird priorisiert geladen, die übrigen lazy. -->
+    <figure class="slide is-active">
+      <img src="bilder/fassade-1600.webp" srcset="bilder/fassade-960.webp 960w, bilder/fassade-1600.webp 1600w"
+           sizes="100vw" width="1454" height="1504" alt="" fetchpriority="high" decoding="async">
+    </figure>
+    <figure class="slide">
+      <img data-src="bilder/innenraum-1600.webp" data-srcset="bilder/innenraum-960.webp 960w, bilder/innenraum-1600.webp 1600w"
+           sizes="100vw" width="1080" height="1918" alt="" decoding="async">
+    </figure>
+    <figure class="slide">
+      <img data-src="bilder/schere-1600.webp" data-srcset="bilder/schere-960.webp 960w, bilder/schere-1600.webp 1600w"
+           sizes="100vw" width="1600" height="900" alt="" decoding="async">
+    </figure>
+    <figure class="slide">
+      <img data-src="bilder/rasur-1600.webp" data-srcset="bilder/rasur-960.webp 960w, bilder/rasur-1600.webp 1600w"
+           sizes="100vw" width="1600" height="900" alt="" decoding="async">
+    </figure>
+  </div>
+  <div class="hero-scrim" aria-hidden="true"></div>
+
+  <!-- Infoblock oben links -->
+  <div class="hero-info">
+    <dl class="info-block">
+      <dt>Öffnungszeiten</dt>
+      <!-- TODO: Zeiten bestätigen. Übernommen vom Preisplakat des Ladens.
+           Die Live-Anzeige rechnet mit den Werten in assets/js/main.js (OEFFNUNGSZEITEN). -->
+      <dd>Mo&ndash;Fr&nbsp;&nbsp;09:00&ndash;19:00</dd>
+      <dd>Sa&nbsp;&nbsp;09:00&ndash;16:00</dd>
+      <dd>So&nbsp;&nbsp;geschlossen</dd>
+    </dl>
+
+    <p class="status" id="status" data-state="unknown">
+      <span class="status-dot" aria-hidden="true"></span>
+      <span class="status-text">&nbsp;</span>
+    </p>
+
+    <dl class="info-block">
+      <dt>Adresse</dt>
+      <!-- TODO: Adresse bestätigen (vom Plakat). Achtung: 83404 gehört nicht zu
+           Bad Reichenhall (dort gilt 83435) — bitte prüfen. -->
+      <dd><a href="https://www.openstreetmap.org/search?query=Poststra%C3%9Fe%2012%2C%20Bad%20Reichenhall" target="_blank" rel="noopener">Poststraße 12<br>83404 Bad Reichenhall</a></dd>
+    </dl>
+
+    <dl class="info-block">
+      <dt>Telefon</dt>
+      <!-- TODO: echte Rufnummer eintragen — auch im tel:-Link und im Footer. -->
+      <dd><a href="tel:+49000000000" class="todo">[TELEFONNUMMER]</a></dd>
+    </dl>
+
+    <p class="info-social">
+      <!-- TODO: echte Profil-Links eintragen. -->
+      <a href="#" class="todo" rel="noopener">Instagram</a>
+      <span aria-hidden="true">·</span>
+      <a href="#" class="todo" rel="noopener">Facebook</a>
+    </p>
+  </div>
+
+  <!-- Logo + Knopf -->
+  <div class="hero-center">
+    <div class="hero-logo" id="hero-logo">
+      <svg xmlns="http://www.w3.org/2000/svg" id="logo-mark"
+           viewBox="0 0 640 400"
+           role="img" aria-labelledby="logo-title logo-desc" class="logo-svg">
+
+        <title id="logo-title">Barber Italienische Schere</title>
+        <desc id="logo-desc">Wortmarke „Barber Italienische Schere“: rechteckiger Rahmen, waagerechte Schnittlinie und eine Schere, deren Klingen auf der Schnittlinie schliessen.</desc>
+
+        <style>
+          #logo-mark{
+            --ink:#F2EBDD;
+            --paper:rgba(13,13,15,.55);
+            --accent:#B8945A;
+          }
+          #logo-mark .draw{
+            fill:none;
+            stroke:var(--ink);
+            stroke-linecap:round;
+            stroke-linejoin:round;
+          }
+          #logo-mark .blade{
+            fill:var(--ink);
+            fill-opacity:.07;
+            stroke:var(--ink);
+            stroke-width:3.2;
+            stroke-linejoin:miter;
+            stroke-miterlimit:12;
+          }
+          #logo-mark .limb{
+            fill:none;
+            stroke:var(--ink);
+            stroke-width:3.2;
+            stroke-linecap:round;
+            stroke-linejoin:round;
+          }
+          #logo-mark .accent{stroke:var(--accent)}
+          #logo-mark text{
+            fill:var(--ink);
+            font-family:"Cormorant Garamond","Cormorant",Didot,"Bodoni MT",Garamond,"Times New Roman",serif;
+            font-weight:500;
+            text-anchor:middle;
+          }
+          /* Drehpunkt der beiden Scherenhaelften */
+          #logo-mark #blade-top,
+          #logo-mark #blade-bottom{
+            transform-box:view-box;
+            transform-origin:430px 161px;
+          }
+        </style>
+
+        <!-- ===================== RAHMEN ===================== -->
+        <g id="logo-frame">
+          <path id="frame-outer" class="draw" pathLength="100" stroke-width="2.4"
+                d="M 30,30 H 610 V 370 H 30 Z"/>
+          <path id="frame-inner" class="draw accent" pathLength="100" stroke-width="1.1" opacity=".6"
+                d="M 42,42 H 598 V 358 H 42 Z"/>
+          <path id="frame-rule" class="draw accent" pathLength="100" stroke-width="1.8"
+                d="M 78,161 H 328"/>
+        </g>
+
+        <!-- ===================== SCHRIFTZUG ===================== -->
+        <g id="logo-wordmark">
+          <text id="wordmark-eyebrow" x="325.5" y="76"
+                font-size="17" letter-spacing="11" fill="var(--accent)">BARBER</text>
+          <text id="wordmark-line-1" x="326.5" y="258"
+                font-size="25" letter-spacing="13">ITALIENISCHE</text>
+          <text id="wordmark-line-2" x="327" y="330"
+                font-size="74" letter-spacing="14">SCHERE</text>
+        </g>
+
+        <!-- ===================== SCHERE ===================== -->
+        <g id="logo-scissors">
+
+          <!-- untere Haelfte: Klinge unten, Griffring oben -->
+          <g id="blade-bottom">
+            <path id="blade-bottom-body" class="blade"
+                  d="M 428,164.5 L 572,164.5 C 546,170 518,173.5 484,175.5 C 468,176.4 452,176.6 442,176 C 435,175.4 428,171.5 428,164.5 Z"/>
+            <path id="blade-bottom-limb" class="limb"
+                  d="M 431,158.5 C 422,152 412,148 400,145 C 388,142 375,140 366,138"/>
+            <circle id="blade-bottom-ring" class="limb" cx="354" cy="135" r="14"/>
+          </g>
+
+          <!-- obere Haelfte: Klinge oben, Griffring unten -->
+          <g id="blade-top">
+            <path id="blade-top-body" class="blade"
+                  d="M 428,157.5 L 572,157.5 C 546,152 518,148.5 484,146.5 C 468,145.6 452,145.4 442,146 C 435,146.6 428,150.5 428,157.5 Z"/>
+            <path id="blade-top-limb" class="limb"
+                  d="M 431,163.5 C 422,170 412,174 400,177 C 388,180 375,182 366,184"/>
+            <circle id="blade-top-ring" class="limb" cx="354" cy="187" r="14"/>
+          </g>
+
+          <!-- Schraube = Drehpunkt -->
+          <g id="scissors-screw">
+            <circle class="limb accent" cx="430" cy="161" r="5" stroke-width="2.2" fill="var(--paper)"/>
+            <circle cx="430" cy="161" r="1.6" fill="var(--accent)"/>
+          </g>
+
+        </g>
+      </svg>
+    </div>
+    <a class="btn-outline" href="#preise" id="btn-preise">Preise</a>
+  </div>
+
+  <!-- Fußzeile des Heros -->
+  <p class="hero-slogan">Italienisches Handwerk. Ohne Termin.</p>
+  <a class="hero-scroll" href="#preise" aria-label="Weiter zu den Preisen">
+    <span class="hero-scroll-line" aria-hidden="true"></span>
+    <span class="hero-scroll-text">Scrollen</span>
+  </a>
+  <nav class="hero-legal" aria-label="Rechtliches">
+    <a href="impressum.html">Impressum</a>
+    <span aria-hidden="true">·</span>
+    <a href="datenschutz.html">Datenschutz</a>
+  </nav>
+</header>
+
+<main>
+
+<!-- ===================================================================
+     PREISE
+     =================================================================== -->
+<section class="prices" id="preise">
+  <div class="wrap">
+    <header class="section-head reveal">
+      <p class="eyebrow">Preise</p>
+      <h2>Handwerk hat seinen Preis.<br><em>Diesen hier.</em></h2>
+    </header>
+
+    <div class="prices-grid reveal">
+      <!-- PREISE:START — erzeugt aus daten/preise.json (node tools/preise-sync.js). Nicht von Hand ändern. -->
+      <ul class="price-list">
+        <li class="price-row">
+          <span class="price-name">Buzz Cut (Maschine)</span>
+          <span class="price-dots" aria-hidden="true"></span>
+          <span class="price-value">22 €</span>
+        </li>
+        <li class="price-row">
+          <span class="price-name">Haarschnitt (Schere)</span>
+          <span class="price-dots" aria-hidden="true"></span>
+          <span class="price-value">20 €</span>
+        </li>
+        <li class="price-row">
+          <span class="price-name">Haarschnitt (Maschine)</span>
+          <span class="price-dots" aria-hidden="true"></span>
+          <span class="price-value">10 €</span>
+        </li>
+        <li class="price-row">
+          <span class="price-name">Waschen &amp; Föhnen</span>
+          <span class="price-dots" aria-hidden="true"></span>
+          <span class="price-value">10 €</span>
+        </li>
+        <li class="price-row">
+          <span class="price-name">Bart kürzen</span>
+          <span class="price-dots" aria-hidden="true"></span>
+          <span class="price-value">10 €</span>
+        </li>
+        <li class="price-row">
+          <span class="price-name">Bart modellieren</span>
+          <span class="price-dots" aria-hidden="true"></span>
+          <span class="price-value">12 €</span>
+        </li>
+        <li class="price-row">
+          <span class="price-name">Bart komplett rasieren</span>
+          <span class="price-dots" aria-hidden="true"></span>
+          <span class="price-value">12 €</span>
+        </li>
+        <li class="price-row">
+          <span class="price-name">Heißwachs (Gesicht)</span>
+          <span class="price-dots" aria-hidden="true"></span>
+          <span class="price-value">10 €</span>
+        </li>
+        <li class="price-row">
+          <span class="price-name">Ohren wachsen</span>
+          <span class="price-dots" aria-hidden="true"></span>
+          <span class="price-value">5 €</span>
+        </li>
+        <li class="price-row">
+          <span class="price-name">Nase wachsen</span>
+          <span class="price-dots" aria-hidden="true"></span>
+          <span class="price-value">5 €</span>
+        </li>
+        <li class="price-row">
+          <span class="price-name">Augenbrauen zupfen</span>
+          <span class="price-dots" aria-hidden="true"></span>
+          <span class="price-value">5 €</span>
+        </li>
+        <li class="price-row">
+          <span class="price-name">Gesichtshaare entfernen</span>
+          <span class="price-dots" aria-hidden="true"></span>
+          <span class="price-value">10 €</span>
+        </li>
+        <li class="price-row">
+          <span class="price-name">Kinder bis 12 Jahre</span>
+          <span class="price-dots" aria-hidden="true"></span>
+          <span class="price-value">15 €</span>
+        </li>
+      </ul>
+
+      <aside class="package">
+        <h3 class="package-title">Komplettpaket</h3>
+        <strong class="package-price">40 €</strong>
+        <ul class="package-list">
+          <li>Haarschnitt (Schere) oder Buzz Cut (Maschine)</li>
+          <li>Waschen &amp; Föhnen</li>
+          <li>Bart modellieren</li>
+          <li>Heißwachs (Gesicht)</li>
+          <li>Ohren wachsen</li>
+          <li>Nase wachsen</li>
+        </ul>
+        <p class="package-hint">Ohne Termin &ndash; einfach vorbeikommen.</p>
+      </aside>
+      <!-- PREISE:END -->
+    </div>
+
+    <p class="prices-note">
+      Alle Preise in Euro, inkl. MwSt. Kein Termin nötig &ndash; einfach vorbeikommen.
+    </p>
+  </div>
+</section>
+
+<!-- ===================================================================
+     GALERIE — Raster steht, Bilder folgen
+     =================================================================== -->
+<section class="gallery" id="galerie">
+  <div class="wrap">
+    <header class="section-head reveal">
+      <p class="eyebrow">Galerie</p>
+      <h2>Aus dem <em>Salon</em></h2>
+    </header>
+
+    <!-- TODO: Platzhalter durch echte Fotos ersetzen —
+         <img src="bilder/galerie-1.webp" alt="..." loading="lazy" width="800" height="800">
+         Das Raster bleibt unverändert. -->
+    <ul class="gallery-grid reveal">
+      <li class="gallery-item"><span class="gallery-ph">Foto 1</span></li>
+      <li class="gallery-item"><span class="gallery-ph">Foto 2</span></li>
+      <li class="gallery-item"><span class="gallery-ph">Foto 3</span></li>
+      <li class="gallery-item"><span class="gallery-ph">Foto 4</span></li>
+      <li class="gallery-item"><span class="gallery-ph">Foto 5</span></li>
+      <li class="gallery-item"><span class="gallery-ph">Foto 6</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===================================================================
+     ÖFFNUNGSZEITEN & ANFAHRT
+     =================================================================== -->
+<section class="visit" id="anfahrt">
+  <div class="wrap visit-grid">
+    <div>
+      <header class="section-head reveal">
+        <p class="eyebrow">Anfahrt</p>
+        <h2>Komm <em>vorbei</em></h2>
+      </header>
+
+      <dl class="visit-block reveal">
+        <dt>Adresse</dt>
+        <dd>Poststraße 12<br>83404 Bad Reichenhall</dd>
+
+        <dt>Telefon</dt>
+        <dd><a href="tel:+49000000000" class="todo">[TELEFONNUMMER]</a></dd>
+
+        <dt>Öffnungszeiten</dt>
+        <dd>
+          <table class="hours">
+            <tbody>
+              <tr><th scope="row">Montag &ndash; Freitag</th><td>09:00 &ndash; 19:00</td></tr>
+              <tr><th scope="row">Samstag</th><td>09:00 &ndash; 16:00</td></tr>
+              <tr><th scope="row">Sonntag</th><td>geschlossen</td></tr>
+            </tbody>
+          </table>
+        </dd>
+      </dl>
+
+      <p class="visit-note">Ohne Termin &ndash; einfach vorbeikommen.</p>
+    </div>
+
+    <!-- Karte lädt erst auf Klick: vorher geht keine Anfrage an Google. -->
+    <figure class="map reveal" id="map">
+      <div class="map-consent" id="map-consent">
+        <p class="map-title">Karte von Google Maps</p>
+        <p class="map-text">
+          Wenn du die Karte lädst, stellt dein Browser eine Verbindung zu Google
+          her und übermittelt dabei deine IP-Adresse. Mehr dazu in der
+          <a href="datenschutz.html">Datenschutzerklärung</a>.
+        </p>
+        <button type="button" class="btn-outline btn-small" id="map-load">Karte laden</button>
+        <p class="map-alt">
+          <a href="https://www.openstreetmap.org/search?query=Poststra%C3%9Fe%2012%2C%20Bad%20Reichenhall" target="_blank" rel="noopener">
+            Oder in OpenStreetMap öffnen
+          </a>
+        </p>
+      </div>
+    </figure>
+  </div>
+</section>
+
+</main>
+
+<!-- ===================================================================
+     FOOTER
+     =================================================================== -->
+<footer class="site-footer">
+  <div class="wrap footer-grid">
+    <p class="footer-name">Barber Italienische Schere<br><span>Herrenfriseur · Bad Reichenhall</span></p>
+    <nav class="footer-nav" aria-label="Seiten">
+      <a href="#preise">Preise</a>
+      <a href="#galerie">Galerie</a>
+      <a href="#anfahrt">Anfahrt</a>
+      <a href="impressum.html">Impressum</a>
+      <a href="datenschutz.html">Datenschutz</a>
+    </nav>
+    <p class="footer-copy">© <span id="jahr">2026</span> Barber Italienische Schere</p>
+  </div>
+</footer>
+
+<script src="assets/js/main.js" defer></script>
+</body>
+</html>

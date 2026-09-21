@@ -91,7 +91,7 @@
   <!-- ===================== SCHRIFTZUG ===================== -->
   <g id="logo-wordmark">
     <text id="wordmark-eyebrow" x="325.5" y="76"
-          font-size="17" letter-spacing="11" fill="var(--accent)">COIFFEUR</text>
+          font-size="17" letter-spacing="11" fill="var(--accent)">BARBER</text>
     <text id="wordmark-line-1" x="326.5" y="258"
           font-size="25" letter-spacing="13">ITALIENISCHE</text>
     <text id="wordmark-line-2" x="327" y="330"

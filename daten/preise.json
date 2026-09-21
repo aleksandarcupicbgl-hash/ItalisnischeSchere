@@ -1,0 +1,31 @@
+{
+  "_hinweis": "Einzige Quelle für alle Preise. Nach dem Ändern: node tools/preise-sync.js ausführen, damit auch das HTML aktuell ist (für Suchmaschinen und Besucher ohne JavaScript).",
+  "waehrung": "€",
+  "leistungen": [
+    { "name": "Buzz Cut (Maschine)", "preis": 22 },
+    { "name": "Haarschnitt (Schere)", "preis": 20 },
+    { "name": "Haarschnitt (Maschine)", "preis": 10 },
+    { "name": "Waschen & Föhnen", "preis": 10 },
+    { "name": "Bart kürzen", "preis": 10 },
+    { "name": "Bart modellieren", "preis": 12 },
+    { "name": "Bart komplett rasieren", "preis": 12 },
+    { "name": "Heißwachs (Gesicht)", "preis": 10 },
+    { "name": "Ohren wachsen", "preis": 5 },
+    { "name": "Nase wachsen", "preis": 5 },
+    { "name": "Augenbrauen zupfen", "preis": 5 },
+    { "name": "Gesichtshaare entfernen", "preis": 10 },
+    { "name": "Kinder bis 12 Jahre", "preis": 15 }
+  ],
+  "komplettpaket": {
+    "titel": "Komplettpaket",
+    "preis": 40,
+    "enthalten": [
+      "Haarschnitt (Schere) oder Buzz Cut (Maschine)",
+      "Waschen & Föhnen",
+      "Bart modellieren",
+      "Heißwachs (Gesicht)",
+      "Ohren wachsen",
+      "Nase wachsen"
+    ]
+  }
+}
