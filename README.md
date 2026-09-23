@@ -33,7 +33,6 @@ markiert — man sieht im Browser sofort, was fehlt.
 | **Straße bestätigen** | „Poststraße 12" stammt vom Preisplakat des Ladens. Steht im Hero-Infoblock, im Abschnitt „Anfahrt", im Impressum, in den strukturierten Daten (`index.html`, `<head>`) und in `assets/js/main.js` → `KARTEN_ADRESSE`. |
 | **Öffnungszeiten bestätigen** | dieselben Stellen; die Live-Anzeige rechnet mit `OEFFNUNGSZEITEN` in `assets/js/main.js` |
 | **Inhaber fürs Impressum** | `impressum.html` — Name, E-Mail, USt-IdNr., Bildnachweise |
-| **Massagesessel-Foto** | `bilder/massagesessel.jpg` — bis dahin steht dort ein markierter Platzhalter |
 | **Einverständnis für Fotos** | Auf `intro-4-kunde.jpg` sind zwei Personen klar erkennbar. Vor dem Livegang bitte bestätigen, dass beide mit der Veröffentlichung einverstanden sind. |
 | **Bildnachweise** | `impressum.html` — wer die Fotos gemacht hat |
 | **Hostinganbieter** | `datenschutz.html`, Abschnitt 3 |
@@ -57,9 +56,8 @@ steht dieselbe Liste zusätzlich im HTML. Der Befehl oben hält beide gleich.
 ## Bilder
 
 Im Hero laufen vier Bilder als Slideshow, in der Sektion „Haarschnitte" liegen
-drei Fotos in Farbe. Alle sind echt. Offen ist nur noch der Massagesessel —
-dort steht ein **Platzhalter** (dunkle Kachel, auf der steht, welche Datei
-fehlt); beim Ersetzen der Datei verschwindet die Markierung von selbst.
+drei Fotos in Farbe, dazu das Foto der Massagesessel. Alle sind echt — es
+steht kein Platzhalter mehr auf der Seite.
 
 | Datei | Stand |
 | --- | --- |
@@ -68,7 +66,7 @@ fehlt); beim Ersetzen der Datei verschwindet die Markierung von selbst.
 | `bilder/intro-3-salon.jpg` | echtes Foto |
 | `bilder/intro-4-kunde.jpg` | echtes Foto — nur 900 px breit, auf großen Schirmen etwas weich. Falls es das Original größer gibt, lohnt der Austausch. |
 | `bilder/haarschnitt-1…3.jpg` | echte Fotos, in Farbe |
-| `bilder/massagesessel.jpg` | **Platzhalter** |
+| `bilder/massagesessel.jpg` | echtes Foto — auf 16:10 beschnitten, damit weniger Boden im Bild ist |
 
 **Neues Foto einsetzen** — JPG nach `bilder/` legen (gleicher Dateiname), dann
 die ausgelieferten WebP-Fassungen erzeugen:
