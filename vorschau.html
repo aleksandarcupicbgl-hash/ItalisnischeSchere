@@ -1,0 +1,675 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vorschau – Barber Italienische Schere</title>
+<meta name="robots" content="noindex, nofollow">
+
+<!-- =====================================================================
+     VORSCHAU — Werkzeug zum Durchklicken, gehört NICHT zur Website.
+     Vor dem Hochladen kann diese Datei gelöscht werden; sie wird von
+     keiner anderen Seite verlinkt.
+
+     Am besten über einen lokalen Server öffnen, dann funktioniert alles:
+         npx http-server -p 3200 -s
+         http://localhost:3200/vorschau.html
+     Per Doppelklick (file://) klappt das Durchklicken auch, nur
+     „Intro neu starten" bleibt dann gesperrt — der Browser lässt
+     Skripte nicht in den Rahmen hineingreifen.
+     ===================================================================== -->
+
+<link rel="icon" href="logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/fonts/fonts.css">
+
+<style>
+:root {
+  --schwarz: #0d0d0f;
+  --anthrazit: #141417;
+  --anthrazit-hell: #1c1c21;
+  --creme: #f2ebdd;
+  --creme-leise: rgba(242, 235, 221, 0.66);
+  --creme-still: rgba(242, 235, 221, 0.4);
+  --gold: #b8945a;
+  --gold-leise: rgba(184, 148, 90, 0.36);
+  --linie: rgba(242, 235, 221, 0.14);
+  --serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  --grotesk: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --weich: cubic-bezier(0.16, 1, 0.3, 1);
+  --leiste: 264px;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  display: grid;
+  grid-template-columns: var(--leiste) 1fr;
+  background: var(--schwarz);
+  color: var(--creme);
+  font-family: var(--grotesk);
+  font-size: 15px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---------------------------------------------------------------- Leiste */
+
+.leiste {
+  display: flex;
+  flex-direction: column;
+  gap: 1.3rem;
+  overflow-y: auto;
+  padding: 1.5rem 1.4rem 2rem;
+  border-right: 1px solid var(--linie);
+  background: var(--anthrazit);
+}
+
+.marke {
+  display: block;
+  padding-bottom: 1.2rem;
+  border-bottom: 1px solid var(--linie);
+  color: inherit;
+  text-decoration: none;
+}
+
+.marke b {
+  display: block;
+  font-family: var(--serif);
+  font-size: 1.5rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  line-height: 1.15;
+}
+
+.marke span {
+  display: block;
+  margin-top: 0.4rem;
+  color: var(--creme-still);
+  font-size: 0.7rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.gruppe > h2 {
+  margin: 0 0 0.55rem;
+  color: var(--creme-still);
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.stapel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.reihe {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+}
+
+/* ----------------------------------------------------------- Schaltflächen */
+
+button {
+  margin: 0;
+  border: 1px solid var(--linie);
+  border-radius: 2px;
+  padding: 0.45rem 0.7rem;
+  background: none;
+  color: var(--creme-leise);
+  font: inherit;
+  font-size: 0.82rem;
+  text-align: left;
+  cursor: pointer;
+  transition: color 0.25s var(--weich), border-color 0.25s var(--weich),
+              background-color 0.25s var(--weich);
+}
+
+button:hover:not(:disabled) {
+  border-color: var(--gold-leise);
+  color: var(--creme);
+}
+
+button[aria-pressed="true"],
+button[aria-current="page"] {
+  border-color: var(--gold-leise);
+  background: var(--anthrazit-hell);
+  color: var(--gold);
+}
+
+button:disabled {
+  color: rgba(242, 235, 221, 0.22);
+  cursor: not-allowed;
+}
+
+button:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+.reihe button { flex: 1 1 auto; text-align: center; }
+
+/* Geräte als Raster: vier kurze Beschriftungen brauchen keine vier Zeilen. */
+.raster {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.3rem;
+}
+.raster button { text-align: center; }
+
+/* Beschriftung links, Zusatz rechts */
+.paar { display: flex; align-items: baseline; justify-content: space-between; gap: 0.6rem; }
+.paar em { color: var(--creme-still); font-size: 0.68rem; font-style: normal; }
+.paar[aria-current="page"] em,
+.paar[aria-pressed="true"] em { color: var(--gold-leise); }
+
+.sprungmarken button { font-size: 0.8rem; padding: 0.4rem 0.75rem; }
+.sprungmarken[hidden] { display: none; }
+
+.hinweis {
+  margin: 0;
+  color: var(--creme-still);
+  font-size: 0.72rem;
+  line-height: 1.5;
+}
+
+.hinweis a { color: var(--gold); }
+
+.fuss {
+  margin-top: auto;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--linie);
+}
+
+/* ---------------------------------------------------------------- Bühne */
+
+.buehne {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.kopf {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.85rem 1.5rem;
+  border-bottom: 1px solid var(--linie);
+  background: var(--anthrazit);
+}
+
+.adresse {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--linie);
+  border-radius: 2px;
+  padding: 0.35rem 0.75rem;
+  color: var(--creme-still);
+  font-size: 0.78rem;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.masse {
+  flex: 0 0 auto;
+  color: var(--creme-still);
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.06em;
+}
+
+.masse b { color: var(--gold); font-weight: 500; }
+
+.flaeche {
+  display: grid;
+  place-items: start center;
+  overflow: auto;
+  padding: 1.75rem;
+  background:
+    radial-gradient(60% 60% at 50% 0%, rgba(184, 148, 90, 0.07), transparent 70%),
+    var(--schwarz);
+}
+
+.rahmen {
+  position: relative;
+  transition: width 0.4s var(--weich), height 0.4s var(--weich);
+}
+
+.geraet {
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  border-radius: 4px;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55), 0 0 0 1px var(--linie);
+  background: var(--schwarz);
+  transform-origin: 0 0;
+}
+
+.geraet.ist-handy   { border-radius: 30px; }
+.geraet.ist-tablet  { border-radius: 18px; }
+
+iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: var(--schwarz);
+}
+
+/* Vollbreite: kein Rahmen, keine Skalierung */
+.flaeche.ist-voll { padding: 0; place-items: stretch; }
+.flaeche.ist-voll .rahmen { width: 100%; height: 100%; }
+.flaeche.ist-voll .geraet {
+  position: static;
+  border-radius: 0;
+  box-shadow: none;
+  width: 100%;
+  height: 100%;
+}
+
+/* -------------------------------------------------- Schmale Fenster: Leiste oben */
+
+@media (max-width: 899px) {
+  /* Schmales Fenster: die Leiste legt sich als Zeile über die Bühne. */
+  body { grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
+
+  .leiste {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.6rem 1.4rem;
+    border-right: 0;
+    border-bottom: 1px solid var(--linie);
+    padding: 0.9rem 1.25rem;
+  }
+
+  .marke {
+    flex: 0 0 auto;
+    border-bottom: 0;
+    padding-bottom: 0;
+  }
+  .marke b { font-size: 1.05rem; }
+  .marke span { display: none; }
+
+  .gruppe {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .gruppe > h2 { margin: 0; white-space: nowrap; }
+
+  .stapel, .raster {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+  }
+  .paar em { display: none; }
+
+  .fuss, .gruppe.sprungmarken { display: none; }
+  .flaeche { padding: 1rem; }
+}
+
+@media (max-width: 599px) {
+  .marke, .gruppe > h2 { display: none; }
+  .leiste { gap: 0.4rem; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ===================================================================
+     STEUERUNG
+     =================================================================== -->
+<nav class="leiste" aria-label="Vorschau-Steuerung">
+
+  <a class="marke" href="index.html">
+    <b>Italienische Schere</b>
+    <span>Vorschau</span>
+  </a>
+
+  <div class="gruppe">
+    <h2>Seite</h2>
+    <div class="stapel seiten" id="seiten"></div>
+  </div>
+
+  <div class="gruppe">
+    <h2>Gerät</h2>
+    <div class="raster" id="geraete"></div>
+    <div class="reihe" style="margin-top:0.3rem">
+      <button type="button" id="drehen" aria-pressed="false">Querformat</button>
+    </div>
+  </div>
+
+  <div class="gruppe">
+    <h2>Aktionen</h2>
+    <div class="stapel">
+      <button type="button" id="intro-neu">Intro neu starten</button>
+      <button type="button" id="neu-laden">Neu laden</button>
+      <button type="button" id="neuer-tab">In neuem Tab öffnen</button>
+    </div>
+    <p class="hinweis" id="warnung" hidden style="margin-top:0.7rem"></p>
+  </div>
+
+  <div class="gruppe sprungmarken" id="sprung-gruppe">
+    <h2>Abschnitt</h2>
+    <div class="stapel sprungmarken" id="sprungmarken"></div>
+  </div>
+
+  <div class="fuss">
+    <p class="hinweis">
+      Diese Datei ist nur zum Durchklicken da und gehört nicht zur
+      Website. Vor dem Hochladen kann sie gelöscht werden.
+    </p>
+  </div>
+
+</nav>
+
+<!-- ===================================================================
+     BÜHNE
+     =================================================================== -->
+<div class="buehne">
+
+  <div class="kopf">
+    <p class="adresse" id="adresse">index.html</p>
+    <p class="masse" id="masse"><b>375</b> × 812</p>
+  </div>
+
+  <div class="flaeche" id="flaeche">
+    <div class="rahmen" id="rahmen">
+      <div class="geraet" id="geraet">
+        <iframe id="rahmen-inhalt" src="index.html" title="Vorschau der Website"></iframe>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  /* ---------------------------------------------------------------- Daten */
+
+  var SEITEN = [
+    { datei: "index.html",       titel: "Startseite",     hinweis: "One-Pager" },
+    { datei: "impressum.html",   titel: "Impressum",      hinweis: "Unterseite" },
+    { datei: "datenschutz.html", titel: "Datenschutz",    hinweis: "Unterseite" },
+    { datei: "animation.html",   titel: "Logo-Animation", hinweis: "Studie" }
+  ];
+
+  var GERAETE = [
+    { kennung: "handy",   titel: "Handy",   breite: 375,  hoehe: 812,  dreht: true  },
+    { kennung: "tablet",  titel: "Tablet",  breite: 768,  hoehe: 1024, dreht: true  },
+    { kennung: "desktop", titel: "Desktop", breite: 1440, hoehe: 900,  dreht: false },
+    { kennung: "voll",    titel: "Voll",    breite: 0,    hoehe: 0,    dreht: false }
+  ];
+
+  /* Reihenfolge wie im Dokument. */
+  var ABSCHNITTE = [
+    { ziel: "",              titel: "Ganz nach oben" },
+    { ziel: "preise",        titel: "Preise" },
+    { ziel: "haarschnitte",  titel: "Haarschnitte" },
+    { ziel: "massage",       titel: "Massagesessel" },
+    { ziel: "anfahrt",       titel: "Öffnungszeiten & Anfahrt" },
+    { ziel: "bewertungen",   titel: "Bewertungen" }
+  ];
+
+  /* --------------------------------------------------------------- Zustand */
+
+  var seite   = SEITEN[0];
+  var geraet  = GERAETE[0];
+  var quer    = false;
+
+  var $rahmen   = document.getElementById("rahmen");
+  var $geraet   = document.getElementById("geraet");
+  var $inhalt   = document.getElementById("rahmen-inhalt");
+  var $flaeche  = document.getElementById("flaeche");
+  var $adresse  = document.getElementById("adresse");
+  var $masse    = document.getElementById("masse");
+  var $drehen   = document.getElementById("drehen");
+  var $warnung  = document.getElementById("warnung");
+  var $sprungGruppe = document.getElementById("sprung-gruppe");
+
+  /* -------------------------------------------------- Zugriff auf den Rahmen
+
+     Über einen lokalen Server liegt der Rahmen im selben Ursprung, dann
+     dürfen wir hineingreifen (sanft scrollen, Intro zurücksetzen, Adresse
+     mitlesen). Bei file:// verweigert der Browser das — dann fallen wir auf
+     das zurück, was ohne Zugriff geht: die Adresse des Rahmens setzen.      */
+
+  function fenster() {
+    try {
+      var w = $inhalt.contentWindow;
+      /* Der Zugriff selbst wirft, wenn der Ursprung nicht passt. */
+      if (w && w.location && typeof w.location.href === "string") return w;
+    } catch (e) { /* fremder Ursprung */ }
+    return null;
+  }
+
+  function warnen(text) {
+    if (!text) { $warnung.hidden = true; return; }
+    $warnung.hidden = false;
+    $warnung.textContent = text;
+  }
+
+  /* ------------------------------------------------------------ Schaltflächen */
+
+  function knopf(beschriftung, zusatz) {
+    var b = document.createElement("button");
+    b.type = "button";
+    b.appendChild(document.createTextNode(beschriftung));
+    if (zusatz) {
+      b.className = "paar";
+      var em = document.createElement("em");
+      em.textContent = zusatz;
+      b.appendChild(em);
+    }
+    return b;
+  }
+
+  var seitenKnoepfe = SEITEN.map(function (s) {
+    var b = knopf(s.titel, s.hinweis);
+    b.addEventListener("click", function () { zeigeSeite(s); });
+    document.getElementById("seiten").appendChild(b);
+    return b;
+  });
+
+  var geraeteKnoepfe = GERAETE.map(function (g) {
+    var b = knopf(g.titel);
+    b.title = g.breite ? g.breite + " × " + g.hoehe + " px" : "so breit wie das Fenster";
+    b.addEventListener("click", function () { zeigeGeraet(g); });
+    document.getElementById("geraete").appendChild(b);
+    return b;
+  });
+
+  var sprungKnoepfe = ABSCHNITTE.map(function (a) {
+    var b = knopf(a.titel);
+    b.addEventListener("click", function () { springe(a.ziel); });
+    document.getElementById("sprungmarken").appendChild(b);
+    return b;
+  });
+
+  /* ----------------------------------------------------------------- Seiten */
+
+  function zeigeSeite(neu) {
+    seite = neu;
+    $inhalt.src = neu.datei;
+    $adresse.textContent = neu.datei;
+    male();
+  }
+
+  function springe(ziel) {
+    var w = fenster();
+    var adresse = seite.datei + (ziel ? "#" + ziel : "");
+
+    if (w) {
+      /* Gleicher Ursprung: sanft scrollen, ohne die Seite neu zu laden.
+         Läuft das Intro noch, würde ein Sprung ins Leere gehen — also
+         erst das Intro beenden. */
+      try {
+        var d = w.document;
+        var ueberspringen = d.getElementById("intro-skip");
+        if (d.documentElement.classList.contains("intro-an") && ueberspringen) {
+          ueberspringen.click();
+        }
+        var knoten = ziel ? d.getElementById(ziel) : d.body;
+        if (knoten) {
+          knoten.scrollIntoView({ behavior: "smooth", block: ziel ? "start" : "end" });
+          if (!ziel) w.scrollTo({ top: 0, behavior: "smooth" });
+          $adresse.textContent = adresse;
+          return;
+        }
+      } catch (e) { /* dann eben über die Adresse */ }
+    }
+
+    $inhalt.src = adresse;
+    $adresse.textContent = adresse;
+  }
+
+  /* ----------------------------------------------------------------- Geräte */
+
+  function zeigeGeraet(neu) {
+    geraet = neu;
+    if (!neu.dreht) quer = false;
+    male();
+    /* Nach dem Wechsel nach oben, sonst hängt der Blick im Nichts. */
+    $flaeche.scrollTop = 0;
+  }
+
+  $drehen.addEventListener("click", function () {
+    if (!geraet.dreht) return;
+    quer = !quer;
+    male();
+  });
+
+  /* ------------------------------------------------------------------ Malen
+
+     Der Rahmen bekommt immer die echten Pixelmaße des Geräts — nur so sieht
+     die Seite dieselbe Viewport-Breite wie auf dem Gerät. Passt das nicht in
+     die Fläche, wird der ganze Rahmen herunterskaliert.                      */
+
+  function male() {
+    seitenKnoepfe.forEach(function (b, i) {
+      if (SEITEN[i] === seite) b.setAttribute("aria-current", "page");
+      else b.removeAttribute("aria-current");
+    });
+    geraeteKnoepfe.forEach(function (b, i) {
+      b.setAttribute("aria-pressed", GERAETE[i] === geraet ? "true" : "false");
+    });
+
+    $drehen.disabled = !geraet.dreht;
+    $drehen.setAttribute("aria-pressed", quer ? "true" : "false");
+    $drehen.textContent = quer ? "Hochformat" : "Querformat";
+
+    var istStartseite = seite.datei === "index.html";
+    $sprungGruppe.hidden = !istStartseite;
+
+    var voll = !geraet.breite;
+    $flaeche.classList.toggle("ist-voll", voll);
+    $geraet.className = "geraet" + (voll ? "" : " ist-" + geraet.kennung);
+
+    if (voll) {
+      $rahmen.style.width = "";
+      $rahmen.style.height = "";
+      $geraet.style.width = "";
+      $geraet.style.height = "";
+      $geraet.style.transform = "";
+      $masse.innerHTML = "<b>Fensterbreite</b>";
+      return;
+    }
+
+    var breite = quer ? geraet.hoehe : geraet.breite;
+    var hoehe  = quer ? geraet.breite : geraet.hoehe;
+
+    /* 3,5 rem Luft, damit der Rahmen nicht am Rand klebt. */
+    var platzB = $flaeche.clientWidth  - 56;
+    var platzH = $flaeche.clientHeight - 56;
+    var faktor = Math.min(1, platzB / breite, platzH / hoehe);
+    if (!isFinite(faktor) || faktor <= 0) faktor = 1;
+
+    $geraet.style.width  = breite + "px";
+    $geraet.style.height = hoehe + "px";
+    $geraet.style.transform = "scale(" + faktor + ")";
+    $rahmen.style.width  = Math.round(breite * faktor) + "px";
+    $rahmen.style.height = Math.round(hoehe * faktor) + "px";
+
+    $masse.innerHTML = "<b>" + breite + "</b> × " + hoehe +
+      (faktor < 0.999 ? " · " + Math.round(faktor * 100) + " %" : "");
+  }
+
+  var warte = null;
+  window.addEventListener("resize", function () {
+    clearTimeout(warte);
+    warte = setTimeout(male, 120);
+  });
+
+  /* --------------------------------------------------------------- Aktionen */
+
+  document.getElementById("intro-neu").addEventListener("click", function () {
+    var w = fenster();
+    if (!w) {
+      warnen("Dafür muss die Vorschau über einen lokalen Server laufen, " +
+             "z. B. npx http-server -p 3200 -s — bei file:// lässt der " +
+             "Browser keinen Zugriff auf den Rahmen zu.");
+      return;
+    }
+    warnen("");
+    try { w.sessionStorage.removeItem("intro-gesehen"); } catch (e) { /* egal */ }
+    if (seite.datei !== "index.html") zeigeSeite(SEITEN[0]);
+    else $inhalt.src = "index.html";
+  });
+
+  document.getElementById("neu-laden").addEventListener("click", function () {
+    $inhalt.src = seite.datei;
+    $adresse.textContent = seite.datei;
+  });
+
+  document.getElementById("neuer-tab").addEventListener("click", function () {
+    window.open(seite.datei, "_blank", "noopener");
+  });
+
+  /* Adresse mitlesen, wenn im Rahmen selbst geklickt wurde (Impressum,
+     Datenschutz, Sprungmarken) — und die passende Seite markieren. */
+  $inhalt.addEventListener("load", function () {
+    var w = fenster();
+    if (!w) return;
+    var pfad;
+    try {
+      pfad = w.location.pathname.split("/").pop() + w.location.hash;
+    } catch (e) { return; }
+    if (!pfad) pfad = "index.html";
+    $adresse.textContent = pfad;
+    var datei = pfad.split("#")[0];
+    for (var i = 0; i < SEITEN.length; i++) {
+      if (SEITEN[i].datei === datei && SEITEN[i] !== seite) { seite = SEITEN[i]; male(); break; }
+    }
+  });
+
+  /* Tastatur: 1–4 für die Geräte, damit man beim Prüfen nicht zielen muss. */
+  document.addEventListener("keydown", function (e) {
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    var t = e.target;
+    if (t && (t.tagName === "INPUT" || t.tagName === "TEXTAREA")) return;
+    var n = "1234".indexOf(e.key);
+    if (n > -1) { zeigeGeraet(GERAETE[n]); e.preventDefault(); }
+  });
+
+  male();
+})();
+</script>
+
+</body>
+</html>

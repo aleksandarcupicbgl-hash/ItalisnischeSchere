@@ -21,6 +21,7 @@ assets/fonts/         Cormorant Garamond & Inter, selbst ausgeliefert
 bilder/               Fotos als JPG (Original) und WebP (ausgeliefert)
 logo.svg              Logo, animationsfertig (Dokumentation unten)
 animation.html        eigenständige Intro-Animation des Logos
+vorschau.html         Werkzeug zum Durchklicken — gehört nicht zur Website
 ```
 
 ## Was noch gefüllt werden muss
@@ -152,10 +153,42 @@ Rahmen bleibt das helle Gold.
   Slideshow-Wechsel, keine Lightbox, keine Karte — aber alle Inhalte stehen im
   HTML.
 
+## Vorschau zum Durchklicken
+
+`vorschau.html` zeigt alle Seiten nebeneinander in Handy-, Tablet- und
+Desktop-Breite — praktisch, um Änderungen schnell auf allen Größen zu prüfen.
+Die Datei gehört **nicht** zur Website; vor dem Hochladen kann sie gelöscht
+werden, verlinkt ist sie von nirgendwo.
+
+Am besten über einen kleinen lokalen Server öffnen, dann funktioniert alles:
+
+```
+npx http-server -p 3200 -s
+```
+
+Dann im Browser `http://localhost:3200/vorschau.html` aufrufen.
+
+| Bedienung          | was passiert                                                    |
+| ------------------ | --------------------------------------------------------------- |
+| Seite              | Startseite, Impressum, Datenschutz, Logo-Animation               |
+| Gerät              | 375 × 812, 768 × 1024, 1440 × 900 oder volle Fensterbreite       |
+| Querformat         | dreht Handy und Tablet                                           |
+| Abschnitt          | springt in der Startseite zu Preisen, Galerie, Anfahrt usw.      |
+| Intro neu starten  | löscht `intro-gesehen` und lädt neu, das Intro läuft wieder      |
+| Tasten 1–4         | wechseln das Gerät                                               |
+
+Der Rahmen zeigt immer die echte Pixelbreite des Geräts; passt er nicht ins
+Fenster, wird er als Ganzes verkleinert — der Prozentwert steht oben rechts.
+
+Ein Doppelklick auf die Datei (`file://`) funktioniert auch, nur „Intro neu
+starten" bleibt dann gesperrt: der Browser lässt Skripte nicht in den Rahmen
+hineingreifen. Die Vorschau sagt das in dem Fall selbst.
+
 ## Datenschutz
 
 Geprüft am gebauten Stand: **keine** Anfrage an eine fremde Domain, **keine**
-Cookies, kein Tracking. Schriften liegen auf dem eigenen Server. Einzige
+Cookies, kein Tracking — das gilt für alle Dateien im Projekt, auch für
+`animation.html`. Schriften liegen auf dem eigenen Server. Einzige
 Ausnahme ist die Karte — und die erst nach ausdrücklichem Klick. Im
 `sessionStorage` steht ein einziger Wert (`intro-gesehen`), damit das Intro
 nicht bei jedem Seitenwechsel neu läuft.
