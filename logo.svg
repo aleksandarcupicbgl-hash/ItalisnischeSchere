@@ -26,9 +26,10 @@
         #blade-bottom { transform: rotate( a); }
     mit a = 0deg (geschlossen) bis ca. 12deg (offen).
     Wer die Schere als Ganzes bewegen will, transformiert das <svg>-Element
-    selbst oder eine Huellgruppe -- der Drehpunkt der Klingen bleibt gueltig.
+    selbst oder eine Huellgruppe; der Drehpunkt der Klingen bleibt gueltig.
 
-    FARBEN ueber Custom Properties (--ink / --paper / --accent) ueberschreibbar,
+    FARBEN ueber die Custom Properties ink, paper und accent (jeweils mit
+    zwei Bindestrichen davor) ueberschreibbar,
     z. B. fuer die Invers-Variante auf dunklem Grund.
     Der Schriftzug sollte fuer die Produktion in Pfade konvertiert werden.
     ============================================================
@@ -36,9 +37,9 @@
 
   <style>
     #logo-italienische-schere{
-      --ink:#1D1814;
-      --paper:#F6EFE3;
-      --accent:#A97E4B;
+      --ink:#1A1214;
+      --paper:#FFFFFF;
+      --accent:#CE2B37;
     }
     #logo-italienische-schere .draw{
       fill:none;
@@ -62,6 +63,7 @@
       stroke-linejoin:round;
     }
     #logo-italienische-schere .accent{stroke:var(--accent)}
+    #logo-italienische-schere #wordmark-eyebrow{fill:var(--accent)}
     #logo-italienische-schere text{
       fill:var(--ink);
       font-family:"Cormorant Garamond","Cormorant",Didot,"Bodoni MT",Garamond,"Times New Roman",serif;

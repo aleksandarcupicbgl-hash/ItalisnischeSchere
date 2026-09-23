@@ -24,15 +24,15 @@
 
 <style>
 :root {
-  --schwarz: #0d0d0f;
-  --anthrazit: #141417;
-  --anthrazit-hell: #1c1c21;
-  --creme: #f2ebdd;
-  --creme-leise: rgba(242, 235, 221, 0.66);
-  --creme-still: rgba(242, 235, 221, 0.4);
-  --gold: #b8945a;
-  --gold-leise: rgba(184, 148, 90, 0.36);
-  --linie: rgba(242, 235, 221, 0.14);
+  --schwarz: #140c0d;
+  --anthrazit: #1c1214;
+  --anthrazit-hell: #24181a;
+  --papier: #f7f3f2;
+  --papier-leise: rgba(247, 243, 242, 0.68);
+  --papier-still: rgba(247, 243, 242, 0.42);
+  --akzent: #ec5a62;
+  --akzent-leise: rgba(236, 90, 98, 0.4);
+  --linie: rgba(247, 243, 242, 0.14);
   --serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
   --grotesk: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
   --weich: cubic-bezier(0.16, 1, 0.3, 1);
@@ -50,7 +50,7 @@ body {
   display: grid;
   grid-template-columns: var(--leiste) 1fr;
   background: var(--schwarz);
-  color: var(--creme);
+  color: var(--papier);
   font-family: var(--grotesk);
   font-size: 15px;
   line-height: 1.5;
@@ -89,7 +89,7 @@ body {
 .marke span {
   display: block;
   margin-top: 0.4rem;
-  color: var(--creme-still);
+  color: var(--papier-still);
   font-size: 0.7rem;
   letter-spacing: 0.22em;
   text-transform: uppercase;
@@ -97,7 +97,7 @@ body {
 
 .gruppe > h2 {
   margin: 0 0 0.55rem;
-  color: var(--creme-still);
+  color: var(--papier-still);
   font-size: 0.65rem;
   font-weight: 500;
   letter-spacing: 0.2em;
@@ -124,7 +124,7 @@ button {
   border-radius: 2px;
   padding: 0.45rem 0.7rem;
   background: none;
-  color: var(--creme-leise);
+  color: var(--papier-leise);
   font: inherit;
   font-size: 0.82rem;
   text-align: left;
@@ -134,15 +134,15 @@ button {
 }
 
 button:hover:not(:disabled) {
-  border-color: var(--gold-leise);
-  color: var(--creme);
+  border-color: var(--akzent-leise);
+  color: var(--papier);
 }
 
 button[aria-pressed="true"],
 button[aria-current="page"] {
-  border-color: var(--gold-leise);
+  border-color: var(--akzent-leise);
   background: var(--anthrazit-hell);
-  color: var(--gold);
+  color: var(--akzent);
 }
 
 button:disabled {
@@ -151,7 +151,7 @@ button:disabled {
 }
 
 button:focus-visible {
-  outline: 2px solid var(--gold);
+  outline: 2px solid var(--akzent);
   outline-offset: 2px;
 }
 
@@ -167,21 +167,21 @@ button:focus-visible {
 
 /* Beschriftung links, Zusatz rechts */
 .paar { display: flex; align-items: baseline; justify-content: space-between; gap: 0.6rem; }
-.paar em { color: var(--creme-still); font-size: 0.68rem; font-style: normal; }
+.paar em { color: var(--papier-still); font-size: 0.68rem; font-style: normal; }
 .paar[aria-current="page"] em,
-.paar[aria-pressed="true"] em { color: var(--gold-leise); }
+.paar[aria-pressed="true"] em { color: var(--akzent-leise); }
 
 .sprungmarken button { font-size: 0.8rem; padding: 0.4rem 0.75rem; }
 .sprungmarken[hidden] { display: none; }
 
 .hinweis {
   margin: 0;
-  color: var(--creme-still);
+  color: var(--papier-still);
   font-size: 0.72rem;
   line-height: 1.5;
 }
 
-.hinweis a { color: var(--gold); }
+.hinweis a { color: var(--akzent); }
 
 .fuss {
   margin-top: auto;
@@ -214,7 +214,7 @@ button:focus-visible {
   border: 1px solid var(--linie);
   border-radius: 2px;
   padding: 0.35rem 0.75rem;
-  color: var(--creme-still);
+  color: var(--papier-still);
   font-size: 0.78rem;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -222,13 +222,13 @@ button:focus-visible {
 
 .masse {
   flex: 0 0 auto;
-  color: var(--creme-still);
+  color: var(--papier-still);
   font-size: 0.75rem;
   font-variant-numeric: tabular-nums;
   letter-spacing: 0.06em;
 }
 
-.masse b { color: var(--gold); font-weight: 500; }
+.masse b { color: var(--akzent); font-weight: 500; }
 
 .flaeche {
   display: grid;
@@ -236,7 +236,7 @@ button:focus-visible {
   overflow: auto;
   padding: 1.75rem;
   background:
-    radial-gradient(60% 60% at 50% 0%, rgba(184, 148, 90, 0.07), transparent 70%),
+    radial-gradient(60% 60% at 50% 0%, rgba(236, 90, 98, 0.09), transparent 70%),
     var(--schwarz);
 }
 

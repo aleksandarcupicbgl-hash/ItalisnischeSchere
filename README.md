@@ -26,21 +26,28 @@ vorschau.html         Werkzeug zum Durchklicken — gehört nicht zur Website
 
 ## Was noch gefüllt werden muss
 
-Alles Offene steht im Code als `TODO` und ist auf der Seite golden gestrichelt
+Alles Offene steht im Code als `TODO` und ist auf der Seite rot gestrichelt
 markiert — man sieht im Browser sofort, was fehlt.
 
 | Was | Wo |
 | --- | --- |
 | **Straße bestätigen** | „Poststraße 12" stammt vom Preisplakat des Ladens. Steht im Hero-Infoblock, im Abschnitt „Anfahrt", im Impressum, in den strukturierten Daten (`index.html`, `<head>`) und in `assets/js/main.js` → `KARTEN_ADRESSE`. |
 | **Öffnungszeiten bestätigen** | dieselben Stellen; die Live-Anzeige rechnet mit `OEFFNUNGSZEITEN` in `assets/js/main.js` |
-| **Inhaber fürs Impressum** | `impressum.html` — Name, E-Mail, USt-IdNr., Bildnachweise |
+| **Steuernummer prüfen** | `impressum.html`. Die übergebene Nummer `DE459709705` hat das Format einer Umsatzsteuer-Identifikationsnummer (DE + neun Ziffern) und steht deshalb unter dieser Überschrift. Die Steuernummer des Finanzamts sieht anders aus und muss nicht ins Impressum. |
 | **Einverständnis für Fotos** | Auf `intro-4-kunde.jpg` sind zwei Personen klar erkennbar. Vor dem Livegang bitte bestätigen, dass beide mit der Veröffentlichung einverstanden sind. |
 | **Bildnachweise** | `impressum.html` — wer die Fotos gemacht hat |
 | **Hostinganbieter** | `datenschutz.html`, Abschnitt 3 |
 | **Domain** | `index.html`, `canonical` und `og:url` |
 
-Telefonnummer (0176 41874365), Postleitzahl (83435) und der Facebook-Link
-sind eingetragen. Instagram gibt es nicht und ist deshalb nirgends verlinkt.
+Inhaber (Kamal Madloum), E-Mail (Italienischeschere@gmail.com), Telefonnummer
+(0176 41874365), Postleitzahl (83435) und der Facebook-Link sind eingetragen.
+Instagram gibt es nicht und ist deshalb nirgends verlinkt.
+
+Das Impressum enthält einen **Hinweis zu KI-gestützten Inhalten**: Texte,
+Gestaltung, Programmierung sowie Logo und Animation sind mit KI-Unterstützung
+entstanden. Die Fotos sind echte Aufnahmen aus dem Salon — kämen später
+KI-generierte Bilder dazu, muss der letzte Satz dieses Abschnitts angepasst
+werden (steht als `TODO` daneben).
 
 ## Preise ändern
 
@@ -115,20 +122,37 @@ entfallen.
 
 ## Farben
 
+**Weiß und Rot.** Das Rot ist das der italienischen Flagge, `#CE2B37` — ein
+Ton für die ganze Seite, sparsam gesetzt: Rubriken, Preise, Sterne, Links, der
+Strich unter jeder Überschrift. Einmal wird er zur Fläche, beim Komplettpaket.
+
 Die Seite hat zwei Register. **Intro und Hero** stehen dunkel auf den Fotos,
-damit das weiße Logo trägt. **Alles darunter** ist hell: weißer Grund,
-schwarze Schrift, Gold nur als feine Linie und als Akzent.
+damit das weiße Logo trägt; das Schwarz hat einen roten Unterton (`#140C0D`)
+statt neutral zu sein. **Alles darunter** ist weiß mit schwarzer Schrift.
+
+| Token | dunkles Register | helles Register |
+| --- | --- | --- |
+| `--akzent` | `#EC5A62` | `#CE2B37` |
+| `--papier` | `#F7F3F2` | `#161011` (Tinte) |
+| `--schwarz` | `#140C0D` | `#FFFFFF` |
 
 Technisch hängt das an einer Stelle: Die hellen Abschnitte (`.prices`,
-`.gallery`, `.extra`, `.visit`, `.site-footer`, `.legal-page`, `.lightbox`)
-setzen dieselben Variablen auf ihre hellen Werte um — siehe „Heller Teil" in
-`assets/css/style.css`. Jede Regel liest einfach `--creme`, `--linie`,
-`--gold` und bekommt je nach Umgebung den passenden Wert. Ein neuer heller
-Abschnitt braucht also nur seinen Namen in dieser Liste.
+`.gallery`, `.extra`, `.reviews`, `.visit`, `.site-footer`, `.legal-page`,
+`.lightbox`) setzen dieselben Variablen auf ihre hellen Werte um — siehe
+„Heller Teil" in `assets/css/style.css`. Jede Regel liest einfach `--papier`,
+`--linie`, `--akzent` und bekommt je nach Umgebung den passenden Wert. Ein
+neuer heller Abschnitt braucht also nur seinen Namen in dieser Liste.
 
-Gold als **Text** auf Weiß ist eine dunklere Variante (`--gold-text`,
-Kontrast 5,0:1) — das helle Gold käme auf Weiß nur auf 2,8:1. Für Linien und
-Rahmen bleibt das helle Gold.
+Dasselbe Verfahren macht aus dem **Komplettpaket** einen roten Block: Die Karte
+setzt `--papier` und `--akzent` auf Weiß, dadurch kippen Preis, Haken, Linien
+und Text darin geschlossen mit, ohne dass eine Regel darunter angefasst wird.
+
+Zwei Rottöne, weil einer nicht reicht: Auf Weiß trägt `#CE2B37` mit 5,2:1, auf
+dem dunklen Grund käme es nur auf 3,3:1 — dort steht deshalb das hellere
+`#EC5A62` mit 5,7:1. Weiß auf dem roten Block liegt ebenfalls bei 5,2:1.
+
+Grün bleibt an einer einzigen Stelle: dem Punkt der Status-Anzeige für
+„jetzt geöffnet". Das liest jeder sofort, ein roter Punkt hieße das Gegenteil.
 
 ## Wie die Seite sich verhält
 
@@ -282,9 +306,14 @@ ebenso mit `stroke-dasharray` nachzeichnen.
 Drei Custom Properties, dadurch ist die Invers-Variante ein Einzeiler:
 
 ```css
-svg{ --ink:#1D1814; --paper:#F6EFE3; --accent:#A97E4B; }   /* hell   */
-svg{ --ink:#F2E8D8; --paper:#141110; --accent:#C09A5E; }   /* dunkel */
+svg{ --ink:#1A1214; --paper:#FFFFFF; --accent:#CE2B37; }   /* hell   */
+svg{ --ink:#F7F3F2; --paper:#140C0D; --accent:#EC5A62; }   /* dunkel */
 ```
+
+Auf hellem Grund trägt die Rubrikzeile „BARBER" den Akzent, über einem Foto
+bleibt die Wortmarke einfarbig weiß — das kleine Rot trägt dort nicht und
+macht den Schriftzug nur unruhig. Rot führen im Hero die Schnittlinie und die
+Schraube.
 
 `--paper` ist zugleich die Fuellung der Schraubenscheibe und muss dem Untergrund
 entsprechen.

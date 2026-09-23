@@ -15,15 +15,15 @@
    FARBEN / BASIS
    Die Logo-Variablen sind dieselben wie in logo.svg:
    --ink = Strichfarbe, --paper = Flaeche hinter dem Logo,
-   --accent = Messing. Hier in der Invers-Variante auf dunklem Grund.
+   --accent = Rot. Hier in der Invers-Variante auf dunklem Grund.
    ============================================================ */
 :root{
-  --bg:#141110;
-  --ink:#F2E8D8;
-  --paper:#141110;
-  --accent:#C09A5E;
-  --sheet:#F1E7D6;      /* Papier-Overlay */
-  --sheet-ink:#2A231C;
+  --bg:#140C0D;
+  --ink:#F7F3F2;
+  --paper:#140C0D;
+  --accent:#EC5A62;
+  --sheet:#FFFFFF;      /* Papier-Overlay */
+  --sheet-ink:#1A1214;
   --ease-out-quint:cubic-bezier(.22,1,.36,1);
 }
 *{box-sizing:border-box}
@@ -41,7 +41,7 @@ body.intro-done{overflow:auto}
 /* dezenter Lichtschein hinter dem Logo */
 body::before{
   content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
-  background:radial-gradient(60% 55% at 50% 42%,rgba(192,154,94,.13),transparent 70%);
+  background:radial-gradient(60% 55% at 50% 42%,rgba(206,43,55,.15),transparent 70%);
 }
 
 /* ============================================================
@@ -67,7 +67,7 @@ body.intro-done .site-header{opacity:1;transform:none}
 .hint{
   font-family:ui-sans-serif,system-ui,sans-serif;
   font-size:11px;letter-spacing:.16em;text-transform:uppercase;
-  color:rgba(242,232,216,.42);
+  color:rgba(247,243,242,.42);
 }
 @media (max-width:640px){.hint{display:none}}
 @media (max-width:480px){
@@ -96,10 +96,10 @@ body.intro-done .site-header{opacity:1;transform:none}
 .scissors-art{
   z-index:40;overflow:visible;will-change:transform;
   transform-origin:67.2% 40.25%;     /* Schraube 430/161 */
-  filter:drop-shadow(0 8px 14px rgba(10,8,6,.45));
+  filter:drop-shadow(0 8px 14px rgba(14,8,9,.45));
   transition:filter .6s ease;
 }
-body.intro-done .scissors-art{filter:drop-shadow(0 0 0 rgba(10,8,6,0))}
+body.intro-done .scissors-art{filter:drop-shadow(0 0 0 rgba(14,8,9,0))}
 /* bis das Intro startet (Schriften laden) bleibt die Schere verdeckt */
 body.intro-armed .scissors-art{opacity:0}
 
@@ -113,7 +113,7 @@ body.intro-armed .scissors-art{opacity:0}
   fill:var(--ink);text-anchor:middle;font-weight:500;
   font-family:"Cormorant Garamond",Didot,"Bodoni MT",Garamond,"Times New Roman",serif;
 }
-/* Solange die Schere ueber dem cremefarbenen Papier liegt, zeichnet sie in
+/* Solange die Schere ueber dem weissen Papier liegt, zeichnet sie in
    Papier-Tinte; mit dem Freigeben des Logos wechselt sie auf die Logo-Farbe. */
 .scissors-art .blade,
 .scissors-art .limb:not(.accent){stroke:var(--sheet-ink);transition:stroke .5s ease}
@@ -155,18 +155,18 @@ body.intro-lit .scissors-art .blade{fill:var(--ink)}
 }
 .paper-top::after{
   bottom:0;
-  background:linear-gradient(to bottom,transparent,rgba(42,35,28,.14));
-  border-bottom:1px solid rgba(42,35,28,.30);
+  background:linear-gradient(to bottom,transparent,rgba(26,18,20,.14));
+  border-bottom:1px solid rgba(26,18,20,.30);
 }
 .paper-bottom::before{
   top:0;
   background:linear-gradient(to top,transparent,rgba(255,255,255,.65));
-  border-top:1px solid rgba(42,35,28,.14);
+  border-top:1px solid rgba(26,18,20,.14);
 }
 .cut-trace{
   position:absolute;left:0;top:var(--cut,50%);width:100%;height:2px;z-index:2;
   margin-top:-1px;transform:scaleX(0);transform-origin:0 50%;
-  background:linear-gradient(90deg,rgba(42,35,28,.18),rgba(42,35,28,.42));
+  background:linear-gradient(90deg,rgba(26,18,20,.18),rgba(26,18,20,.42));
 }
 
 /* ============================================================
@@ -179,10 +179,10 @@ body.intro-lit .scissors-art .blade{fill:var(--ink)}
   padding:10px 16px;border-radius:999px;cursor:pointer;
   background:transparent;transition:opacity .4s ease,border-color .3s ease,color .3s ease;
 }
-.btn-skip{color:var(--sheet-ink);border:1px solid rgba(42,35,28,.28)}
-.btn-skip:hover{border-color:rgba(42,35,28,.6)}
-.btn-replay{color:rgba(242,232,216,.55);border:1px solid rgba(242,232,216,.22)}
-.btn-replay:hover{color:var(--ink);border-color:rgba(242,232,216,.5)}
+.btn-skip{color:var(--sheet-ink);border:1px solid rgba(26,18,20,.28)}
+.btn-skip:hover{border-color:rgba(26,18,20,.6)}
+.btn-replay{color:rgba(247,243,242,.55);border:1px solid rgba(247,243,242,.22)}
+.btn-replay:hover{color:var(--ink);border-color:rgba(247,243,242,.5)}
 .btn-replay{display:none}
 body.intro-done .btn-skip{display:none}
 body.intro-done .btn-replay{display:inline-block}
@@ -263,7 +263,7 @@ body.intro-done .btn-replay{display:inline-block}
 
 <!-- ============================ HERO ============================ -->
 <section class="hero">
-  <div class="stage" role="img" aria-label="Logo: Italienische Schere, Coiffeur">
+  <div class="stage" role="img" aria-label="Logo: Barber Italienische Schere">
 
     <!-- Rahmen + Schriftzug -->
     <svg class="logo-art" viewBox="0 0 640 400" aria-hidden="true">
@@ -276,8 +276,7 @@ body.intro-done .btn-replay{display:inline-block}
               d="M 78,161 H 328"/>
       </g>
       <g id="logo-wordmark">
-        <text id="wordmark-eyebrow" x="325.5" y="76" font-size="17" letter-spacing="11"
-              fill="var(--accent)">COIFFEUR</text>
+        <text id="wordmark-eyebrow" x="325.5" y="76" font-size="17" letter-spacing="11">BARBER</text>
         <text id="wordmark-line-1" x="326.5" y="258" font-size="25" letter-spacing="13">ITALIENISCHE</text>
         <text id="wordmark-line-2" x="327" y="330" font-size="74" letter-spacing="14">SCHERE</text>
       </g>

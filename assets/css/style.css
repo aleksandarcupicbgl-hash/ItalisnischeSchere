@@ -1,43 +1,48 @@
 /* ===========================================================================
    Barber Italienische Schere
-   Zwei Register: Intro und Hero stehen dunkel auf den Fotos, alles darunter
-   hell — weißer Grund, schwarze Schrift, Gold nur als Linie und Akzent.
+   Weiß und Rot. Zwei Register: Intro und Hero stehen dunkel auf den Fotos,
+   alles darunter hell — weißer Grund, schwarze Schrift, Rot als einziger
+   Farbton. Das Rot ist das der italienischen Flagge (#CE2B37).
 
    Umgesetzt über Token-Überschreibung: Die hellen Abschnitte setzen dieselben
    Variablen auf ihre hellen Werte um (siehe „Heller Teil" weiter unten).
-   Jede Regel im Dokument liest also einfach --creme, --linie, --gold … und
-   bekommt je nach Umgebung den passenden Wert.
+   Jede Regel im Dokument liest also einfach --papier, --linie, --akzent … und
+   bekommt je nach Umgebung den passenden Wert. Dasselbe Verfahren macht aus
+   dem Komplettpaket einen roten Block (siehe dort).
    Mobile first.
    =========================================================================== */
 
 :root {
-  /* Dunkles Register — Intro und Hero */
-  --schwarz: #0d0d0f;
-  --anthrazit: #141417;
-  --anthrazit-hell: #1c1c21;
-  --creme: #f2ebdd;
-  --creme-leise: rgba(242, 235, 221, 0.66);
-  --creme-still: rgba(242, 235, 221, 0.42);
-  --gold: #b8945a;
-  --gold-leise: rgba(184, 148, 90, 0.38);
-  --linie: rgba(242, 235, 221, 0.14);
-  --flagge-mitte: var(--creme);
-  --schleier: rgba(8, 8, 10, 0.97);
+  /* Dunkles Register — Intro und Hero. Das Schwarz hat einen roten Unterton,
+     damit es zum Rot darunter gehört statt neutral daneben zu stehen. */
+  --schwarz: #140c0d;
+  --anthrazit: #1c1214;
+  --anthrazit-hell: #24181a;
+  --papier: #f7f3f2;
+  --papier-leise: rgba(247, 243, 242, 0.68);
+  --papier-still: rgba(247, 243, 242, 0.44);
+  /* Auf dem dunklen Grund ein helleres Rot derselben Familie — das tiefe Rot
+     käme hier nur auf 3,3:1, dieses auf 5,7:1. */
+  --akzent: #ec5a62;
+  --akzent-leise: rgba(236, 90, 98, 0.42);
+  --linie: rgba(247, 243, 242, 0.14);
+  --schleier: rgba(14, 8, 9, 0.97);
 
   /* Helles Register — alles unter dem Hero */
   --weiss: #ffffff;
-  --weiss-warm: #faf7f2;
-  --tinte: #14120f;
-  --tinte-leise: rgba(20, 18, 15, 0.74);
-  --tinte-still: rgba(20, 18, 15, 0.54);
-  --linie-hell: rgba(20, 18, 15, 0.13);
-  /* Gold als Text auf Weiß: dunkler gesetzt, sonst reicht der Kontrast nicht
-     (5,0:1 statt 2,8:1 beim hellen Gold). */
-  --gold-text: #8a6a2f;
-  --gold-rand: rgba(138, 106, 47, 0.32);
+  --weiss-warm: #fdf7f7;
+  --tinte: #161011;
+  --tinte-leise: rgba(22, 16, 17, 0.74);
+  --tinte-still: rgba(22, 16, 17, 0.54);
+  --linie-hell: rgba(22, 16, 17, 0.13);
+  /* Das Rot der italienischen Flagge. Als Text auf Weiß 5,2:1, Weiß darauf
+     ebenfalls 5,2:1 — es trägt also in beide Richtungen. */
+  --akzent-text: #ce2b37;
+  --akzent-rand: rgba(206, 43, 55, 0.34);
 
-  --rot: #b3121b;
-  --gruen: #1a7a3c;
+  /* Signalfarben der Status-Anzeige. Grün für „offen" bleibt Grün: das liest
+     jeder sofort, und ein roter Punkt hieße das Gegenteil. */
+  --signal-zu: #ce2b37;
 
   --serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
   --grotesk: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
@@ -70,10 +75,10 @@ body {
 img { display: block; max-width: 100%; height: auto; }
 a { color: inherit; }
 
-::selection { background: var(--gold); color: var(--schwarz); }
+::selection { background: var(--akzent); color: var(--schwarz); }
 
 :focus-visible {
-  outline: 2px solid var(--gold);
+  outline: 2px solid var(--akzent);
   outline-offset: 3px;
 }
 
@@ -119,8 +124,8 @@ a { color: inherit; }
 
 /* Platzhalter, die noch gefüllt werden müssen. */
 .todo {
-  border-bottom: 1px dashed var(--gold-leise);
-  color: var(--gold);
+  border-bottom: 1px dashed var(--akzent-leise);
+  color: var(--akzent);
 }
 
 /* ===========================================================================
@@ -139,14 +144,12 @@ a { color: inherit; }
   --schwarz: var(--weiss);
   --anthrazit: var(--weiss-warm);
   --anthrazit-hell: var(--weiss);
-  --creme: var(--tinte);
-  --creme-leise: var(--tinte-leise);
-  --creme-still: var(--tinte-still);
+  --papier: var(--tinte);
+  --papier-leise: var(--tinte-leise);
+  --papier-still: var(--tinte-still);
   --linie: var(--linie-hell);
-  --gold: var(--gold-text);
-  --gold-leise: var(--gold-rand);
-  /* Die mittlere Bahn der Trikolore ist Weiß — auf weißem Grund also Papier. */
-  --flagge-mitte: #ffffff;
+  --akzent: var(--akzent-text);
+  --akzent-leise: var(--akzent-rand);
   --schleier: rgba(255, 255, 255, 0.97);
 }
 
@@ -191,7 +194,7 @@ a { color: inherit; }
   border: 1px solid var(--linie);
   border-radius: 999px;
   background: none;
-  color: var(--creme-still);
+  color: var(--papier-still);
   font-family: var(--grotesk);
   font-size: 0.625rem;
   font-weight: 500;
@@ -200,7 +203,7 @@ a { color: inherit; }
   cursor: pointer;
   transition: color 0.3s ease, border-color 0.3s ease;
 }
-.intro-skip:hover { color: var(--creme); border-color: var(--creme-still); }
+.intro-skip:hover { color: var(--papier); border-color: var(--papier-still); }
 
 /* ===========================================================================
    HERO
@@ -265,13 +268,13 @@ a { color: inherit; }
   background:
     /* Dunkler Keil in der oberen linken Ecke: Dort steht der Infoblock, und das
        Schaufensterfoto ist genau da sehr hell. */
-    linear-gradient(to bottom right, rgba(13, 13, 15, 0.72) 0%, rgba(13, 13, 15, 0) 45%),
-    linear-gradient(180deg, rgba(13, 13, 15, 0.7) 0%, rgba(13, 13, 15, 0.34) 30%,
-                    rgba(13, 13, 15, 0.42) 60%, rgba(13, 13, 15, 0.88) 100%),
+    linear-gradient(to bottom right, rgba(20, 12, 13, 0.72) 0%, rgba(20, 12, 13, 0) 45%),
+    linear-gradient(180deg, rgba(20, 12, 13, 0.7) 0%, rgba(20, 12, 13, 0.34) 30%,
+                    rgba(20, 12, 13, 0.42) 60%, rgba(20, 12, 13, 0.88) 100%),
     /* Weicher dunkler Teich hinter dem Logo, damit die Wortmarke auf jedem
        der vier Bilder trägt — und eine leichte Vignette außen herum. */
-    radial-gradient(48% 38% at 50% 52%, rgba(13, 13, 15, 0.62) 0%, rgba(13, 13, 15, 0) 75%),
-    radial-gradient(85% 70% at 50% 50%, rgba(13, 13, 15, 0) 40%, rgba(13, 13, 15, 0.5) 100%);
+    radial-gradient(48% 38% at 50% 52%, rgba(20, 12, 13, 0.62) 0%, rgba(20, 12, 13, 0) 75%),
+    radial-gradient(85% 70% at 50% 50%, rgba(20, 12, 13, 0) 40%, rgba(20, 12, 13, 0.5) 100%);
 }
 
 .hero > *:not(.hero-media):not(.hero-scrim) { position: relative; z-index: 1; }
@@ -286,7 +289,7 @@ a { color: inherit; }
 
 .info-block { margin: 0; }
 .info-block dt {
-  color: var(--gold);
+  color: var(--akzent);
   margin-bottom: 0.3rem;
 }
 .info-block dd {
@@ -294,42 +297,42 @@ a { color: inherit; }
   font-family: var(--grotesk);
   font-size: 0.75rem;
   letter-spacing: 0.06em;
-  color: var(--creme-leise);
+  color: var(--papier-leise);
 }
 .info-block dd a { text-decoration: none; transition: color 0.3s ease; }
-.info-block dd a:hover { color: var(--creme); }
+.info-block dd a:hover { color: var(--papier); }
 
 .status {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
   margin: 0;
-  color: var(--creme-still);
+  color: var(--papier-still);
 }
 .status-dot {
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: var(--creme-still);
+  background: var(--papier-still);
   flex: none;
 }
-.status[data-state="offen"] { color: var(--creme); }
+.status[data-state="offen"] { color: var(--papier); }
 .status[data-state="offen"] .status-dot {
   background: #3ea06a;
   box-shadow: 0 0 0 0 rgba(62, 160, 106, 0.55);
   animation: puls 2.6s ease-out infinite;
 }
-.status[data-state="zu"] .status-dot { background: var(--rot); }
+.status[data-state="zu"] .status-dot { background: var(--signal-zu); }
 @keyframes puls {
   70% { box-shadow: 0 0 0 7px rgba(62, 160, 106, 0); }
   100% { box-shadow: 0 0 0 0 rgba(62, 160, 106, 0); }
 }
 
 /* Facebook steht als einziger Eintrag ohne Beschriftung da — deshalb in
-   Gold wie die Beschriftungen darüber, damit man den Link auch sieht. */
+   Rot wie die Beschriftungen darüber, damit man den Link auch sieht. */
 .info-social { margin: 0; }
-.info-social a { color: var(--gold); text-decoration: none; transition: color 0.3s ease; }
-.info-social a:hover { color: var(--creme); }
+.info-social a { color: var(--akzent); text-decoration: none; transition: color 0.3s ease; }
+.info-social a:hover { color: var(--papier); }
 .info-social span { margin-inline: 0.4rem; }
 
 /* --- Logo + Knopf -------------------------------------------------------- */
@@ -352,15 +355,15 @@ a { color: inherit; }
   background: none;
   font: inherit;
   cursor: pointer;
-  border: 1px solid var(--creme-still);
+  border: 1px solid var(--papier-still);
   border-radius: 999px;
-  color: var(--creme);
+  color: var(--papier);
   text-decoration: none;
   transition: border-color 0.4s ease, background-color 0.4s ease, color 0.4s ease;
 }
 .btn-outline:hover {
-  border-color: var(--gold);
-  background: var(--gold);
+  border-color: var(--akzent);
+  background: var(--akzent);
   color: var(--schwarz);
 }
 .btn-small { padding: 0.75rem 1.5rem; }
@@ -369,12 +372,12 @@ a { color: inherit; }
 .hero-slogan,
 .hero-legal,
 .hero-scroll {
-  color: var(--creme-still);
+  color: var(--papier-still);
 }
 .hero-slogan { margin: 0; }
 .hero-legal a,
 .hero-scroll { text-decoration: none; }
-.hero-legal a:hover { color: var(--creme); }
+.hero-legal a:hover { color: var(--papier); }
 .hero-legal span { margin-inline: 0.45rem; }
 
 .hero-scroll {
@@ -386,7 +389,7 @@ a { color: inherit; }
 .hero-scroll-line {
   width: 1px;
   height: 2.5rem;
-  background: linear-gradient(to bottom, transparent, var(--creme-still));
+  background: linear-gradient(to bottom, transparent, var(--papier-still));
   animation: sinken 2.6s ease-in-out infinite;
   transform-origin: top;
 }
@@ -437,20 +440,19 @@ section { padding-block: clamp(4rem, 11vw, 8.5rem); }
 .section-head { margin-bottom: clamp(2.5rem, 6vw, 4rem); }
 .eyebrow {
   margin: 0 0 1.1rem;
-  color: var(--gold);
+  color: var(--akzent);
   position: relative;
   padding-bottom: 0.9rem;
 }
-/* Feine Linie in Grün-Weiß-Rot — der einzige Farbtupfer der Seite. */
+/* Kurzer roter Strich unter jeder Rubrik — die wiederkehrende Marke. */
 .eyebrow::after {
   content: "";
   position: absolute;
   left: 0;
   bottom: 0;
-  width: 3rem;
-  height: 2px;
-  background: linear-gradient(to right,
-    var(--gruen) 0 33.33%, var(--flagge-mitte) 33.33% 66.66%, var(--rot) 66.66% 100%);
+  width: 2.75rem;
+  height: 3px;
+  background: var(--akzent);
 }
 
 .section-head h2 {
@@ -463,7 +465,7 @@ section { padding-block: clamp(4rem, 11vw, 8.5rem); }
 }
 .section-head h2 em {
   font-style: italic;
-  color: var(--gold);
+  color: var(--akzent);
 }
 
 .section-sub {
@@ -472,7 +474,7 @@ section { padding-block: clamp(4rem, 11vw, 8.5rem); }
   font-family: var(--serif);
   font-size: clamp(1.1rem, 2.6vw, 1.3rem);
   line-height: 1.6;
-  color: var(--creme-leise);
+  color: var(--papier-leise);
 }
 
 /* Einblenden beim Scrollen */
@@ -523,24 +525,37 @@ section { padding-block: clamp(4rem, 11vw, 8.5rem); }
 .price-value {
   font-family: var(--serif);
   font-size: clamp(1.1rem, 3vw, 1.35rem);
-  color: var(--gold);
+  color: var(--akzent);
   white-space: nowrap;
   font-variant-numeric: lining-nums tabular-nums;
   font-feature-settings: "lnum" 1, "tnum" 1;
 }
 
-/* Komplettpaket */
+/* Komplettpaket — der eine volle Farbblock der Seite.
+
+   Dasselbe Verfahren wie beim hellen Register: Die Karte setzt die Token auf
+   Weiß um, dadurch kippen Preis, Haken, Linien und Text darin geschlossen mit,
+   ohne dass eine einzige Regel darunter angefasst werden muss. */
 .package {
+  --papier: #ffffff;
+  --papier-leise: rgba(255, 255, 255, 0.92);
+  --akzent: #ffffff;
+  --akzent-leise: rgba(255, 255, 255, 0.45);
+
   position: relative;
-  padding: clamp(1.75rem, 4vw, 2.5rem);
-  border: 1px solid var(--gold-leise);
-  background: linear-gradient(160deg, var(--anthrazit-hell), var(--anthrazit));
+  padding: clamp(1.9rem, 4vw, 2.6rem);
+  border: 0;
+  border-radius: 4px;
+  background: var(--akzent-text);
+  color: var(--papier);
+  box-shadow: 0 18px 40px -18px rgba(206, 43, 55, 0.55);
 }
 .package::before {
   content: "";
   position: absolute;
   inset: 0.5rem;
-  border: 1px solid var(--gold-leise);
+  border: 1px solid var(--akzent-leise);
+  border-radius: 2px;
   pointer-events: none;
 }
 .package-title {
@@ -558,7 +573,7 @@ section { padding-block: clamp(4rem, 11vw, 8.5rem); }
   font-family: var(--serif);
   font-size: clamp(3rem, 11vw, 4.25rem);
   line-height: 1;
-  color: var(--gold);
+  color: var(--akzent);
 }
 .package-list {
   margin: 0;
@@ -566,7 +581,7 @@ section { padding-block: clamp(4rem, 11vw, 8.5rem); }
   list-style: none;
   display: grid;
   gap: 0.6rem;
-  border-top: 1px solid var(--gold-leise);
+  border-top: 1px solid var(--akzent-leise);
   padding-top: 1.4rem;
 }
 .package-list li {
@@ -574,11 +589,11 @@ section { padding-block: clamp(4rem, 11vw, 8.5rem); }
   gap: 0.7rem;
   align-items: baseline;
   font-size: 0.9rem;
-  color: var(--creme-leise);
+  color: var(--papier-leise);
 }
 .package-list li::before {
   content: "✓";
-  color: var(--gold);
+  color: var(--akzent);
   flex: none;
   font-size: 0.8rem;
 }
@@ -586,17 +601,17 @@ section { padding-block: clamp(4rem, 11vw, 8.5rem); }
 .package-hint {
   margin: 1.6rem 0 0;
   padding-top: 1.3rem;
-  border-top: 1px solid var(--gold-leise);
+  border-top: 1px solid var(--akzent-leise);
   font-family: var(--serif);
   font-style: italic;
   font-size: 1.2rem;
-  color: var(--creme);
+  color: var(--papier);
 }
 
 .prices-note {
   margin: clamp(2rem, 5vw, 3rem) 0 0;
   font-size: 0.8rem;
-  color: var(--creme-still);
+  color: var(--papier-still);
 }
 
 /* ===========================================================================
@@ -675,7 +690,7 @@ section { padding-block: clamp(4rem, 11vw, 8.5rem); }
   /* Auf dem hellen Schleier trägt die feine Linie nicht — hier etwas kräftiger. */
   border: 1px solid var(--tinte-still);
   background: none;
-  color: var(--creme);
+  color: var(--papier);
   cursor: pointer;
   border-radius: 999px;
   line-height: 1;
@@ -688,7 +703,7 @@ section { padding-block: clamp(4rem, 11vw, 8.5rem); }
   padding-bottom: 0.25rem;
 }
 .lightbox-nav:hover,
-.lightbox-close:hover { border-color: var(--gold); color: var(--gold); }
+.lightbox-close:hover { border-color: var(--akzent); color: var(--akzent); }
 .lightbox-close {
   position: absolute;
   top: clamp(1rem, 4vw, 2rem);
@@ -718,7 +733,7 @@ section { padding-block: clamp(4rem, 11vw, 8.5rem); }
   font-family: var(--serif);
   font-size: clamp(1.15rem, 3vw, 1.45rem);
   line-height: 1.6;
-  color: var(--creme-leise);
+  color: var(--papier-leise);
   max-width: 40ch;
 }
 .extra-bild { margin: 0; overflow: hidden; border: 1px solid var(--linie); }
@@ -742,7 +757,7 @@ section { padding-block: clamp(4rem, 11vw, 8.5rem); }
 .rating-max {
   font-size: 0.32em;
   letter-spacing: 0.02em;
-  color: var(--creme-still);
+  color: var(--papier-still);
 }
 
 /* Sternenband: fünf Sterne à 24 Einheiten. Der gefüllte Satz liegt über dem
@@ -753,8 +768,8 @@ section { padding-block: clamp(4rem, 11vw, 8.5rem); }
   height: clamp(1.15rem, 4vw, 1.4rem);
   margin: 0.9rem 0 0.8rem;
 }
-.sterne-leer { fill: var(--creme); opacity: 0.18; }
-.sterne-voll { fill: var(--gold); }
+.sterne-leer { fill: var(--papier); opacity: 0.18; }
+.sterne-voll { fill: var(--akzent); }
 
 .rating-quelle {
   margin: 0;
@@ -763,7 +778,7 @@ section { padding-block: clamp(4rem, 11vw, 8.5rem); }
   letter-spacing: 0.22em;
   font-size: 0.625rem;
   font-weight: 500;
-  color: var(--creme-still);
+  color: var(--papier-still);
 }
 
 .reviews-grid {
@@ -797,7 +812,7 @@ section { padding-block: clamp(4rem, 11vw, 8.5rem); }
   font-family: var(--serif);
   font-size: clamp(1.05rem, 2.4vw, 1.15rem);
   line-height: 1.7;
-  color: var(--creme);
+  color: var(--papier);
   flex: 1 1 auto;
 }
 .review-name {
@@ -809,7 +824,7 @@ section { padding-block: clamp(4rem, 11vw, 8.5rem); }
   letter-spacing: 0.22em;
   font-size: 0.625rem;
   font-weight: 500;
-  color: var(--gold);
+  color: var(--akzent);
 }
 
 /* Telefon: wischbarer Streifen statt Raster, dazu Punkte zur Orientierung. */
@@ -845,12 +860,12 @@ section { padding-block: clamp(4rem, 11vw, 8.5rem); }
   padding: 0;
   border: 0;
   border-radius: 50%;
-  background: var(--creme);
+  background: var(--papier);
   opacity: 0.22;
   cursor: pointer;
   transition: opacity 0.3s ease, background-color 0.3s ease;
 }
-.reviews-punkt[aria-current="true"] { background: var(--gold); opacity: 1; }
+.reviews-punkt[aria-current="true"] { background: var(--akzent); opacity: 1; }
 
 .reviews-cta {
   margin: clamp(2.25rem, 5vw, 3rem) 0 0;
@@ -874,7 +889,7 @@ section { padding-block: clamp(4rem, 11vw, 8.5rem); }
   letter-spacing: 0.22em;
   font-size: 0.625rem;
   font-weight: 500;
-  color: var(--gold);
+  color: var(--akzent);
   margin-top: 1.8rem;
 }
 .visit-block dt:first-child { margin-top: 0; }
@@ -882,7 +897,7 @@ section { padding-block: clamp(4rem, 11vw, 8.5rem); }
   margin: 0.5rem 0 0;
   font-family: var(--serif);
   font-size: 1.2rem;
-  color: var(--creme-leise);
+  color: var(--papier-leise);
   font-variant-numeric: lining-nums;
   font-feature-settings: "lnum" 1;
 }
@@ -898,16 +913,16 @@ section { padding-block: clamp(4rem, 11vw, 8.5rem); }
   font-weight: 400;
   font-family: var(--serif);
   font-size: 1.1rem;
-  color: var(--creme-leise);
+  color: var(--papier-leise);
 }
-.hours td { text-align: right; color: var(--creme); }
+.hours td { text-align: right; color: var(--papier); }
 
 .visit-note {
   margin: 2rem 0 0;
   font-family: var(--serif);
   font-style: italic;
   font-size: 1.3rem;
-  color: var(--gold);
+  color: var(--akzent);
 }
 
 /* Karte */
@@ -937,9 +952,9 @@ section { padding-block: clamp(4rem, 11vw, 8.5rem); }
   margin: 0;
   max-width: 42ch;
   font-size: 0.85rem;
-  color: var(--creme-leise);
+  color: var(--papier-leise);
 }
-.map-text a, .map-alt a { color: var(--gold); }
+.map-text a, .map-alt a { color: var(--akzent); }
 .map-alt { margin: 0; font-size: 0.8rem; }
 
 /* ===========================================================================
@@ -971,13 +986,13 @@ section { padding-block: clamp(4rem, 11vw, 8.5rem); }
   text-transform: uppercase;
   letter-spacing: 0.22em;
   font-size: 0.625rem;
-  color: var(--creme-still);
+  color: var(--papier-still);
   margin-top: 0.4rem;
 }
 .footer-nav { display: flex; flex-wrap: wrap; gap: 1.25rem; }
-.footer-nav a { text-decoration: none; color: var(--creme-still); transition: color 0.3s ease; }
-.footer-nav a:hover { color: var(--creme); }
-.footer-copy { margin: 0; color: var(--creme-still); }
+.footer-nav a { text-decoration: none; color: var(--papier-still); transition: color 0.3s ease; }
+.footer-nav a:hover { color: var(--papier); }
+.footer-copy { margin: 0; color: var(--papier-still); }
 
 /* ===========================================================================
    Rechtsseiten
@@ -995,26 +1010,26 @@ section { padding-block: clamp(4rem, 11vw, 8.5rem); }
   font-family: var(--serif);
   font-weight: 400;
   font-size: 1.5rem;
-  color: var(--creme);
+  color: var(--papier);
 }
 .legal-page p,
 .legal-page li {
-  color: var(--creme-leise);
+  color: var(--papier-leise);
   font-size: 0.95rem;
   line-height: 1.8;
 }
-.legal-page a { color: var(--gold); }
+.legal-page a { color: var(--akzent); }
 .legal-back {
   display: inline-block;
   margin-bottom: 2.5rem;
   text-decoration: none;
-  color: var(--creme-still);
+  color: var(--papier-still);
   font-family: var(--grotesk);
   text-transform: uppercase;
   letter-spacing: 0.22em;
   font-size: 0.625rem;
 }
-.legal-back:hover { color: var(--creme); }
+.legal-back:hover { color: var(--papier); }
 
 /* ===========================================================================
    Weniger Bewegung: nichts läuft von selbst.
